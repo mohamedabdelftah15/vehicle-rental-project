@@ -1,8 +1,7 @@
 <?php
-    include "common.php";
-    include "connection.php";
+    include "../common.php";
+    include "../connection.php";
 ?>
-
 
 <html>
 <body>
@@ -12,7 +11,7 @@
         <br>
         First Name <br><input type="text" name="first_name" required><br><br>
         Last Name <br><input type="text" name="last_name" required><br><br>
-        Username <br><input type="text" name="username" required><br><br>
+ connection       Username <br><input type="text" name="username" required><br><br>
         E-mail <br><input type="text" name="email"><br><br>
         Phone Number <br><input type="tel" name="phone"><br><br>
         Password <br><input type="password" name="password1" required><br><br>

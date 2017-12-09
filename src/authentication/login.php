@@ -1,6 +1,6 @@
 <?php
-include "common.php";
-include "connection.php";
+    include "../common.php";
+    include "../connection.php";
 ?>
 
 <html>
@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
         $_SESSION['user_type'] = $user['USER_TYPE'];
 
         // Redirect to home page
-        header("Location: index.php");
+        header("Location: /index.php");
         exit();
     }
     else {
