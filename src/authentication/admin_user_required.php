@@ -6,7 +6,7 @@
 
     // Redirect to the login page
     if (!isset($_SESSION['user_type'])) {
-        header("Location: /login.php");
+        header("Location: /authentication/login.php");
         exit();
     }
     elseif ($_SESSION['user_type'] != $USER_TYPE_ADMIN) {
