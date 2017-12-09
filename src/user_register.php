@@ -1,5 +1,5 @@
 <?php
-    include "global.php";
+    include "common.php";
     include "connection.php";
 ?>
 
