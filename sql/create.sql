@@ -98,9 +98,11 @@ CREATE TABLE VEHICLE
         primary key,
     KILOMETER NUMBER,
     PLATE VARCHAR(25),
-    BRAND_ID NUMBER not null
-        constraint VEHICLE_BRAND_ID_FK
-            references BRAND
+    YEAR NUMBER,
+    IMAGE_PATH VARCHAR(150),
+    MODEL_ID NUMBER not null
+        constraint MODEL_MODEL_ID_FK
+            references MODEL
                 on delete cascade
 );
 /
@@ -305,17 +307,6 @@ CREATE TABLE BRANCH_RLTD_USER
 );
 /
 
-CREATE TABLE IMAGE
-(
-    ID NUMBER not null
-        primary key,
-    VEHICLE_ID NUMBER not null
-        constraint IMAGE_VEHICLE_ID_FK
-            references VEHICLE
-                on delete cascade,
-    PATH VARCHAR(150)
-);
-/
 
 /* AUTO INCREMENT FIELDS */
 
@@ -477,21 +468,6 @@ FOR EACH ROW
 
 BEGIN
   SELECT GEAR_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
-/
-
-
-CREATE SEQUENCE IMAGE_ID_SEQ;
-/
-
-CREATE OR REPLACE TRIGGER IMAGE_ID_TRG
-BEFORE INSERT ON IMAGE
-FOR EACH ROW
-
-BEGIN
-  SELECT IMAGE_ID_SEQ.nextval
   INTO   :new.ID
   FROM   dual;
 END;
@@ -1192,41 +1168,6 @@ END;
 /
 
 
-/* IMAGE */
-CREATE OR REPLACE PROCEDURE INSERT_IMAGE(
-    p_vehicle_id IN IMAGE.VEHICLE_ID%TYPE,
-    p_path IN IMAGE.PATH%TYPE)
-IS
-BEGIN
-
-    INSERT INTO IMAGE ("VEHICLE_ID", "PATH")
-    VALUES (p_vehicle_id, p_path);
-
-END;
-/
-
-CREATE OR REPLACE PROCEDURE UPDATE_IMAGE(
-    p_id IN IMAGE.ID%TYPE,
-    p_vehicle_id IN IMAGE.VEHICLE_ID%TYPE,
-    p_path IN IMAGE.PATH%TYPE)
-IS
-BEGIN
-
-    UPDATE IMAGE SET VEHICLE_ID = p_vehicle_id, "PATH" = p_path WHERE ID = p_id;
-
-END;
-/
-
-CREATE OR REPLACE PROCEDURE DELETE_IMAGE(p_id IN IMAGE.ID%TYPE)
-IS
-BEGIN
-
-    DELETE FROM IMAGE WHERE ID = p_id;
-
-END;
-/
-
-
 /* MODEL */
 CREATE OR REPLACE PROCEDURE INSERT_MODEL(
     p_name IN MODEL.NAME%TYPE,
@@ -1509,28 +1450,32 @@ END;
 /
 
 
-/* USER TYPE */
+/* VEHICLE */
 CREATE OR REPLACE PROCEDURE INSERT_VEHICLE(
-    p_brand_id IN VEHICLE.BRAND_ID%TYPE,
+    p_model_id IN VEHICLE.MODEL_ID%TYPE,
     p_kilometer IN VEHICLE.KILOMETER%TYPE,
-    p_plate IN VEHICLE.PLATE%TYPE)
+    p_plate IN VEHICLE.PLATE%TYPE,
+    p_year IN VEHICLE.YEAR%TYPE,
+    p_image_path IN VEHICLE.IMAGE_PATH%TYPE)
 IS
 BEGIN
 
-    INSERT INTO VEHICLE ("BRAND_ID", "KILOMETER", "PLATE") VALUES (p_brand_id, p_kilometer, p_plate);
+    INSERT INTO VEHICLE ("MODEL_ID", "KILOMETER", "PLATE", "YEAR", "IMAGE_PATH") VALUES (p_model_id, p_kilometer, p_plate, p_year, p_image_path);
 
 END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_VEHICLE(
     p_id IN VEHICLE.ID%TYPE,
-    p_brand_id IN VEHICLE.BRAND_ID%TYPE,
+    p_model_id IN VEHICLE.MODEL_ID%TYPE,
     p_kilometer IN VEHICLE.KILOMETER%TYPE,
-    p_plate IN VEHICLE.PLATE%TYPE)
+    p_plate IN VEHICLE.PLATE%TYPE,
+    p_year IN VEHICLE.YEAR%TYPE,
+    p_image_path IN VEHICLE.IMAGE_PATH%TYPE)
 IS
 BEGIN
 
-    UPDATE VEHICLE SET BRAND_ID = p_brand_id, KILOMETER = p_kilometer, PLATE = p_plate WHERE ID = p_id;
+    UPDATE VEHICLE SET MODEL_ID = p_model_id, KILOMETER = p_kilometer, PLATE = p_plate , YEAR = p_year, IMAGE_PATH = p_image_path WHERE ID = p_id;
 
 END;
 /
