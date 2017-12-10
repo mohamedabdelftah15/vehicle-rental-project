@@ -6,14 +6,6 @@ $USER_TYPE_MEMBER = 3;
 ?>
 
 <head>
-    <style>
-        body {
-            background-image: url("/static/background.png");
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 
