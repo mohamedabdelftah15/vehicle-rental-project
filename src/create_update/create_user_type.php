@@ -18,6 +18,8 @@ if (isset($_GET['id'])) {
     <body>
 
         <center>
+            <h1>User-Type</h1>
+
             <form action="create_user_type.php" method="post">
                 User Type <br>
                 <input type="text" name="user_type" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>

@@ -18,6 +18,8 @@ if (isset($_GET['id'])) {
     <body>
 
     <center>
+        <h1>Segment</h1>
+
         <form action="create_segment.php" method="post">
             Segment <br>
             <input type="text" name="segment" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>

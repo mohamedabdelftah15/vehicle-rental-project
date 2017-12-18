@@ -18,6 +18,8 @@ if (isset($_GET['id'])) {
     <body>
 
     <center>
+        <h1>Motorcycle-Type</h1>
+
         <form action="create_motorcycle_type.php" method="post">
             Motorcycle Type <br>
             <input type="text" name="motorcycle_type" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>

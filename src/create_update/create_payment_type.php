@@ -18,6 +18,8 @@ if (isset($_GET['id'])) {
     <body>
 
     <center>
+        <h1>Payment-Type</h1>
+
         <form action="create_payment_type.php" method="post">
             Payment Type <br>
             <input type="text" name="payment_type" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>

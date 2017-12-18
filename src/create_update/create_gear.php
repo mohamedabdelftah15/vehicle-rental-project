@@ -18,6 +18,8 @@ if (isset($_GET['id'])) {
     <body>
 
     <center>
+        <h1>Gear</h1>
+
         <form action="create_gear.php" method="post">
             Gear Type <br>
             <input type="text" name="gear_type" value="<?php echo htmlspecialchars($item['TYPE']); ?>"><br><br>

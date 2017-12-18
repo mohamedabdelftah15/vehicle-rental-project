@@ -28,7 +28,7 @@
 if (isset($_POST['submit'])) {
 
     $get_user_sql = oci_parse($connection,
-        'SELECT user_type_id as user_type, password FROM "USER" WHERE username = :username'
+        'SELECT id, user_type_id as user_type, password FROM "USER" WHERE username = :username'
     );
     oci_bind_by_name($get_user_sql, ":username", $_POST['username']);
 
@@ -45,6 +45,7 @@ if (isset($_POST['submit'])) {
         // Save user data under the session
         session_start();
         $_SESSION['user_type'] = $user['USER_TYPE'];
+        $_SESSION['user_id'] = $user['ID'];
 
         // Redirect to home page
         header("Location: /index.php");

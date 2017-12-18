@@ -18,6 +18,8 @@ if (isset($_GET['id'])) {
     <body>
 
     <center>
+        <h1>Fuel-Type</h1>
+
         <form action="create_fuel_type.php" method="post">
             Fuel Type <br>
             <input type="text" name="fuel_type" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>

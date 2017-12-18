@@ -18,6 +18,8 @@ if (isset($_GET['id'])) {
     <body>
 
     <center>
+        <h1>Frame-Type</h1>
+
         <form action="create_frame_type.php" method="post">
             Frame Type <br>
             <input type="text" name="frame_type" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>

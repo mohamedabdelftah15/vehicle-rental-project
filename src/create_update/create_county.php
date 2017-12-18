@@ -18,6 +18,8 @@ if (isset($_GET['id'])) {
     <body>
 
     <center>
+        <h1>County</h1>
+
         <form action="create_county.php" method="post">
             City <br><select name="city_id">
 

@@ -18,6 +18,8 @@ if (isset($_GET['id'])) {
     <body>
 
     <center>
+        <h1>Equipment-Package</h1>
+
         <form action="create_equipment_package.php" method="post">
             Package Name <br>
             <input type="text" name="package_name" value="<?php echo $item['PACKAGE_NAME']; ?>" required><br><br>

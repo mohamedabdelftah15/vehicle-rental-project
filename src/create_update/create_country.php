@@ -17,6 +17,8 @@ if (isset($_GET['id'])) {
     <html>
 
     <center>
+        <h1>Country</h1>
+
         <form action="create_country.php" method="post">
             Country <br><input type="text" name="country" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
             <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">

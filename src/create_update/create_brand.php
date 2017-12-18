@@ -18,6 +18,8 @@ if (isset($_GET['id'])) {
     <body>
 
     <center>
+        <h1>Brand</h1>
+
         <form action="create_brand.php" method="post">
             Name <br>
             <input type="text" name="brand_name" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
