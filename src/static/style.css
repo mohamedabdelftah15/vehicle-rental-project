@@ -51,4 +51,27 @@ body {
     color: black;
 }
 
-/* TODO: write comments */
+.left_menu {
+    width: 250px;
+    height: 500px;
+    overflow: scroll;
+    position: absolute;
+}
+.vehicle_list{
+    position: absolute;
+    width:1000px;
+    height: 500px;
+    left: 300px;
+    overflow: scroll;
+}
+
+a:link {
+    text-decoration: none;
+    color: #0000e6;
+}
+a:visited {
+    color: #0000e6;
+}
+table{
+    text-align: left;
+}
