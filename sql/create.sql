@@ -2,308 +2,194 @@
 
 CREATE TABLE COUNTRY
 (
-    ID NUMBER not null
-        primary key,
-    NAME VARCHAR(25) not null
+  ID   NUMBER      NOT NULL PRIMARY KEY,
+  NAME VARCHAR(25) NOT NULL
 );
 /
 
 CREATE TABLE CITY
 (
-    ID NUMBER not null
-        primary key,
-    NAME VARCHAR(25) not null,
-    PLATE_NO VARCHAR(25),
-    COUNTRY_ID NUMBER not null
-        constraint COUNTRY_ID
-            references COUNTRY
-                on delete cascade
+  ID         NUMBER      NOT NULL PRIMARY KEY,
+  NAME       VARCHAR(25) NOT NULL,
+  PLATE_NO   VARCHAR(25),
+  COUNTRY_ID NUMBER      NOT NULL CONSTRAINT COUNTRY_ID REFERENCES COUNTRY ON DELETE CASCADE
 );
 /
 
 CREATE TABLE COUNTY
 (
-    ID NUMBER not null
-        primary key,
-    NAME VARCHAR(25) not null,
-    CITY_ID NUMBER not null
-        constraint COUNTY_CITY_ID_FK
-            references CITY
-                on delete cascade
+  ID      NUMBER      NOT NULL PRIMARY KEY,
+  NAME    VARCHAR(25) NOT NULL,
+  CITY_ID NUMBER      NOT NULL CONSTRAINT COUNTY_CITY_ID_FK REFERENCES CITY ON DELETE CASCADE
 );
 /
 
 CREATE TABLE BRANCH
 (
-    ID NUMBER not null
-        primary key,
-    NAME VARCHAR(25) not null,
-    COUNTY_ID NUMBER not null
-        constraint BRANCH_COUNTY_ID_FK
-            references COUNTY
-                on delete cascade
+  ID        NUMBER      NOT NULL PRIMARY KEY,
+  NAME      VARCHAR(25) NOT NULL,
+  COUNTY_ID NUMBER      NOT NULL CONSTRAINT BRANCH_COUNTY_ID_FK REFERENCES COUNTY ON DELETE CASCADE
 );
 /
 
 CREATE TABLE BRAND
 (
-    ID NUMBER not null
-        primary key,
-    NAME VARCHAR(25) not null,
-    NATIONALITY VARCHAR(25)
+  ID          NUMBER      NOT NULL PRIMARY KEY,
+  NAME        VARCHAR(25) NOT NULL,
+  NATIONALITY VARCHAR(25)
 );
 /
 
 CREATE TABLE ENGINE
 (
-    ID NUMBER not null
-        primary key,
-    VOLUME VARCHAR(25),
-    POWER VARCHAR(25)
+  ID     NUMBER NOT NULL PRIMARY KEY,
+  VOLUME VARCHAR(25),
+  POWER  VARCHAR(25)
 );
 /
 
-CREATE TABLE FUEL_TYPE
-(
-    ID NUMBER not null
-        primary key,
-    NAME VARCHAR(25) not null
-);
-/
 
 CREATE TABLE GEAR
 (
-    ID NUMBER not null
-        primary key,
-    TYPE VARCHAR(25) not null,
-    COUNT NUMBER
+  ID    NUMBER      NOT NULL PRIMARY KEY,
+  TYPE  VARCHAR(25) NOT NULL,
+  COUNT NUMBER
 );
 /
 
 CREATE TABLE MODEL
 (
-    ID NUMBER NOT NULL PRIMARY KEY,
-    NAME VARCHAR(25) NOT NULL,
-    BRAND_ID NUMBER,
-    ENGINE_ID NUMBER,
-    FUEL_TYPE_ID NUMBER,
-    GEAR_ID NUMBER,
-    VEHICLE_TYPE VARCHAR(10) NOT NULL
+  ID           NUMBER      NOT NULL PRIMARY KEY,
+  NAME         VARCHAR(25) NOT NULL,
+  BRAND_ID     NUMBER,
+  ENGINE_ID    NUMBER,
+  FUEL_TYPE    VARCHAR(25) NOT NULL,
+  GEAR_ID      NUMBER,
+  VEHICLE_TYPE VARCHAR(10) NOT NULL
 );
 /
 
 CREATE TABLE VEHICLE
 (
-    ID NUMBER not null
-        primary key,
-    KILOMETER NUMBER,
-    PLATE VARCHAR(25),
-    YEAR NUMBER,
-    IMAGE_PATH VARCHAR(150),
-    MODEL_ID NUMBER not null
-        constraint MODEL_MODEL_ID_FK
-            references MODEL
-                on delete cascade
+  ID         NUMBER NOT NULL PRIMARY KEY,
+  KILOMETER  NUMBER,
+  PLATE      VARCHAR(25),
+  YEAR       NUMBER,
+  IMAGE_PATH VARCHAR(150),
+  MODEL_ID   NUMBER NOT NULL CONSTRAINT MODEL_MODEL_ID_FK REFERENCES MODEL ON DELETE CASCADE
 );
 /
 
-CREATE TABLE MOTORCYCLE_TYPE
-(
-    ID NUMBER not null
-        primary key,
-    NAME VARCHAR(25) not null
-);
-/
 
 CREATE TABLE MOTORCYCLE
 (
-    VEHICLE_ID NUMBER not null
-        primary key
-        constraint MOTORCYCLE_VEHICLE_ID_FK
-            references VEHICLE
-                on delete cascade,
-    MOTORCYCLE_TYPE_ID NUMBER not null
-        constraint MOTORCYCLE_TYPE_ID_FK
-            references MOTORCYCLE_TYPE
-                on delete cascade
+  VEHICLE_ID      NUMBER      NOT NULL PRIMARY KEY CONSTRAINT MOTORCYCLE_VEHICLE_ID_FK REFERENCES VEHICLE ON DELETE CASCADE,
+  MOTORCYCLE_TYPE VARCHAR(25) NOT NULL
 );
 /
 
 CREATE TABLE BUS
 (
-    VEHICLE_ID NUMBER not null
-        primary key
-        constraint BUS_VEHICLE_ID_FK
-            references VEHICLE
-                on delete cascade,
-    PASSENGER_CAPACITY NUMBER
+  VEHICLE_ID         NUMBER NOT NULL PRIMARY KEY CONSTRAINT BUS_VEHICLE_ID_FK REFERENCES VEHICLE ON DELETE CASCADE,
+  PASSENGER_CAPACITY NUMBER
 );
 /
 
 CREATE TABLE BRANCH_RLTD_VEHICLE
 (
-    ID NUMBER not null
-        primary key,
-    VEHICLE_ID NUMBER not null
-        constraint BRCH_RLTD_VHCL_VEHICLE_ID_FK
-            references VEHICLE
-                on delete cascade,
-    BRANCH_ID NUMBER not null
-        constraint BRCH_RLTD_VHCL_BRANCH_ID_FK
-            references BRANCH
-                on delete cascade,
-    IS_AVAILABLE NUMBER(1) default 1 not null,
-    PRICE NUMBER not null
+  ID           NUMBER              NOT NULL PRIMARY KEY,
+  VEHICLE_ID   NUMBER              NOT NULL CONSTRAINT BRCH_RLTD_VHCL_VEHICLE_ID_FK REFERENCES VEHICLE ON DELETE CASCADE,
+  BRANCH_ID    NUMBER              NOT NULL CONSTRAINT BRCH_RLTD_VHCL_BRANCH_ID_FK REFERENCES BRANCH ON DELETE CASCADE,
+  IS_AVAILABLE NUMBER(1) DEFAULT 1 NOT NULL,
+  PRICE        NUMBER              NOT NULL
 );
 /
 
-CREATE TABLE PAYMENT_TYPE
-(
-    ID NUMBER not null
-        primary key,
-    NAME VARCHAR(25) not null
-);
-/
-
-CREATE TABLE USER_TYPE
-(
-    ID NUMBER not null
-        primary key,
-    NAME VARCHAR(25) not null
-);
-/
 
 CREATE TABLE "USER"
 (
-    ID NUMBER not null
-        primary key,
-    USER_TYPE_ID NUMBER not null
-        constraint USER_USER_TYPE_ID_FK
-            references USER_TYPE
-                on delete cascade,
-    FIRST_NAME VARCHAR(25),
-    LAST_NAME VARCHAR(25),
-    USERNAME VARCHAR(25) not null,
-    EMAIL VARCHAR(50),
-    PHONE VARCHAR(25),
-    PASSWORD VARCHAR(150)
+  ID         NUMBER                        NOT NULL PRIMARY KEY,
+  USER_TYPE  VARCHAR2(15) DEFAULT 'MEMBER' NOT NULL,
+  FIRST_NAME VARCHAR(25),
+  LAST_NAME  VARCHAR(25),
+  USERNAME   VARCHAR(25)                   NOT NULL,
+  EMAIL      VARCHAR(50),
+  PHONE      VARCHAR(25),
+  PASSWORD   VARCHAR(150)
 );
 /
 
-CREATE unique index USER_USERNAME_UINDEX
-    on "USER" (USERNAME)
+CREATE UNIQUE INDEX USER_USERNAME_UINDEX
+  ON "USER" (USERNAME)
 /
 
 CREATE TABLE HIRE
 (
-    BRANCH_RLTD_VEHICLE_ID NUMBER not null
-        constraint HIRE_BRANCH_RLTD_VEHICLE_ID_FK
-            references BRANCH_RLTD_VEHICLE
-                on delete cascade,
-    USER_ID NUMBER not null
-        constraint HIRE_USER_ID_FK
-            references "USER"
-                on delete cascade,
-    HIRE_TYPE VARCHAR(25),
-    PAYMENT_TYPE_ID NUMBER
-        constraint HIRE_PAYMENT_TYPE_ID_FK
-            references PAYMENT_TYPE,
-    START_DATE DATE not null,
-    DUE_DATE DATE,
-    constraint HIRE__PK
-        primary key (BRANCH_RLTD_VEHICLE_ID, USER_ID, START_DATE)
+  BRANCH_RLTD_VEHICLE_ID NUMBER      NOT NULL CONSTRAINT HIRE_BRANCH_RLTD_VEHICLE_ID_FK REFERENCES BRANCH_RLTD_VEHICLE ON DELETE CASCADE,
+  USER_ID                NUMBER      NOT NULL CONSTRAINT HIRE_USER_ID_FK REFERENCES "USER" ON DELETE CASCADE,
+  HIRE_TYPE              VARCHAR(25),
+  PAYMENT_TYPE           VARCHAR(25) NOT NULL,
+  START_DATE             DATE        NOT NULL,
+  DUE_DATE               DATE,
+  CONSTRAINT HIRE__PK PRIMARY KEY (BRANCH_RLTD_VEHICLE_ID, USER_ID, START_DATE)
 );
 /
 
 CREATE TABLE TRUCK
 (
-    VEHICLE_ID NUMBER not null
-        primary key
-        constraint TRUCK_VEHICLE_ID_FK
-            references VEHICLE
-                on delete cascade,
-    BALE_CAPACITY NUMBER,
-    TRAILER_VOLUME NUMBER,
-    TRAILER_TYPE VARCHAR(25)
+  VEHICLE_ID     NUMBER      NOT NULL PRIMARY KEY CONSTRAINT TRUCK_VEHICLE_ID_FK REFERENCES VEHICLE ON DELETE CASCADE,
+  BALE_CAPACITY  NUMBER,
+  TRAILER_VOLUME NUMBER,
+  TRAILER_TYPE   VARCHAR(25) NOT NULL
 );
 /
 
 CREATE TABLE FRAME_TYPE
 (
-    ID NUMBER not null
-        primary key,
-    NAME VARCHAR(25) not null,
-    DOOR_COUNT NUMBER
-);
-/
-
-CREATE TABLE SEGMENT
-(
-    ID NUMBER not null
-        primary key,
-    NAME VARCHAR(25) not null
+  ID         NUMBER      NOT NULL PRIMARY KEY,
+  NAME       VARCHAR(25) NOT NULL,
+  DOOR_COUNT NUMBER
 );
 /
 
 CREATE TABLE EQUIPMENT_PACKAGE
 (
-    ID NUMBER not null
-        primary key,
-    PACKAGE_NAME VARCHAR(25) not null,
-    ALARM NUMBER(1),
-    ABS NUMBER(1),
-    ISOFIX NUMBER(1),
-    IMMOBILIZER NUMBER(1),
-    AIRBAG_COUNT NUMBER,
-    TRIP_COMPUTER NUMBER(1),
-    START_STOP NUMBER(1),
-    CRUISE_CONTROL NUMBER(1),
-    AIR_CONDITIONING NUMBER(1),
-    SUNROOF NUMBER(1),
-    PARKING_SENSOR NUMBER(1),
-    STEEL_WHEEL NUMBER(1),
-    RAIN_SENSOR NUMBER(1),
-    HEAD_LIGHTS_SENSOR NUMBER(1),
-    NAVIGATION NUMBER(1),
-    ASSISTANT_CAMERAS NUMBER(1),
-    HILL_HOLDER NUMBER(1)
+  ID                 NUMBER      NOT NULL PRIMARY KEY,
+  PACKAGE_NAME       VARCHAR(25) NOT NULL,
+  ALARM              NUMBER(1),
+  ABS                NUMBER(1),
+  ISOFIX             NUMBER(1),
+  IMMOBILIZER        NUMBER(1),
+  AIRBAG_COUNT       NUMBER,
+  TRIP_COMPUTER      NUMBER(1),
+  START_STOP         NUMBER(1),
+  CRUISE_CONTROL     NUMBER(1),
+  AIR_CONDITIONING   NUMBER(1),
+  SUNROOF            NUMBER(1),
+  PARKING_SENSOR     NUMBER(1),
+  STEEL_WHEEL        NUMBER(1),
+  RAIN_SENSOR        NUMBER(1),
+  HEAD_LIGHTS_SENSOR NUMBER(1),
+  NAVIGATION         NUMBER(1),
+  ASSISTANT_CAMERAS  NUMBER(1),
+  HILL_HOLDER        NUMBER(1)
 );
 /
 
 CREATE TABLE CAR
 (
-    VEHICLE_ID NUMBER not null
-        primary key
-        constraint CAR_VEHICLE_ID_FK
-            references VEHICLE
-                on delete cascade,
-    FRAME_TYPE_ID NUMBER not null
-        constraint CAR_FRAME_TYPE_ID_FK
-            references FRAME_TYPE
-                on delete cascade,
-    SEGMENT_ID NUMBER not null
-        constraint CAR_SEGMENT_ID_FK
-            references SEGMENT
-                on delete cascade,
-    EQUIPMENT_PACKAGE_ID NUMBER not null
-        constraint CAR_EQUIPMENT_PACKAGE_ID_FK
-            references EQUIPMENT_PACKAGE
-                on delete cascade
+  VEHICLE_ID           NUMBER NOT NULL PRIMARY KEY CONSTRAINT CAR_VEHICLE_ID_FK REFERENCES VEHICLE ON DELETE CASCADE,
+  FRAME_TYPE_ID        NUMBER NOT NULL CONSTRAINT CAR_FRAME_TYPE_ID_FK REFERENCES FRAME_TYPE ON DELETE CASCADE,
+  SEGMENT              VARCHAR(3),
+  EQUIPMENT_PACKAGE_ID NUMBER NOT NULL CONSTRAINT CAR_EQUIPMENT_PACKAGE_ID_FK REFERENCES EQUIPMENT_PACKAGE ON DELETE CASCADE
 );
 /
 
 CREATE TABLE BRANCH_RLTD_USER
 (
-    BRANCH_ID NUMBER not null
-        constraint BRANCH_RLTD_USER_BRANCH_ID_FK
-            references BRANCH
-                on delete cascade,
-    USER_ID NUMBER not null
-        constraint BRANCH_RLTD_USER_USER_ID_FK
-            references "USER"
-                on delete cascade,
-    constraint B_RLTD_U_BRNC_ID_USER_ID_PK
-        primary key (BRANCH_ID, USER_ID)
+  BRANCH_ID NUMBER NOT NULL CONSTRAINT BRANCH_RLTD_USER_BRANCH_ID_FK REFERENCES BRANCH ON DELETE CASCADE,
+  USER_ID   NUMBER NOT NULL CONSTRAINT BRANCH_RLTD_USER_USER_ID_FK REFERENCES "USER" ON DELETE CASCADE,
+  CONSTRAINT B_RLTD_U_BRNC_ID_USER_ID_PK PRIMARY KEY (BRANCH_ID, USER_ID)
 );
 /
 
@@ -314,14 +200,15 @@ CREATE SEQUENCE COUNTRY_ID_SEQ;
 /
 
 CREATE OR REPLACE TRIGGER COUNTRY_ID_TRG
-BEFORE INSERT ON COUNTRY
-FOR EACH ROW
+  BEFORE INSERT
+  ON COUNTRY
+  FOR EACH ROW
 
-BEGIN
-  SELECT COUNTRY_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
+  BEGIN
+    SELECT COUNTRY_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
 /
 
 
@@ -329,14 +216,15 @@ CREATE SEQUENCE CITY_ID_SEQ;
 /
 
 CREATE OR REPLACE TRIGGER CITY_ID_TRG
-BEFORE INSERT ON CITY
-FOR EACH ROW
+  BEFORE INSERT
+  ON CITY
+  FOR EACH ROW
 
-BEGIN
-  SELECT CITY_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
+  BEGIN
+    SELECT CITY_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
 /
 
 
@@ -344,14 +232,15 @@ CREATE SEQUENCE COUNTY_ID_SEQ;
 /
 
 CREATE OR REPLACE TRIGGER COUNTY_ID_TRG
-BEFORE INSERT ON COUNTY
-FOR EACH ROW
+  BEFORE INSERT
+  ON COUNTY
+  FOR EACH ROW
 
-BEGIN
-  SELECT COUNTY_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
+  BEGIN
+    SELECT COUNTY_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
 /
 
 
@@ -359,14 +248,15 @@ CREATE SEQUENCE BRANCH_ID_SEQ;
 /
 
 CREATE OR REPLACE TRIGGER BRANCH_ID_TRG
-BEFORE INSERT ON BRANCH
-FOR EACH ROW
+  BEFORE INSERT
+  ON BRANCH
+  FOR EACH ROW
 
-BEGIN
-  SELECT BRANCH_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
+  BEGIN
+    SELECT BRANCH_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
 /
 
 
@@ -374,28 +264,30 @@ CREATE SEQUENCE BRANCH_RLTD_VEHICLE_ID_SEQ;
 /
 
 CREATE OR REPLACE TRIGGER BRANCH_RLTD_VEHICLE_ID_TRG
-BEFORE INSERT ON BRANCH_RLTD_VEHICLE
-FOR EACH ROW
+  BEFORE INSERT
+  ON BRANCH_RLTD_VEHICLE
+  FOR EACH ROW
 
-BEGIN
-  SELECT BRANCH_RLTD_VEHICLE_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
+  BEGIN
+    SELECT BRANCH_RLTD_VEHICLE_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
 /
 
 CREATE SEQUENCE BRAND_ID_SEQ;
 /
 
 CREATE OR REPLACE TRIGGER BRAND_ID_TRG
-BEFORE INSERT ON BRAND
-FOR EACH ROW
+  BEFORE INSERT
+  ON BRAND
+  FOR EACH ROW
 
-BEGIN
-  SELECT BRAND_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
+  BEGIN
+    SELECT BRAND_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
 /
 
 
@@ -403,14 +295,15 @@ CREATE SEQUENCE ENGINE_ID_SEQ;
 /
 
 CREATE OR REPLACE TRIGGER ENGINE_ID_TRG
-BEFORE INSERT ON ENGINE
-FOR EACH ROW
+  BEFORE INSERT
+  ON ENGINE
+  FOR EACH ROW
 
-BEGIN
-  SELECT ENGINE_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
+  BEGIN
+    SELECT ENGINE_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
 /
 
 
@@ -418,14 +311,15 @@ CREATE SEQUENCE EQUIPMENT_PACKAGE_ID_SEQ;
 /
 
 CREATE OR REPLACE TRIGGER EQUIPMENT_PACKAGE_ID_TRG
-BEFORE INSERT ON EQUIPMENT_PACKAGE
-FOR EACH ROW
+  BEFORE INSERT
+  ON EQUIPMENT_PACKAGE
+  FOR EACH ROW
 
-BEGIN
-  SELECT EQUIPMENT_PACKAGE_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
+  BEGIN
+    SELECT EQUIPMENT_PACKAGE_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
 /
 
 
@@ -433,29 +327,15 @@ CREATE SEQUENCE FRAME_TYPE_ID_SEQ;
 /
 
 CREATE OR REPLACE TRIGGER FRAME_TYPE_ID_TRG
-BEFORE INSERT ON FRAME_TYPE
-FOR EACH ROW
+  BEFORE INSERT
+  ON FRAME_TYPE
+  FOR EACH ROW
 
-BEGIN
-  SELECT FRAME_TYPE_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
-/
-
-
-CREATE SEQUENCE FUEL_TYPE_ID_SEQ;
-/
-
-CREATE OR REPLACE TRIGGER FUEL_TYPE_ID_TRG
-BEFORE INSERT ON FUEL_TYPE
-FOR EACH ROW
-
-BEGIN
-  SELECT FUEL_TYPE_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
+  BEGIN
+    SELECT FRAME_TYPE_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
 /
 
 
@@ -463,14 +343,15 @@ CREATE SEQUENCE GEAR_ID_SEQ;
 /
 
 CREATE OR REPLACE TRIGGER GEAR_ID_TRG
-BEFORE INSERT ON GEAR
-FOR EACH ROW
+  BEFORE INSERT
+  ON GEAR
+  FOR EACH ROW
 
-BEGIN
-  SELECT GEAR_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
+  BEGIN
+    SELECT GEAR_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
 /
 
 
@@ -478,59 +359,15 @@ CREATE SEQUENCE MODEL_ID_SEQ;
 /
 
 CREATE OR REPLACE TRIGGER MODEL_ID_TRG
-BEFORE INSERT ON MODEL
-FOR EACH ROW
+  BEFORE INSERT
+  ON MODEL
+  FOR EACH ROW
 
-BEGIN
-  SELECT MODEL_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
-/
-
-
-CREATE SEQUENCE MOTORCYCLE_TYPE_ID_SEQ;
-/
-
-CREATE OR REPLACE TRIGGER MOTORCYCLE_TYPE_ID_TRG
-BEFORE INSERT ON MOTORCYCLE_TYPE
-FOR EACH ROW
-
-BEGIN
-  SELECT MOTORCYCLE_TYPE_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
-/
-
-
-CREATE SEQUENCE PAYMENT_TYPE_ID_SEQ;
-/
-
-CREATE OR REPLACE TRIGGER PAYMENT_TYPE_ID_TRG
-BEFORE INSERT ON PAYMENT_TYPE
-FOR EACH ROW
-
-BEGIN
-  SELECT PAYMENT_TYPE_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
-/
-
-
-CREATE SEQUENCE SEGMENT_ID_SEQ;
-/
-
-CREATE OR REPLACE TRIGGER SEGMENT_ID_TRG
-BEFORE INSERT ON SEGMENT
-FOR EACH ROW
-
-BEGIN
-  SELECT SEGMENT_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
+  BEGIN
+    SELECT MODEL_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
 /
 
 
@@ -538,29 +375,15 @@ CREATE SEQUENCE USER_ID_SEQ;
 /
 
 CREATE OR REPLACE TRIGGER USER_ID_TRG
-BEFORE INSERT ON "USER"
-FOR EACH ROW
+  BEFORE INSERT
+  ON "USER"
+  FOR EACH ROW
 
-BEGIN
-  SELECT USER_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
-/
-
-
-CREATE SEQUENCE USER_TYPE_ID_SEQ;
-/
-
-CREATE OR REPLACE TRIGGER USER_TYPE_ID_TRG
-BEFORE INSERT ON USER_TYPE
-FOR EACH ROW
-
-BEGIN
-  SELECT USER_TYPE_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
+  BEGIN
+    SELECT USER_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
 /
 
 
@@ -568,14 +391,15 @@ CREATE SEQUENCE VEHICLE_ID_SEQ;
 /
 
 CREATE OR REPLACE TRIGGER VEHICLE_ID_TRG
-BEFORE INSERT ON VEHICLE
-FOR EACH ROW
+  BEFORE INSERT
+  ON VEHICLE
+  FOR EACH ROW
 
-BEGIN
-  SELECT VEHICLE_ID_SEQ.nextval
-  INTO   :new.ID
-  FROM   dual;
-END;
+  BEGIN
+    SELECT VEHICLE_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
 /
 
 
@@ -585,912 +409,816 @@ END;
 /* COUNTRY */
 CREATE OR REPLACE PROCEDURE INSERT_COUNTRY(p_name IN COUNTRY.NAME%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO COUNTRY ("NAME") VALUES (p_name);
+    INSERT INTO COUNTRY ("NAME") VALUES (p_name);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_COUNTRY(
-    p_id IN COUNTRY.ID%TYPE,
-    p_name IN COUNTRY.NAME%TYPE)
+  p_id   IN COUNTRY.ID%TYPE,
+  p_name IN COUNTRY.NAME%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  UPDATE COUNTRY SET NAME = p_name WHERE ID = p_id;
+    UPDATE COUNTRY
+    SET NAME = p_name
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_COUNTRY(p_id IN COUNTRY.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  DELETE FROM COUNTRY WHERE ID = p_id;
+    DELETE FROM COUNTRY
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 
 /* CITY */
 CREATE OR REPLACE PROCEDURE INSERT_CITY(
-    p_name IN CITY.NAME%TYPE,
-    p_plate_no IN CITY.PLATE_NO%TYPE,
-    p_country_id IN CITY.COUNTRY_ID%TYPE)
+  p_name       IN CITY.NAME%TYPE,
+  p_plate_no   IN CITY.PLATE_NO%TYPE,
+  p_country_id IN CITY.COUNTRY_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO CITY ("NAME", "PLATE_NO", "COUNTRY_ID") VALUES (p_name, p_plate_no, p_country_id);
+    INSERT INTO CITY ("NAME", "PLATE_NO", "COUNTRY_ID") VALUES (p_name, p_plate_no, p_country_id);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_CITY(
-    p_id IN CITY.ID%TYPE,
-    p_name IN CITY.NAME%TYPE,
-    p_plate_no IN CITY.PLATE_NO%TYPE,
-    p_country_id IN CITY.COUNTRY_ID%TYPE)
+  p_id         IN CITY.ID%TYPE,
+  p_name       IN CITY.NAME%TYPE,
+  p_plate_no   IN CITY.PLATE_NO%TYPE,
+  p_country_id IN CITY.COUNTRY_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  UPDATE CITY SET NAME = p_name, PLATE_NO = p_plate_no, COUNTRY_ID = p_country_id WHERE ID = p_id;
+    UPDATE CITY
+    SET NAME = p_name, PLATE_NO = p_plate_no, COUNTRY_ID = p_country_id
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_CITY(p_id IN CITY.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  DELETE FROM CITY WHERE ID = p_id;
+    DELETE FROM CITY
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 
 /* COUNTY */
 CREATE OR REPLACE PROCEDURE INSERT_COUNTY(
-    p_name IN COUNTY.NAME%TYPE,
-    p_city_id IN COUNTY.CITY_ID%TYPE)
+  p_name    IN COUNTY.NAME%TYPE,
+  p_city_id IN COUNTY.CITY_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO COUNTY ("NAME", "CITY_ID") VALUES (p_name, p_city_id);
+    INSERT INTO COUNTY ("NAME", "CITY_ID") VALUES (p_name, p_city_id);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_COUNTY(
-    p_id IN COUNTY.ID%TYPE,
-    p_name IN COUNTY.NAME%TYPE,
-    p_city_id IN COUNTY.CITY_ID%TYPE)
+  p_id      IN COUNTY.ID%TYPE,
+  p_name    IN COUNTY.NAME%TYPE,
+  p_city_id IN COUNTY.CITY_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  UPDATE COUNTY SET NAME = p_name, CITY_ID = p_city_id WHERE ID = p_id;
+    UPDATE COUNTY
+    SET NAME = p_name, CITY_ID = p_city_id
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_COUNTY(p_id IN COUNTY.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  DELETE FROM COUNTY WHERE ID = p_id;
+    DELETE FROM COUNTY
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 
 /* BRANCH */
 CREATE OR REPLACE PROCEDURE INSERT_BRANCH(
-    p_name IN BRANCH.NAME%TYPE,
-    p_county_id IN BRANCH.COUNTY_ID%TYPE,
-    r_branch_id OUT BRANCH.ID%TYPE)
+  p_name      IN  BRANCH.NAME%TYPE,
+  p_county_id IN  BRANCH.COUNTY_ID%TYPE,
+  r_branch_id OUT BRANCH.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO BRANCH ("NAME", "COUNTY_ID") VALUES (p_name, p_county_id)
-  RETURNING ID INTO r_branch_id;
+    INSERT INTO BRANCH ("NAME", "COUNTY_ID") VALUES (p_name, p_county_id)
+    RETURNING ID INTO r_branch_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_BRANCH(
-    p_id IN BRANCH.ID%TYPE,
-    p_name IN BRANCH.NAME%TYPE,
-    p_county_id IN BRANCH.COUNTY_ID%TYPE)
+  p_id        IN BRANCH.ID%TYPE,
+  p_name      IN BRANCH.NAME%TYPE,
+  p_county_id IN BRANCH.COUNTY_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  UPDATE BRANCH SET NAME = p_name, COUNTY_ID = p_county_id WHERE ID = p_id;
+    UPDATE BRANCH
+    SET NAME = p_name, COUNTY_ID = p_county_id
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_BRANCH(p_id IN BRANCH.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  DELETE FROM BRANCH WHERE ID = p_id;
+    DELETE FROM BRANCH
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 
 /* BRANCH_RLTD_USER */
 CREATE OR REPLACE PROCEDURE INSERT_BRANCH_RLTD_USER(
   p_branch_id IN BRANCH_RLTD_USER.BRANCH_ID%TYPE,
-  p_user_id IN BRANCH_RLTD_USER.USER_ID%TYPE)
+  p_user_id   IN BRANCH_RLTD_USER.USER_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO BRANCH_RLTD_USER ("BRANCH_ID", "USER_ID") VALUES (p_branch_id, p_user_id);
+    INSERT INTO BRANCH_RLTD_USER ("BRANCH_ID", "USER_ID") VALUES (p_branch_id, p_user_id);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_BRANCH_RLTD_USER(
-    p_branch_id IN BRANCH_RLTD_USER.BRANCH_ID%TYPE,
-    p_user_id IN BRANCH_RLTD_USER.USER_ID%TYPE)
+  p_branch_id IN BRANCH_RLTD_USER.BRANCH_ID%TYPE,
+  p_user_id   IN BRANCH_RLTD_USER.USER_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  UPDATE BRANCH_RLTD_USER SET USER_ID = p_user_id WHERE BRANCH_ID = p_branch_id;
+    UPDATE BRANCH_RLTD_USER
+    SET USER_ID = p_user_id
+    WHERE BRANCH_ID = p_branch_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_BRANCH_RLTD_USER(
   p_branch_id IN BRANCH_RLTD_USER.BRANCH_ID%TYPE,
-  p_user_id IN BRANCH_RLTD_USER.USER_ID%TYPE)
+  p_user_id   IN BRANCH_RLTD_USER.USER_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  DELETE FROM BRANCH_RLTD_USER WHERE USER_ID = p_user_id AND BRANCH_ID = p_branch_id;
+    DELETE FROM BRANCH_RLTD_USER
+    WHERE USER_ID = p_user_id AND BRANCH_ID = p_branch_id;
 
-END;
+  END;
 /
 
 
 /* BRANCH_RLTD_VEHICLE */
 CREATE OR REPLACE PROCEDURE INSERT_BRANCH_RLTD_VEHICLE(
-    p_vehicle_id IN BRANCH_RLTD_VEHICLE.VEHICLE_ID%TYPE,
-    p_branch_id IN BRANCH_RLTD_VEHICLE.BRANCH_ID%TYPE,
-    p_is_available IN BRANCH_RLTD_VEHICLE.IS_AVAILABLE%TYPE,
-    p_price IN BRANCH_RLTD_VEHICLE.PRICE%TYPE)
+  p_vehicle_id   IN BRANCH_RLTD_VEHICLE.VEHICLE_ID%TYPE,
+  p_branch_id    IN BRANCH_RLTD_VEHICLE.BRANCH_ID%TYPE,
+  p_is_available IN BRANCH_RLTD_VEHICLE.IS_AVAILABLE%TYPE,
+  p_price        IN BRANCH_RLTD_VEHICLE.PRICE%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO BRANCH_RLTD_VEHICLE ("BRANCH_ID", "VEHICLE_ID", "IS_AVAILABLE", "PRICE") VALUES (p_branch_id, p_vehicle_id, p_is_available, p_price);
+    INSERT INTO BRANCH_RLTD_VEHICLE ("BRANCH_ID", "VEHICLE_ID", "IS_AVAILABLE", "PRICE")
+    VALUES (p_branch_id, p_vehicle_id, p_is_available, p_price);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_BRANCH_RLTD_VEHICLE(
-    p_vehicle_id IN BRANCH_RLTD_VEHICLE.VEHICLE_ID%TYPE,
-    p_branch_id IN BRANCH_RLTD_VEHICLE.BRANCH_ID%TYPE,
-    p_is_available IN BRANCH_RLTD_VEHICLE.IS_AVAILABLE%TYPE,
-    p_price IN BRANCH_RLTD_VEHICLE.PRICE%TYPE)
+  p_vehicle_id   IN BRANCH_RLTD_VEHICLE.VEHICLE_ID%TYPE,
+  p_branch_id    IN BRANCH_RLTD_VEHICLE.BRANCH_ID%TYPE,
+  p_is_available IN BRANCH_RLTD_VEHICLE.IS_AVAILABLE%TYPE,
+  p_price        IN BRANCH_RLTD_VEHICLE.PRICE%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  UPDATE BRANCH_RLTD_VEHICLE SET BRANCH_ID = p_branch_id, IS_AVAILABLE = p_is_available, PRICE = p_price WHERE VEHICLE_ID = p_vehicle_id;
+    UPDATE BRANCH_RLTD_VEHICLE
+    SET BRANCH_ID = p_branch_id, IS_AVAILABLE = p_is_available, PRICE = p_price
+    WHERE VEHICLE_ID = p_vehicle_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_BRANCH_RLTD_VEHICLE(p_id IN BRANCH_RLTD_VEHICLE.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  DELETE FROM BRANCH_RLTD_VEHICLE WHERE ID = p_id;
+    DELETE FROM BRANCH_RLTD_VEHICLE
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 
 /* BRAND */
 CREATE OR REPLACE PROCEDURE INSERT_BRAND(
-    p_name IN BRAND.NAME%TYPE,
-    p_nationality IN BRAND.NATIONALITY%TYPE)
+  p_name        IN BRAND.NAME%TYPE,
+  p_nationality IN BRAND.NATIONALITY%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO BRAND ("NAME", "NATIONALITY") VALUES (p_name, p_nationality);
+    INSERT INTO BRAND ("NAME", "NATIONALITY") VALUES (p_name, p_nationality);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_BRAND(
-    p_id IN BRAND.ID%TYPE,
-    p_name IN BRAND.NAME%TYPE,
-    p_nationality IN BRAND.NATIONALITY%TYPE)
+  p_id          IN BRAND.ID%TYPE,
+  p_name        IN BRAND.NAME%TYPE,
+  p_nationality IN BRAND.NATIONALITY%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  UPDATE BRAND SET NAME = p_name, NATIONALITY = p_nationality WHERE ID = p_id;
+    UPDATE BRAND
+    SET NAME = p_name, NATIONALITY = p_nationality
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_BRAND(p_id IN BRAND.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  DELETE FROM BRAND WHERE ID = p_id;
+    DELETE FROM BRAND
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 
 /* BUS */
 CREATE OR REPLACE PROCEDURE INSERT_BUS(
-    p_vehicle_id IN BUS.VEHICLE_ID%TYPE,
-    p_passenger_capacity IN BUS.PASSENGER_CAPACITY%TYPE)
+  p_vehicle_id         IN BUS.VEHICLE_ID%TYPE,
+  p_passenger_capacity IN BUS.PASSENGER_CAPACITY%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO BUS ("VEHICLE_ID", "PASSENGER_CAPACITY") VALUES (p_vehicle_id, p_passenger_capacity);
+    INSERT INTO BUS ("VEHICLE_ID", "PASSENGER_CAPACITY") VALUES (p_vehicle_id, p_passenger_capacity);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_BUS(
-    p_vehicle_id IN BUS.VEHICLE_ID%TYPE,
-    p_passenger_capacity IN BUS.PASSENGER_CAPACITY%TYPE)
+  p_vehicle_id         IN BUS.VEHICLE_ID%TYPE,
+  p_passenger_capacity IN BUS.PASSENGER_CAPACITY%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  UPDATE BUS SET PASSENGER_CAPACITY = p_passenger_capacity WHERE VEHICLE_ID = p_vehicle_id;
+    UPDATE BUS
+    SET PASSENGER_CAPACITY = p_passenger_capacity
+    WHERE VEHICLE_ID = p_vehicle_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_BUS(p_vehicle_id IN BUS.VEHICLE_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  DELETE FROM BUS WHERE VEHICLE_ID = p_vehicle_id;
+    DELETE FROM BUS
+    WHERE VEHICLE_ID = p_vehicle_id;
 
-END;
+  END;
 /
 
 
 /* CAR */
 CREATE OR REPLACE PROCEDURE INSERT_CAR(
-    p_vehicle_id IN CAR.VEHICLE_ID%TYPE,
-    p_frame_type_id IN CAR.FRAME_TYPE_ID%TYPE,
-    p_segment_id IN CAR.SEGMENT_ID%TYPE,
-    p_equipment_package_id IN CAR.EQUIPMENT_PACKAGE_ID%TYPE)
+  p_vehicle_id           IN CAR.VEHICLE_ID%TYPE,
+  p_frame_type_id        IN CAR.FRAME_TYPE_ID%TYPE,
+  p_segment              IN CAR.SEGMENT%TYPE,
+  p_equipment_package_id IN CAR.EQUIPMENT_PACKAGE_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO CAR ("VEHICLE_ID", "FRAME_TYPE_ID", "SEGMENT_ID", "EQUIPMENT_PACKAGE_ID")
-  VALUES (p_vehicle_id, p_frame_type_id, p_segment_id, p_equipment_package_id);
+    INSERT INTO CAR ("VEHICLE_ID", "FRAME_TYPE_ID", "SEGMENT", "EQUIPMENT_PACKAGE_ID")
+    VALUES (p_vehicle_id, p_frame_type_id, p_segment, p_equipment_package_id);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_CAR(
-    p_vehicle_id IN CAR.VEHICLE_ID%TYPE,
-    p_frame_type_id IN CAR.FRAME_TYPE_ID%TYPE,
-    p_segment_id IN CAR.SEGMENT_ID%TYPE,
-    p_equipment_package_id IN CAR.EQUIPMENT_PACKAGE_ID%TYPE)
+  p_vehicle_id           IN CAR.VEHICLE_ID%TYPE,
+  p_frame_type_id        IN CAR.FRAME_TYPE_ID%TYPE,
+  p_segment              IN CAR.SEGMENT%TYPE,
+  p_equipment_package_id IN CAR.EQUIPMENT_PACKAGE_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  UPDATE CAR SET FRAME_TYPE_ID = p_frame_type_id, SEGMENT_ID = p_segment_id, EQUIPMENT_PACKAGE_ID = p_equipment_package_id WHERE VEHICLE_ID = p_vehicle_id;
+    UPDATE CAR
+    SET FRAME_TYPE_ID = p_frame_type_id, SEGMENT = p_segment, EQUIPMENT_PACKAGE_ID = p_equipment_package_id
+    WHERE VEHICLE_ID = p_vehicle_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_CAR(p_vehicle_id IN CAR.VEHICLE_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  DELETE FROM CAR WHERE VEHICLE_ID = p_vehicle_id;
+    DELETE FROM CAR
+    WHERE VEHICLE_ID = p_vehicle_id;
 
-END;
+  END;
 /
 
 
 /* ENGINE */
 CREATE OR REPLACE PROCEDURE INSERT_ENGINE(
-    p_volume IN ENGINE.VOLUME%TYPE,
-    p_power IN ENGINE.POWER%TYPE)
+  p_volume IN ENGINE.VOLUME%TYPE,
+  p_power  IN ENGINE.POWER%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO ENGINE ("VOLUME", "POWER") VALUES (p_volume, p_power);
+    INSERT INTO ENGINE ("VOLUME", "POWER") VALUES (p_volume, p_power);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_ENGINE(
-    p_id IN ENGINE.ID%TYPE,
-    p_volume IN ENGINE.VOLUME%TYPE,
-    p_power IN ENGINE.POWER%TYPE)
+  p_id     IN ENGINE.ID%TYPE,
+  p_volume IN ENGINE.VOLUME%TYPE,
+  p_power  IN ENGINE.POWER%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  UPDATE ENGINE SET VOLUME = p_volume, POWER = p_power WHERE ID = p_id;
+    UPDATE ENGINE
+    SET VOLUME = p_volume, POWER = p_power
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_ENGINE(p_id IN ENGINE.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  DELETE FROM ENGINE WHERE ID = p_id;
+    DELETE FROM ENGINE
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 
 /* EQUIPMENT_PACKAGE */
 CREATE OR REPLACE PROCEDURE INSERT_EQUIPMENT_PACKAGE(
-    p_package_name IN EQUIPMENT_PACKAGE.PACKAGE_NAME%TYPE,
-    p_alarm IN EQUIPMENT_PACKAGE.ALARM%TYPE,
-    p_abs IN EQUIPMENT_PACKAGE.ABS%TYPE,
-    p_isofix IN EQUIPMENT_PACKAGE.ISOFIX%TYPE,
-    p_immobilizer IN EQUIPMENT_PACKAGE.IMMOBILIZER%TYPE,
-    p_airbag_count IN EQUIPMENT_PACKAGE.AIRBAG_COUNT%TYPE,
-    p_trip_computer IN EQUIPMENT_PACKAGE.TRIP_COMPUTER%TYPE,
-    p_start_stop IN EQUIPMENT_PACKAGE.START_STOP%TYPE,
-    p_cruise_control IN EQUIPMENT_PACKAGE.CRUISE_CONTROL%TYPE,
-    p_air_conditioning IN EQUIPMENT_PACKAGE.AIR_CONDITIONING%TYPE,
-    p_sunroof IN EQUIPMENT_PACKAGE.SUNROOF%TYPE,
-    p_parking_sensor IN EQUIPMENT_PACKAGE.PARKING_SENSOR%TYPE,
-    p_steel_wheel IN EQUIPMENT_PACKAGE.STEEL_WHEEL%TYPE,
-    p_rain_sensor IN EQUIPMENT_PACKAGE.RAIN_SENSOR%TYPE,
-    p_head_lights_sensor IN EQUIPMENT_PACKAGE.HEAD_LIGHTS_SENSOR%TYPE,
-    p_navigation IN EQUIPMENT_PACKAGE.NAVIGATION%TYPE,
-    p_assistant_cameras IN EQUIPMENT_PACKAGE.ASSISTANT_CAMERAS%TYPE,
-    p_hill_holder IN EQUIPMENT_PACKAGE.HILL_HOLDER%TYPE)
+  p_package_name       IN EQUIPMENT_PACKAGE.PACKAGE_NAME%TYPE,
+  p_alarm              IN EQUIPMENT_PACKAGE.ALARM%TYPE,
+  p_abs                IN EQUIPMENT_PACKAGE.ABS%TYPE,
+  p_isofix             IN EQUIPMENT_PACKAGE.ISOFIX%TYPE,
+  p_immobilizer        IN EQUIPMENT_PACKAGE.IMMOBILIZER%TYPE,
+  p_airbag_count       IN EQUIPMENT_PACKAGE.AIRBAG_COUNT%TYPE,
+  p_trip_computer      IN EQUIPMENT_PACKAGE.TRIP_COMPUTER%TYPE,
+  p_start_stop         IN EQUIPMENT_PACKAGE.START_STOP%TYPE,
+  p_cruise_control     IN EQUIPMENT_PACKAGE.CRUISE_CONTROL%TYPE,
+  p_air_conditioning   IN EQUIPMENT_PACKAGE.AIR_CONDITIONING%TYPE,
+  p_sunroof            IN EQUIPMENT_PACKAGE.SUNROOF%TYPE,
+  p_parking_sensor     IN EQUIPMENT_PACKAGE.PARKING_SENSOR%TYPE,
+  p_steel_wheel        IN EQUIPMENT_PACKAGE.STEEL_WHEEL%TYPE,
+  p_rain_sensor        IN EQUIPMENT_PACKAGE.RAIN_SENSOR%TYPE,
+  p_head_lights_sensor IN EQUIPMENT_PACKAGE.HEAD_LIGHTS_SENSOR%TYPE,
+  p_navigation         IN EQUIPMENT_PACKAGE.NAVIGATION%TYPE,
+  p_assistant_cameras  IN EQUIPMENT_PACKAGE.ASSISTANT_CAMERAS%TYPE,
+  p_hill_holder        IN EQUIPMENT_PACKAGE.HILL_HOLDER%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO EQUIPMENT_PACKAGE (
-    "PACKAGE_NAME", "ALARM", "ABS", "ISOFIX", "IMMOBILIZER", "AIRBAG_COUNT", "TRIP_COMPUTER", "START_STOP", "CRUISE_CONTROL",
-    "AIR_CONDITIONING", "SUNROOF", "PARKING_SENSOR", "STEEL_WHEEL", "RAIN_SENSOR", "HEAD_LIGHTS_SENSOR", "NAVIGATION",
-    "ASSISTANT_CAMERAS", "HILL_HOLDER"
-  )
-  VALUES (
-    p_package_name, p_alarm, p_abs, p_isofix, p_immobilizer, p_airbag_count, p_trip_computer, p_start_stop, p_cruise_control,
-    p_air_conditioning, p_sunroof, p_parking_sensor, p_steel_wheel, p_rain_sensor, p_head_lights_sensor, p_navigation,
-    p_assistant_cameras, p_hill_holder
-  );
+    INSERT INTO EQUIPMENT_PACKAGE (
+      "PACKAGE_NAME", "ALARM", "ABS", "ISOFIX", "IMMOBILIZER", "AIRBAG_COUNT", "TRIP_COMPUTER", "START_STOP", "CRUISE_CONTROL",
+      "AIR_CONDITIONING", "SUNROOF", "PARKING_SENSOR", "STEEL_WHEEL", "RAIN_SENSOR", "HEAD_LIGHTS_SENSOR", "NAVIGATION",
+      "ASSISTANT_CAMERAS", "HILL_HOLDER"
+    )
+    VALUES (
+      p_package_name, p_alarm, p_abs, p_isofix, p_immobilizer, p_airbag_count, p_trip_computer, p_start_stop,
+                      p_cruise_control,
+                      p_air_conditioning, p_sunroof, p_parking_sensor, p_steel_wheel, p_rain_sensor,
+      p_head_lights_sensor, p_navigation,
+      p_assistant_cameras, p_hill_holder
+    );
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_EQUIPMENT_PACKAGE(
-    p_id IN EQUIPMENT_PACKAGE.ID%TYPE,
-    p_package_name IN EQUIPMENT_PACKAGE.PACKAGE_NAME%TYPE,
-    p_alarm IN EQUIPMENT_PACKAGE.ALARM%TYPE,
-    p_abs IN EQUIPMENT_PACKAGE.ABS%TYPE,
-    p_isofix IN EQUIPMENT_PACKAGE.ISOFIX%TYPE,
-    p_immobilizer IN EQUIPMENT_PACKAGE.IMMOBILIZER%TYPE,
-    p_airbag_count IN EQUIPMENT_PACKAGE.AIRBAG_COUNT%TYPE,
-    p_trip_computer IN EQUIPMENT_PACKAGE.TRIP_COMPUTER%TYPE,
-    p_start_stop IN EQUIPMENT_PACKAGE.START_STOP%TYPE,
-    p_cruise_control IN EQUIPMENT_PACKAGE.CRUISE_CONTROL%TYPE,
-    p_air_conditioning IN EQUIPMENT_PACKAGE.AIR_CONDITIONING%TYPE,
-    p_sunroof IN EQUIPMENT_PACKAGE.SUNROOF%TYPE,
-    p_parking_sensor IN EQUIPMENT_PACKAGE.PARKING_SENSOR%TYPE,
-    p_steel_wheel IN EQUIPMENT_PACKAGE.STEEL_WHEEL%TYPE,
-    p_rain_sensor IN EQUIPMENT_PACKAGE.RAIN_SENSOR%TYPE,
-    p_head_lights_sensor IN EQUIPMENT_PACKAGE.HEAD_LIGHTS_SENSOR%TYPE,
-    p_navigation IN EQUIPMENT_PACKAGE.NAVIGATION%TYPE,
-    p_assistant_cameras IN EQUIPMENT_PACKAGE.ASSISTANT_CAMERAS%TYPE,
-    p_hill_holder IN EQUIPMENT_PACKAGE.HILL_HOLDER%TYPE)
+  p_id                 IN EQUIPMENT_PACKAGE.ID%TYPE,
+  p_package_name       IN EQUIPMENT_PACKAGE.PACKAGE_NAME%TYPE,
+  p_alarm              IN EQUIPMENT_PACKAGE.ALARM%TYPE,
+  p_abs                IN EQUIPMENT_PACKAGE.ABS%TYPE,
+  p_isofix             IN EQUIPMENT_PACKAGE.ISOFIX%TYPE,
+  p_immobilizer        IN EQUIPMENT_PACKAGE.IMMOBILIZER%TYPE,
+  p_airbag_count       IN EQUIPMENT_PACKAGE.AIRBAG_COUNT%TYPE,
+  p_trip_computer      IN EQUIPMENT_PACKAGE.TRIP_COMPUTER%TYPE,
+  p_start_stop         IN EQUIPMENT_PACKAGE.START_STOP%TYPE,
+  p_cruise_control     IN EQUIPMENT_PACKAGE.CRUISE_CONTROL%TYPE,
+  p_air_conditioning   IN EQUIPMENT_PACKAGE.AIR_CONDITIONING%TYPE,
+  p_sunroof            IN EQUIPMENT_PACKAGE.SUNROOF%TYPE,
+  p_parking_sensor     IN EQUIPMENT_PACKAGE.PARKING_SENSOR%TYPE,
+  p_steel_wheel        IN EQUIPMENT_PACKAGE.STEEL_WHEEL%TYPE,
+  p_rain_sensor        IN EQUIPMENT_PACKAGE.RAIN_SENSOR%TYPE,
+  p_head_lights_sensor IN EQUIPMENT_PACKAGE.HEAD_LIGHTS_SENSOR%TYPE,
+  p_navigation         IN EQUIPMENT_PACKAGE.NAVIGATION%TYPE,
+  p_assistant_cameras  IN EQUIPMENT_PACKAGE.ASSISTANT_CAMERAS%TYPE,
+  p_hill_holder        IN EQUIPMENT_PACKAGE.HILL_HOLDER%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    UPDATE EQUIPMENT_PACKAGE SET
-        PACKAGE_NAME = p_package_name,
-        ALARM = p_alarm,
-        ABS = p_abs,
-        ISOFIX = p_isofix,
-        IMMOBILIZER = p_immobilizer,
-        AIRBAG_COUNT = p_airbag_count,
-        TRIP_COMPUTER = p_trip_computer,
-        START_STOP = p_start_stop,
-        CRUISE_CONTROL = p_cruise_control,
-        AIR_CONDITIONING = p_air_conditioning,
-        SUNROOF = p_sunroof,
-        PARKING_SENSOR = p_parking_sensor,
-        STEEL_WHEEL = p_steel_wheel,
-        RAIN_SENSOR = p_rain_sensor,
-        HEAD_LIGHTS_SENSOR = p_head_lights_sensor,
-        NAVIGATION = p_navigation,
-        ASSISTANT_CAMERAS = p_assistant_cameras,
-        HILL_HOLDER = p_hill_holder
+    UPDATE EQUIPMENT_PACKAGE
+    SET
+      PACKAGE_NAME       = p_package_name,
+      ALARM              = p_alarm,
+      ABS                = p_abs,
+      ISOFIX             = p_isofix,
+      IMMOBILIZER        = p_immobilizer,
+      AIRBAG_COUNT       = p_airbag_count,
+      TRIP_COMPUTER      = p_trip_computer,
+      START_STOP         = p_start_stop,
+      CRUISE_CONTROL     = p_cruise_control,
+      AIR_CONDITIONING   = p_air_conditioning,
+      SUNROOF            = p_sunroof,
+      PARKING_SENSOR     = p_parking_sensor,
+      STEEL_WHEEL        = p_steel_wheel,
+      RAIN_SENSOR        = p_rain_sensor,
+      HEAD_LIGHTS_SENSOR = p_head_lights_sensor,
+      NAVIGATION         = p_navigation,
+      ASSISTANT_CAMERAS  = p_assistant_cameras,
+      HILL_HOLDER        = p_hill_holder
     WHERE ID = p_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_EQUIPMENT_PACKAGE(p_id IN EQUIPMENT_PACKAGE.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  DELETE FROM EQUIPMENT_PACKAGE WHERE ID = p_id;
+    DELETE FROM EQUIPMENT_PACKAGE
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 
 /* FRAME TYPE */
 CREATE OR REPLACE PROCEDURE INSERT_FRAME_TYPE(
-    p_name IN FRAME_TYPE.NAME%TYPE,
-    p_door_count IN FRAME_TYPE.DOOR_COUNT%TYPE)
+  p_name       IN FRAME_TYPE.NAME%TYPE,
+  p_door_count IN FRAME_TYPE.DOOR_COUNT%TYPE)
 IS
-BEGIN
+  BEGIN
 
     INSERT INTO FRAME_TYPE ("NAME", "DOOR_COUNT") VALUES (p_name, p_door_count);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_FRAME_TYPE(
-    p_id IN FRAME_TYPE.ID%TYPE,
-    p_name IN FRAME_TYPE.NAME%TYPE,
-    p_door_count IN FRAME_TYPE.DOOR_COUNT%TYPE)
+  p_id         IN FRAME_TYPE.ID%TYPE,
+  p_name       IN FRAME_TYPE.NAME%TYPE,
+  p_door_count IN FRAME_TYPE.DOOR_COUNT%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    UPDATE FRAME_TYPE SET NAME = p_name, DOOR_COUNT = p_door_count WHERE ID = p_id;
+    UPDATE FRAME_TYPE
+    SET NAME = p_name, DOOR_COUNT = p_door_count
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_FRAME_TYPE(p_id IN FRAME_TYPE.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    DELETE FROM FRAME_TYPE WHERE ID = p_id;
+    DELETE FROM FRAME_TYPE
+    WHERE ID = p_id;
 
-END;
-/
-
-
-/* FUEL TYPE */
-CREATE OR REPLACE PROCEDURE INSERT_FUEL_TYPE(p_name IN FUEL_TYPE.NAME%TYPE)
-IS
-BEGIN
-
-    INSERT INTO FUEL_TYPE ("NAME") VALUES (p_name);
-
-END;
-/
-
-CREATE OR REPLACE PROCEDURE UPDATE_FUEL_TYPE(
-    p_id IN FUEL_TYPE.ID%TYPE,
-    p_name IN FUEL_TYPE.NAME%TYPE)
-IS
-BEGIN
-
-    UPDATE FUEL_TYPE SET "NAME" = p_name WHERE ID = p_id;
-
-END;
-/
-
-CREATE OR REPLACE PROCEDURE DELETE_FUEL_TYPE(p_id IN FUEL_TYPE.ID%TYPE)
-IS
-BEGIN
-
-    DELETE FROM FUEL_TYPE WHERE ID = p_id;
-
-END;
+  END;
 /
 
 
 /* GEAR */
 CREATE OR REPLACE PROCEDURE INSERT_GEAR(
-    p_type IN GEAR.TYPE%TYPE,
-    p_count IN GEAR.COUNT%TYPE)
+  p_type  IN GEAR.TYPE%TYPE,
+  p_count IN GEAR.COUNT%TYPE)
 IS
-BEGIN
+  BEGIN
 
     INSERT INTO GEAR ("TYPE", "COUNT") VALUES (p_type, p_count);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_GEAR(
-    p_id IN GEAR.ID%TYPE,
-    p_type IN GEAR.TYPE%TYPE,
-    p_count IN GEAR.COUNT%TYPE)
+  p_id    IN GEAR.ID%TYPE,
+  p_type  IN GEAR.TYPE%TYPE,
+  p_count IN GEAR.COUNT%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    UPDATE GEAR SET "TYPE" = p_type, COUNT = p_count WHERE ID = p_id;
+    UPDATE GEAR
+    SET "TYPE" = p_type, COUNT = p_count
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_GEAR(p_id IN GEAR.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    DELETE FROM GEAR WHERE ID = p_id;
+    DELETE FROM GEAR
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 
 /* HIRE */
 CREATE OR REPLACE PROCEDURE INSERT_HIRE(
-    p_branch_rltd_vehicle_id IN HIRE.BRANCH_RLTD_VEHICLE_ID%TYPE,
-    p_user_id IN HIRE.USER_ID%TYPE,
-    p_hire_type IN HIRE.HIRE_TYPE%TYPE,
-    p_payment_type_id IN HIRE.PAYMENT_TYPE_ID%TYPE,
-    p_start_date IN HIRE.START_DATE%TYPE,
-    p_due_date IN HIRE.DUE_DATE%TYPE)
+  p_branch_rltd_vehicle_id IN HIRE.BRANCH_RLTD_VEHICLE_ID%TYPE,
+  p_user_id                IN HIRE.USER_ID%TYPE,
+  p_hire_type              IN HIRE.HIRE_TYPE%TYPE,
+  p_payment_type           IN HIRE.PAYMENT_TYPE%TYPE,
+  p_start_date             IN HIRE.START_DATE%TYPE,
+  p_due_date               IN HIRE.DUE_DATE%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    INSERT INTO HIRE ("BRANCH_RLTD_VEHICLE_ID", "USER_ID", "HIRE_TYPE", "PAYMENT_TYPE_ID", "START_DATE", "DUE_DATE")
-    VALUES (p_branch_rltd_vehicle_id, p_user_id, p_hire_type, p_payment_type_id, p_start_date, p_due_date);
+    INSERT INTO HIRE ("BRANCH_RLTD_VEHICLE_ID", "USER_ID", "HIRE_TYPE", "PAYMENT_TYPE", "START_DATE", "DUE_DATE")
+    VALUES (p_branch_rltd_vehicle_id, p_user_id, p_hire_type, p_payment_type, p_start_date, p_due_date);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_HIRE(
-    p_branch_rltd_vehicle_id IN HIRE.BRANCH_RLTD_VEHICLE_ID%TYPE,
-    p_user_id IN HIRE.USER_ID%TYPE,
-    p_hire_type IN HIRE.HIRE_TYPE%TYPE,
-    p_payment_type_id IN HIRE.PAYMENT_TYPE_ID%TYPE,
-    p_start_date IN HIRE.START_DATE%TYPE,
-    p_due_date IN HIRE.DUE_DATE%TYPE)
+  p_branch_rltd_vehicle_id IN HIRE.BRANCH_RLTD_VEHICLE_ID%TYPE,
+  p_user_id                IN HIRE.USER_ID%TYPE,
+  p_hire_type              IN HIRE.HIRE_TYPE%TYPE,
+  p_payment_type           IN HIRE.PAYMENT_TYPE%TYPE,
+  p_start_date             IN HIRE.START_DATE%TYPE,
+  p_due_date               IN HIRE.DUE_DATE%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    UPDATE HIRE SET HIRE_TYPE = p_hire_type, PAYMENT_TYPE_ID = p_payment_type_id, DUE_DATE = p_due_date
+    UPDATE HIRE
+    SET HIRE_TYPE = p_hire_type, PAYMENT_TYPE = p_payment_type, DUE_DATE = p_due_date
     WHERE BRANCH_RLTD_VEHICLE_ID = p_branch_rltd_vehicle_id AND USER_ID = p_user_id AND START_DATE = p_start_date;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_HIRE(
-    p_branch_rltd_vehicle_id IN HIRE.BRANCH_RLTD_VEHICLE_ID%TYPE,
-    p_user_id IN HIRE.USER_ID%TYPE,
-    p_start_date IN HIRE.START_DATE%TYPE)
+  p_branch_rltd_vehicle_id IN HIRE.BRANCH_RLTD_VEHICLE_ID%TYPE,
+  p_user_id                IN HIRE.USER_ID%TYPE,
+  p_start_date             IN HIRE.START_DATE%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    DELETE FROM HIRE WHERE BRANCH_RLTD_VEHICLE_ID = p_branch_rltd_vehicle_id AND USER_ID = p_user_id AND START_DATE = p_start_date;
+    DELETE FROM HIRE
+    WHERE BRANCH_RLTD_VEHICLE_ID = p_branch_rltd_vehicle_id AND USER_ID = p_user_id AND START_DATE = p_start_date;
 
-END;
+  END;
 /
 
 
 /* MODEL */
 CREATE OR REPLACE PROCEDURE INSERT_MODEL(
-    p_name IN MODEL.NAME%TYPE,
-    p_brand_id IN MODEL.BRAND_ID%TYPE,
-    p_engine_id IN MODEL.ENGINE_ID%TYPE,
-    p_gear_id IN MODEL.GEAR_ID%TYPE,
-    p_fuel_type_id IN MODEL.FUEL_TYPE_ID%TYPE,
-    p_vehicle_type IN MODEL.VEHICLE_TYPE%TYPE)
+  p_name         IN MODEL.NAME%TYPE,
+  p_brand_id     IN MODEL.BRAND_ID%TYPE,
+  p_engine_id    IN MODEL.ENGINE_ID%TYPE,
+  p_gear_id      IN MODEL.GEAR_ID%TYPE,
+  p_fuel_type    IN MODEL.FUEL_TYPE%TYPE,
+  p_vehicle_type IN MODEL.VEHICLE_TYPE%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO MODEL ("NAME", "BRAND_ID", "ENGINE_ID", "GEAR_ID", "FUEL_TYPE_ID", "VEHICLE_TYPE")
-  VALUES (p_name, p_brand_id, p_engine_id, p_gear_id, p_fuel_type_id, p_vehicle_type);
+    INSERT INTO MODEL ("NAME", "BRAND_ID", "ENGINE_ID", "GEAR_ID", "FUEL_TYPE", "VEHICLE_TYPE")
+    VALUES (p_name, p_brand_id, p_engine_id, p_gear_id, p_fuel_type, p_vehicle_type);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_MODEL(
-    p_id IN MODEL.ID%TYPE,
-    p_name IN MODEL.NAME%TYPE,
-    p_brand_id IN MODEL.BRAND_ID%TYPE,
-    p_engine_id IN MODEL.ENGINE_ID%TYPE,
-    p_gear_id IN MODEL.GEAR_ID%TYPE,
-    p_fuel_type_id IN MODEL.FUEL_TYPE_ID%TYPE,
-    p_vehicle_type IN MODEL.VEHICLE_TYPE%TYPE)
+  p_id           IN MODEL.ID%TYPE,
+  p_name         IN MODEL.NAME%TYPE,
+  p_brand_id     IN MODEL.BRAND_ID%TYPE,
+  p_engine_id    IN MODEL.ENGINE_ID%TYPE,
+  p_gear_id      IN MODEL.GEAR_ID%TYPE,
+  p_fuel_type    IN MODEL.FUEL_TYPE%TYPE,
+  p_vehicle_type IN MODEL.VEHICLE_TYPE%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    UPDATE MODEL SET "NAME" = p_name, BRAND_ID = p_brand_id, ENGINE_ID = p_engine_id, GEAR_ID = p_gear_id,
-      FUEL_TYPE_ID = p_fuel_type_id, VEHICLE_TYPE = p_vehicle_type WHERE ID = p_id;
+    UPDATE MODEL
+    SET "NAME"  = p_name, BRAND_ID = p_brand_id, ENGINE_ID = p_engine_id, GEAR_ID = p_gear_id,
+      FUEL_TYPE = p_fuel_type, VEHICLE_TYPE = p_vehicle_type
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_MODEL(p_id IN MODEL.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    DELETE FROM MODEL WHERE ID = p_id;
+    DELETE FROM MODEL
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 
 /* MOTORCYCLE */
 CREATE OR REPLACE PROCEDURE INSERT_MOTORCYCLE(
-    p_vehicle_id IN MOTORCYCLE.VEHICLE_ID%TYPE,
-    p_motorcycle_type_id IN MOTORCYCLE.MOTORCYCLE_TYPE_ID%TYPE)
+  p_vehicle_id      IN MOTORCYCLE.VEHICLE_ID%TYPE,
+  p_motorcycle_type IN MOTORCYCLE.MOTORCYCLE_TYPE%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO MOTORCYCLE ("VEHICLE_ID", "MOTORCYCLE_TYPE_ID") VALUES (p_vehicle_id, p_motorcycle_type_id);
+    INSERT INTO MOTORCYCLE ("VEHICLE_ID", "MOTORCYCLE_TYPE") VALUES (p_vehicle_id, p_motorcycle_type);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_MOTORCYCLE(
-    p_vehicle_id IN MOTORCYCLE.VEHICLE_ID%TYPE,
-    p_motorcycle_type_id IN MOTORCYCLE.MOTORCYCLE_TYPE_ID%TYPE)
+  p_vehicle_id      IN MOTORCYCLE.VEHICLE_ID%TYPE,
+  p_motorcycle_type IN MOTORCYCLE.MOTORCYCLE_TYPE%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  UPDATE MOTORCYCLE SET MOTORCYCLE_TYPE_ID = p_motorcycle_type_id WHERE VEHICLE_ID = p_vehicle_id;
+    UPDATE MOTORCYCLE
+    SET MOTORCYCLE_TYPE = p_motorcycle_type
+    WHERE VEHICLE_ID = p_vehicle_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_MOTORCYCLE(p_vehicle_id IN MOTORCYCLE.VEHICLE_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  DELETE FROM MOTORCYCLE WHERE VEHICLE_ID = p_vehicle_id;
+    DELETE FROM MOTORCYCLE
+    WHERE VEHICLE_ID = p_vehicle_id;
 
-END;
-/
-
-
-/* MOTORCYCLE TYPE */
-CREATE OR REPLACE PROCEDURE INSERT_MOTORCYCLE_TYPE(p_name IN MOTORCYCLE_TYPE.NAME%TYPE)
-IS
-BEGIN
-
-    INSERT INTO MOTORCYCLE_TYPE ("NAME") VALUES (p_name);
-
-END;
-/
-
-CREATE OR REPLACE PROCEDURE UPDATE_MOTORCYCLE_TYPE(
-    p_id IN MOTORCYCLE_TYPE.ID%TYPE,
-    p_name IN MOTORCYCLE_TYPE.NAME%TYPE)
-IS
-BEGIN
-
-    UPDATE MOTORCYCLE_TYPE SET NAME = p_name WHERE ID = p_id;
-
-END;
-/
-
-CREATE OR REPLACE PROCEDURE DELETE_MOTORCYCLE_TYPE(p_id IN MOTORCYCLE_TYPE.ID%TYPE)
-IS
-BEGIN
-
-    DELETE FROM MOTORCYCLE_TYPE WHERE ID = p_id;
-
-END;
-/
-
-
-/* PAYMENT TYPE */
-CREATE OR REPLACE PROCEDURE INSERT_PAYMENT_TYPE(p_name IN PAYMENT_TYPE.NAME%TYPE)
-IS
-BEGIN
-
-    INSERT INTO PAYMENT_TYPE ("NAME") VALUES (p_name);
-
-END;
-/
-
-CREATE OR REPLACE PROCEDURE UPDATE_PAYMENT_TYPE(
-    p_id IN PAYMENT_TYPE.ID%TYPE,
-    p_name IN PAYMENT_TYPE.NAME%TYPE)
-IS
-BEGIN
-
-    UPDATE PAYMENT_TYPE SET NAME = p_name WHERE ID = p_id;
-
-END;
-/
-
-CREATE OR REPLACE PROCEDURE DELETE_PAYMENT_TYPE(p_id IN PAYMENT_TYPE.ID%TYPE)
-IS
-BEGIN
-
-    DELETE FROM PAYMENT_TYPE WHERE ID = p_id;
-
-END;
-/
-
-
-/* SEGMENT */
-CREATE OR REPLACE PROCEDURE INSERT_SEGMENT(p_name IN SEGMENT.NAME%TYPE)
-IS
-BEGIN
-
-    INSERT INTO SEGMENT ("NAME") VALUES (p_name);
-
-END;
-/
-
-CREATE OR REPLACE PROCEDURE UPDATE_SEGMENT(
-    p_id IN SEGMENT.ID%TYPE,
-    p_name IN SEGMENT.NAME%TYPE)
-IS
-BEGIN
-
-    UPDATE SEGMENT SET NAME = p_name WHERE ID = p_id;
-
-END;
-/
-
-CREATE OR REPLACE PROCEDURE DELETE_SEGMENT(p_id IN SEGMENT.ID%TYPE)
-IS
-BEGIN
-
-    DELETE FROM SEGMENT WHERE ID = p_id;
-
-END;
+  END;
 /
 
 
 /* TRUCK */
 CREATE OR REPLACE PROCEDURE INSERT_TRUCK(
-    p_vehicle_id IN TRUCK.VEHICLE_ID%TYPE,
-    p_bale_capacity IN TRUCK.BALE_CAPACITY%TYPE,
-    p_trailer_volume IN TRUCK.TRAILER_VOLUME%TYPE,
-    p_trailer_type IN TRUCK.TRAILER_TYPE%TYPE)
+  p_vehicle_id    IN TRUCK.VEHICLE_ID%TYPE,
+  p_bale_capacity IN TRUCK.BALE_CAPACITY%TYPE,
+  p_trailer_volume  IN TRUCK.TRAILER_VOLUME%TYPE,
+  p_trailer_type  IN TRUCK.TRAILER_TYPE%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  INSERT INTO TRUCK ("VEHICLE_ID", "BALE_CAPACITY", "TRAILER_VOLUME", "TRAILER_TYPE")
-  VALUES (p_vehicle_id, p_bale_capacity, p_trailer_volume, p_trailer_type);
+    INSERT INTO TRUCK ("VEHICLE_ID", "BALE_CAPACITY", "TRAILER_VOLUME", "TRAILER_TYPE")
+    VALUES (p_vehicle_id, p_bale_capacity, p_trailer_volume, p_trailer_type);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_TRUCK(
-    p_vehicle_id IN TRUCK.VEHICLE_ID%TYPE,
-    p_bale_capacity IN TRUCK.BALE_CAPACITY%TYPE,
-    p_trailer_volume IN TRUCK.TRAILER_VOLUME%TYPE,
-    p_trailer_type IN TRUCK.TRAILER_TYPE%TYPE)
+  p_vehicle_id    IN TRUCK.VEHICLE_ID%TYPE,
+  p_bale_capacity IN TRUCK.BALE_CAPACITY%TYPE,
+  p_trailer_volume  IN TRUCK.TRAILER_VOLUME%TYPE,
+  p_trailer_type  IN TRUCK.TRAILER_TYPE%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  UPDATE TRUCK SET BALE_CAPACITY = p_bale_capacity, TRAILER_VOLUME = p_trailer_volume, TRAILER_TYPE = p_trailer_type WHERE VEHICLE_ID = p_vehicle_id;
+    UPDATE TRUCK
+    SET BALE_CAPACITY = p_bale_capacity, TRAILER_VOLUME = p_trailer_volume, TRAILER_TYPE = p_trailer_type
+    WHERE VEHICLE_ID = p_vehicle_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_TRUCK(p_vehicle_id IN TRUCK.VEHICLE_ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-  DELETE FROM TRUCK WHERE VEHICLE_ID = p_vehicle_id;
+    DELETE FROM TRUCK
+    WHERE VEHICLE_ID = p_vehicle_id;
 
-END;
+  END;
 /
 
 
 /* USER */
 CREATE OR REPLACE PROCEDURE INSERT_USER(
-  p_user_type_id IN B21327694."USER".USER_TYPE_ID%TYPE,
+  p_user_type  IN B21327694."USER".USER_TYPE%TYPE,
   p_first_name IN B21327694."USER".FIRST_NAME%TYPE,
-  p_last_name IN B21327694."USER".LAST_NAME%TYPE,
-  p_username IN B21327694."USER".USERNAME%TYPE,
-  p_email IN B21327694."USER".EMAIL%TYPE,
-  p_phone IN B21327694."USER".PHONE%TYPE,
-  p_password IN B21327694."USER".PASSWORD%TYPE)
+  p_last_name  IN B21327694."USER".LAST_NAME%TYPE,
+  p_username   IN B21327694."USER".USERNAME%TYPE,
+  p_email      IN B21327694."USER".EMAIL%TYPE,
+  p_phone      IN B21327694."USER".PHONE%TYPE,
+  p_password   IN B21327694."USER".PASSWORD%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    INSERT INTO B21327694."USER" ("USER_TYPE_ID", "FIRST_NAME", "LAST_NAME", "USERNAME", "EMAIL", "PHONE", "PASSWORD")
-    VALUES (p_user_type_id, p_first_name, p_last_name, p_username, p_email, p_phone, p_password);
+    INSERT INTO B21327694."USER" ("USER_TYPE", "FIRST_NAME", "LAST_NAME", "USERNAME", "EMAIL", "PHONE", "PASSWORD")
+    VALUES (p_user_type, p_first_name, p_last_name, p_username, p_email, p_phone, p_password);
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_USER(
-    p_id IN B21327694."USER".ID%TYPE,
-    p_user_type_id IN B21327694."USER".USER_TYPE_ID%TYPE,
-    p_first_name IN B21327694."USER".FIRST_NAME%TYPE,
-    p_last_name IN B21327694."USER".LAST_NAME%TYPE,
-    p_username IN B21327694."USER".USERNAME%TYPE,
-    p_email IN B21327694."USER".EMAIL%TYPE,
-    p_phone IN B21327694."USER".PHONE%TYPE,
-    p_password IN B21327694."USER".PASSWORD%TYPE)
+  p_id         IN B21327694."USER".ID%TYPE,
+  p_user_type  IN B21327694."USER".USER_TYPE%TYPE,
+  p_first_name IN B21327694."USER".FIRST_NAME%TYPE,
+  p_last_name  IN B21327694."USER".LAST_NAME%TYPE,
+  p_username   IN B21327694."USER".USERNAME%TYPE,
+  p_email      IN B21327694."USER".EMAIL%TYPE,
+  p_phone      IN B21327694."USER".PHONE%TYPE,
+  p_password   IN B21327694."USER".PASSWORD%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    UPDATE B21327694."USER" SET USER_TYPE_ID = p_user_type_id, FIRST_NAME = p_first_name, LAST_NAME = p_last_name,
-      USERNAME = p_username, EMAIL = p_email, PHONE = p_phone, PASSWORD = p_password WHERE ID = p_id;
+    UPDATE B21327694."USER"
+    SET USER_TYPE = p_user_type, FIRST_NAME = p_first_name, LAST_NAME = p_last_name,
+      USERNAME    = p_username, EMAIL = p_email, PHONE = p_phone, PASSWORD = p_password
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_USER(p_id IN B21327694."USER".ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    DELETE FROM B21327694."USER" WHERE ID = p_id;
+    DELETE FROM B21327694."USER"
+    WHERE ID = p_id;
 
-END;
-/
-
-
-/* USER TYPE */
-CREATE OR REPLACE PROCEDURE INSERT_USER_TYPE(p_name IN USER_TYPE.NAME%TYPE)
-IS
-BEGIN
-
-    INSERT INTO USER_TYPE ("NAME") VALUES (p_name);
-
-END;
-/
-
-CREATE OR REPLACE PROCEDURE UPDATE_USER_TYPE(
-    p_id IN USER_TYPE.ID%TYPE,
-    p_name IN USER_TYPE.NAME%TYPE)
-IS
-BEGIN
-
-    UPDATE USER_TYPE SET NAME = p_name WHERE ID = p_id;
-
-END;
-/
-
-CREATE OR REPLACE PROCEDURE DELETE_USER_TYPE(p_id IN USER_TYPE.ID%TYPE)
-IS
-BEGIN
-
-    DELETE FROM USER_TYPE WHERE ID = p_id;
-
-END;
+  END;
 /
 
 
 /* VEHICLE */
 CREATE OR REPLACE PROCEDURE INSERT_VEHICLE(
-    p_model_id IN VEHICLE.MODEL_ID%TYPE,
-    p_kilometer IN VEHICLE.KILOMETER%TYPE,
-    p_plate IN VEHICLE.PLATE%TYPE,
-    p_year IN VEHICLE.YEAR%TYPE,
-    p_image_path IN VEHICLE.IMAGE_PATH%TYPE,
-    r_vehicle_id OUT VEHICLE.ID%TYPE)
+  p_model_id   IN  VEHICLE.MODEL_ID%TYPE,
+  p_kilometer  IN  VEHICLE.KILOMETER%TYPE,
+  p_plate      IN  VEHICLE.PLATE%TYPE,
+  p_year       IN  VEHICLE.YEAR%TYPE,
+  p_image_path IN  VEHICLE.IMAGE_PATH%TYPE,
+  r_vehicle_id OUT VEHICLE.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
     INSERT INTO VEHICLE ("MODEL_ID", "KILOMETER", "PLATE", "YEAR", "IMAGE_PATH")
-    VALUES (p_model_id, p_kilometer, p_plate, p_year, p_image_path) RETURNING ID INTO r_vehicle_id;
+    VALUES (p_model_id, p_kilometer, p_plate, p_year, p_image_path)
+    RETURNING ID INTO r_vehicle_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_VEHICLE(
-    p_id IN VEHICLE.ID%TYPE,
-    p_model_id IN VEHICLE.MODEL_ID%TYPE,
-    p_kilometer IN VEHICLE.KILOMETER%TYPE,
-    p_plate IN VEHICLE.PLATE%TYPE,
-    p_year IN VEHICLE.YEAR%TYPE,
-    p_image_path IN VEHICLE.IMAGE_PATH%TYPE)
+  p_id         IN VEHICLE.ID%TYPE,
+  p_model_id   IN VEHICLE.MODEL_ID%TYPE,
+  p_kilometer  IN VEHICLE.KILOMETER%TYPE,
+  p_plate      IN VEHICLE.PLATE%TYPE,
+  p_year       IN VEHICLE.YEAR%TYPE,
+  p_image_path IN VEHICLE.IMAGE_PATH%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    UPDATE VEHICLE SET MODEL_ID = p_model_id, KILOMETER = p_kilometer, PLATE = p_plate , YEAR = p_year, IMAGE_PATH = p_image_path WHERE ID = p_id;
+    UPDATE VEHICLE
+    SET MODEL_ID = p_model_id, KILOMETER = p_kilometer, PLATE = p_plate, YEAR = p_year, IMAGE_PATH = p_image_path
+    WHERE ID = p_id;
 
-END;
+  END;
 /
 
 CREATE OR REPLACE PROCEDURE DELETE_VEHICLE(p_id IN VEHICLE.ID%TYPE)
 IS
-BEGIN
+  BEGIN
 
-    DELETE FROM VEHICLE WHERE ID = p_id;
+    DELETE FROM VEHICLE
+    WHERE ID = p_id;
 
-END;
+  END;
 /

@@ -76,7 +76,7 @@ if (isset($_POST['submit'])) {
             BEGIN
                 UPDATE_BRANCH(:branch_id, :name, :county_id);
                 UPDATE_BRANCH_RLTD_USER(:branch_id, :user_id);
-                UPDATE B21327694."USER" SET USER_TYPE_ID = :user_type WHERE ID = :user_id;
+                UPDATE B21327694."USER" SET USER_TYPE = :user_type WHERE ID = :user_id;
                 COMMIT;
             END;'
         );
@@ -89,7 +89,7 @@ if (isset($_POST['submit'])) {
             BEGIN
                 INSERT_BRANCH(:name, :county_id, returned_branch_id);
                 INSERT_BRANCH_RLTD_USER(returned_branch_id, :user_id);
-                UPDATE B21327694."USER" SET USER_TYPE_ID = :user_type WHERE ID = :user_id;
+                UPDATE B21327694."USER" SET USER_TYPE = :user_type WHERE ID = :user_id;
                 COMMIT;
             END;'
         );

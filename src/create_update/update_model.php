@@ -19,7 +19,7 @@ include "../authentication/admin_user_required.php";
     while ($row = oci_fetch_array($item_list_query,OCI_ASSOC+OCI_RETURN_NULLS)) {
         echo "<li class='list-item'>
                 <a class='update-link' href='create_model.php?id=".$row['ID']."'>
-                    ".$row['NAME']." - Fuel: ".$row['FUEL_TYPE_ID']." - Engine: ".$row['ENGINE_ID']." - Gear: ".$row['GEAR_ID']."
+                    ".$row['NAME']." - Fuel: ".$row['FUEL_TYPE']." - Engine: ".$row['ENGINE_ID']." - Gear: ".$row['GEAR_ID']."
                 </a>
               </li>";
     }

@@ -31,7 +31,7 @@ if (isset($_POST['submit'])) {
     if ($_POST['password1'] == $_POST['password2']) {
         $user_save_sql = oci_parse($connection, '
             BEGIN
-                INSERT_USER(:user_type_id, :first_name, :last_name, :username, :email, :phone, :password);
+                INSERT_USER(:user_type, :first_name, :last_name, :username, :email, :phone, :password);
                 COMMIT;
             END;'
         );
@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
         $encrypted_password = password_hash($_POST['password1'], PASSWORD_DEFAULT);
 
         // Add arguments
-        oci_bind_by_name($user_save_sql, ":user_type_id", $USER_TYPE_MEMBER);
+        oci_bind_by_name($user_save_sql, ":user_type", $USER_TYPE_MEMBER);
         oci_bind_by_name($user_save_sql, ":first_name", $_POST['first_name']);
         oci_bind_by_name($user_save_sql, ":last_name", $_POST['last_name']);
         oci_bind_by_name($user_save_sql, ":username", $_POST['username']);

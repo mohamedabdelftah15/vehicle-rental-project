@@ -34,29 +34,29 @@ if (isset($_GET['id'])) {
     </html>
 
 <?php
-    if (isset($_POST['submit'])) {
-        if ($_POST['id']) {
-            $item_save_sql = oci_parse($connection, '
+if (isset($_POST['submit'])) {
+    if ($_POST['id']) {
+        $item_save_sql = oci_parse($connection, '
                 BEGIN
                     UPDATE_FRAME_TYPE(:frame_type_id, :frame_type_name, :door_count);
                     COMMIT;
                 END;'
-            );
+        );
 
-            oci_bind_by_name($item_save_sql, ":frame_type_id", $_POST['id']);
-        } else {
-            $item_save_sql = oci_parse($connection, '
+        oci_bind_by_name($item_save_sql, ":frame_type_id", $_POST['id']);
+    } else {
+        $item_save_sql = oci_parse($connection, '
             BEGIN
                 INSERT_FRAME_TYPE(:frame_type_name, :door_count);
                 COMMIT;
             END;'
-            );
-        }
-
-        # Add arguments
-        oci_bind_by_name($item_save_sql, ":frame_type_name", $_POST['frame_type']);
-        oci_bind_by_name($item_save_sql, ":door_count", $_POST['door_count']);
-
-        oci_execute($item_save_sql);
+        );
     }
+
+    # Add arguments
+    oci_bind_by_name($item_save_sql, ":frame_type_name", $_POST['frame_type']);
+    oci_bind_by_name($item_save_sql, ":door_count", $_POST['door_count']);
+
+    oci_execute($item_save_sql);
+}
 ?>

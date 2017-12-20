@@ -39,19 +39,14 @@ if (isset($_GET['id'])) {
                 ?>
             </select><br><br>
 
-            Fuel-Type <br><select name="fuel_type_id">
-                <?php
-                $fuel_type_query = oci_parse($connection, 'SELECT * FROM FUEL_TYPE');
-                oci_execute($fuel_type_query);
-
-                while ($row = oci_fetch_array($fuel_type_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
-                    if ($row['ID'] == $item['FUEL_TYPE_ID']) {
-                        echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
-                    } else {
-                        echo "<option value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
-                    }
-                }
-                ?>
+            Fuel-Type <br>
+            <select name="fuel_type" required>
+                <option value=''>-- PLEASE SELECT --</option>
+                <option value='Diesel'>Diesel</option>
+                <option value='Hybrid'>Hybrid</option>
+                <option value='Gasoline'>Gasoline</option>
+                <option value='Electric'>Electric</option>
+                <option value='Gasoline + LPG'>Gasoline + LPG</option>
             </select><br><br>
 
             Engine <br><select name="engine_id">
@@ -61,9 +56,9 @@ if (isset($_GET['id'])) {
 
                 while ($row = oci_fetch_array($engine_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
                     if ($row['ID'] == $item['ENGINE_ID']) {
-                        echo "<option selected='selected' value='".$row['ID']."'>".$row['VOLUME']."-".$row['POWER']."</option>";
+                        echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['VOLUME'] . "-" . $row['POWER'] . "</option>";
                     } else {
-                        echo "<option value='".$row['ID']."'>".$row['VOLUME']." - ".$row['POWER']."</option>";
+                        echo "<option value='" . $row['ID'] . "'>" . $row['VOLUME'] . " - " . $row['POWER'] . "</option>";
                     }
                 }
                 ?>
@@ -76,9 +71,9 @@ if (isset($_GET['id'])) {
 
                 while ($row = oci_fetch_array($gear_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
                     if ($row['ID'] == $item['GEAR_ID']) {
-                        echo "<option selected='selected' value='".$row['ID']."'>".$row['TYPE']."-".$row['COUNT']."</option>";
+                        echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['TYPE'] . "-" . $row['COUNT'] . "</option>";
                     } else {
-                        echo "<option value='".$row['ID']."'>".$row['TYPE']." - ".$row['COUNT']."</option>";
+                        echo "<option value='" . $row['ID'] . "'>" . $row['TYPE'] . " - " . $row['COUNT'] . "</option>";
                     }
                 }
                 ?>
@@ -86,11 +81,11 @@ if (isset($_GET['id'])) {
 
             Vehicle-Type <br>
             <select name="vehicle_type" required>
-                <option value=''>-- PLEASE SELECT --</option>";
-                <option value='CAR'>CAR</option>";
-                <option value='BUS'>BUS</option>";
-                <option value='TRUCK'>TRUCK</option>";
-                <option value='MOTORCYCLE'>MOTORCYCLE</option>";
+                <option value=''>-- PLEASE SELECT --</option>
+                <option value='<?php echo $VEHICLE_TYPE_CAR ?>'><?php echo $VEHICLE_TYPE_CAR ?></option>
+                <option value='<?php echo $VEHICLE_TYPE_BUS ?>'><?php echo $VEHICLE_TYPE_BUS ?></option>
+                <option value='<?php echo $VEHICLE_TYPE_TRUCK ?>'><?php echo $VEHICLE_TYPE_TRUCK ?></option>
+                <option value='<?php echo $VEHICLE_TYPE_MOTORCYCLE ?>'><?php echo $VEHICLE_TYPE_MOTORCYCLE ?></option>
             </select><br><br>
 
             <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
@@ -106,7 +101,7 @@ if (isset($_POST['submit'])) {
     if ($_POST['id']) {
         $item_save_sql = oci_parse($connection, '
             BEGIN
-                UPDATE_MODEL(:id, :name, :brand_id, :engine_id, :gear_id, :fuel_type_id, :vehicle_type);
+                UPDATE_MODEL(:id, :name, :brand_id, :engine_id, :gear_id, :fuel_type, :vehicle_type);
                 COMMIT;
             END;'
         );
@@ -115,7 +110,7 @@ if (isset($_POST['submit'])) {
     } else {
         $item_save_sql = oci_parse($connection, '
             BEGIN
-                INSERT_MODEL(:name, :brand_id, :engine_id, :gear_id, :fuel_type_id, :vehicle_type);
+                INSERT_MODEL(:name, :brand_id, :engine_id, :gear_id, :fuel_type, :vehicle_type);
                 COMMIT;
             END;'
         );
@@ -126,7 +121,7 @@ if (isset($_POST['submit'])) {
     oci_bind_by_name($item_save_sql, ":brand_id", $_POST['brand_id']);
     oci_bind_by_name($item_save_sql, ":engine_id", $_POST['engine_id']);
     oci_bind_by_name($item_save_sql, ":gear_id", $_POST['gear_id']);
-    oci_bind_by_name($item_save_sql, ":fuel_type_id", $_POST['fuel_type_id']);
+    oci_bind_by_name($item_save_sql, ":fuel_type", $_POST['fuel_type']);
     oci_bind_by_name($item_save_sql, ":vehicle_type", $_POST['vehicle_type']);
 
     oci_execute($item_save_sql);

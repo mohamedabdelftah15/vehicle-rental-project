@@ -3,10 +3,16 @@
 # Disable error messages on server
 error_reporting(0);
 
-// Different user types defined here to be use easily in code
-$USER_TYPE_ADMIN = 1;
-$USER_TYPE_BRANCH = 2;
-$USER_TYPE_MEMBER = 3;
+# Different user types defined here to be use easily in code
+$USER_TYPE_ADMIN = "ADMIN";
+$USER_TYPE_BRANCH = "BRANCH";
+$USER_TYPE_MEMBER = "MEMBER";
+
+# Different vehicle types defined here to be use easily in code
+$VEHICLE_TYPE_CAR = 'CAR';
+$VEHICLE_TYPE_BUS = 'BUS';
+$VEHICLE_TYPE_TRUCK = 'TRUCK';
+$VEHICLE_TYPE_MOTORCYCLE = 'MOTORCYCLE';
 ?>
 
 <head>

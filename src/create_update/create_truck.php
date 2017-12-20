@@ -45,7 +45,7 @@ if (isset($_GET['id'])) {
 
             Trailer-Type <br>
             <select name="trailer_type" required>
-                <option value=''>-- NONE --</option>";
+                <option value=''>-- PLEASE SELECT --</option>";
                 <option value='OTHER'>OTHER</option>";
                 <option value='Lowboy'>Lowboy</option>";
                 <option value='Side Kit'>Side Kit</option>";

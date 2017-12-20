@@ -37,19 +37,15 @@ if (isset($_GET['id'])) {
             include "utils/vehicle_form.php";
             ?>
 
-            Motorcycle-Type <br><select name="motorcycle_type_id">
-                <?php
-                $motorcycle_type_query = oci_parse($connection, 'SELECT * FROM MOTORCYCLE_TYPE');
-                oci_execute($motorcycle_type_query);
-
-                while ($row = oci_fetch_array($motorcycle_type_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
-                    if ($row['ID'] == $motorcycle['MOTORCYCLE_TYPE_ID']) {
-                        echo "<option selected='selected' value='".$row['ID']."'>".$row['NAME']."</option>";
-                    } else {
-                        echo "<option value='".$row['ID']."'>".$row['NAME']."</option>";
-                    }
-                }
-                ?>
+            Motorcycle-Type <br>
+            <select name="motorcycle_type" required>
+                <option value=''>-- PLEASE SELECT --</option>";
+                <option value='Cub'>Cub</option>";
+                <option value='Moped'>Moped</option>";
+                <option value='Scooter'>Scooter</option>";
+                <option value='Chopper'>Chopper</option>";
+                <option value='Cross'>Cross</option>";
+                <option value='Comutter'>Comutter</option>";
             </select><br><br>
 
             <?php
@@ -70,7 +66,7 @@ if (isset($_POST['submit'])) {
         $item_save_sql = oci_parse($connection, '
             BEGIN
                 UPDATE_VEHICLE(:vehicle_id, :model_id, :kilometer, :plate, :year, :image_path);
-                UPDATE_MOTORCYCLE(:vehicle_id, :motorcycle_type_id);
+                UPDATE_MOTORCYCLE(:vehicle_id, :motorcycle_type);
                 UPDATE_BRANCH_RLTD_VEHICLE(:vehicle_id, :branch_id, :is_available, :price);
                 COMMIT;
             END;'
@@ -83,7 +79,7 @@ if (isset($_POST['submit'])) {
                 returned_vehicle_id NUMBER;
             BEGIN
                 INSERT_VEHICLE(:model_id, :kilometer, :plate, :year, :image_path, returned_vehicle_id);
-                INSERT_MOTORCYCLE(returned_vehicle_id, :motorcycle_type_id);
+                INSERT_MOTORCYCLE(returned_vehicle_id, :motorcycle_type);
                 INSERT_BRANCH_RLTD_VEHICLE(returned_vehicle_id, :branch_id, :is_available, :price);
                 COMMIT;
             END;'
@@ -99,7 +95,7 @@ if (isset($_POST['submit'])) {
     oci_bind_by_name($item_save_sql, ":plate", $_POST['plate']);
     oci_bind_by_name($item_save_sql, ":year", $_POST['year']);
     oci_bind_by_name($item_save_sql, ":image_path", $target_file);
-    oci_bind_by_name($item_save_sql, ":motorcycle_type_id", $_POST['motorcycle_type_id']);
+    oci_bind_by_name($item_save_sql, ":motorcycle_type", $_POST['motorcycle_type']);
     oci_bind_by_name($item_save_sql, ":branch_id", $_POST['branch_id']);
     oci_bind_by_name($item_save_sql, ":price", $_POST['price']);
 

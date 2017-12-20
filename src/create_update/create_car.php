@@ -54,19 +54,15 @@ if (isset($_GET['id'])) {
             </select><br><br>
 
             Segment <br>
-            <select name="segment_id">
-                <?php
-                $segment_query = oci_parse($connection, 'SELECT * FROM SEGMENT');
-                oci_execute($segment_query);
-
-                while ($row = oci_fetch_array($segment_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
-                    if ($row['ID'] == $car['SEGMENT_ID']) {
-                        echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
-                    } else {
-                        echo "<option value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
-                    }
-                }
-                ?>
+            <select name="segment" required>
+                <option value=''>-- PLEASE SELECT --</option>";
+                <option value='A'>A</option>";
+                <option value='B'>B</option>";
+                <option value='C'>C</option>";
+                <option value='D'>D</option>";
+                <option value='E'>E</option>";
+                <option value='F'>F</option>";
+                <option value='G'>G</option>";
             </select><br><br>
 
             Equipment Package <br>
@@ -103,7 +99,7 @@ if (isset($_POST['submit'])) {
         $item_save_sql = oci_parse($connection, '
             BEGIN
                 UPDATE_VEHICLE(:vehicle_id, :model_id, :kilometer, :plate, :year, :image_path);
-                UPDATE_CAR(:vehicle_id, :frame_type_id, :segment_id, :equipment_package_id);
+                UPDATE_CAR(:vehicle_id, :frame_type_id, :segment, :equipment_package_id);
                 UPDATE_BRANCH_RLTD_VEHICLE(:vehicle_id, :branch_id, :is_available, :price);
                 COMMIT;
             END;'
@@ -116,7 +112,7 @@ if (isset($_POST['submit'])) {
                 returned_vehicle_id NUMBER;
             BEGIN
                 INSERT_VEHICLE(:model_id, :kilometer, :plate, :year, :image_path, returned_vehicle_id);
-                INSERT_CAR(returned_vehicle_id, :frame_type_id, :segment_id, :equipment_package_id);
+                INSERT_CAR(returned_vehicle_id, :frame_type_id, :segment, :equipment_package_id);
                 INSERT_BRANCH_RLTD_VEHICLE(returned_vehicle_id, :branch_id, :is_available, :price);
                 COMMIT;
             END;'
@@ -133,7 +129,7 @@ if (isset($_POST['submit'])) {
     oci_bind_by_name($item_save_sql, ":year", $_POST['year']);
     oci_bind_by_name($item_save_sql, ":image_path", $target_file);
     oci_bind_by_name($item_save_sql, ":frame_type_id", $_POST['frame_type_id']);
-    oci_bind_by_name($item_save_sql, ":segment_id", $_POST['segment_id']);
+    oci_bind_by_name($item_save_sql, ":segment", $_POST['segment']);
     oci_bind_by_name($item_save_sql, ":equipment_package_id", $_POST['equipment_package_id']);
     oci_bind_by_name($item_save_sql, ":branch_id", $_POST['branch_id']);
     oci_bind_by_name($item_save_sql, ":price", $_POST['price']);
