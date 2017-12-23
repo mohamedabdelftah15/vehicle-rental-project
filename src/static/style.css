@@ -72,6 +72,24 @@ a:link {
 a:visited {
     color: #0000e6;
 }
+a:hover {
+    font-weight: bold;
+}
 table{
     text-align: left;
+}
+
+/* Statistic page styles */
+.statistic-table, .statistic-table th, .statistic-table td {
+    border: 1px solid black;
+}
+
+.statistic-table {
+    width: 90%;
+    margin-bottom: 50px;
+}
+
+.statistic-table th, .statistic-table td {
+    width: 50%;
+    padding: 5px 5px 5px 5px;
 }

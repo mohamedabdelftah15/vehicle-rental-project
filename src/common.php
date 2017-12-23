@@ -1,7 +1,7 @@
 <?php
 
 # Disable error messages on server
-error_reporting(0);
+# error_reporting(0);
 
 # Different user types defined here to be use easily in code
 $USER_TYPE_ADMIN = "ADMIN";

@@ -21,7 +21,8 @@ Kilometer <br>
 <input type="number" name="kilometer" value="<?php echo $vehicle['KILOMETER']; ?>"><br><br>
 
 Year <br>
-<input type="number" name="year" value="<?php echo $vehicle['YEAR']; ?>"><br><br>
+<input type="number" name="year" min="1900" max="<?php echo (date("Y") + 1); ?>"
+       value="<?php echo $vehicle['YEAR']; ?>"><br><br>
 
 Image <br>
 <input type="file" name="vehicle_image"><br><br>
