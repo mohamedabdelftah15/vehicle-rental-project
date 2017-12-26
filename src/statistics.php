@@ -1,6 +1,5 @@
 <?php
 include "common.php";
-include "connection.php";
 ?>
 
 <center>

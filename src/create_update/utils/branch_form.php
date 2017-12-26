@@ -30,4 +30,4 @@ Price <br>
 <input type="number" name="price" value="<?php echo $vehicle['PRICE']; ?>"><br><br>
 
 Is Available <br>
-<input type="checkbox" name="is_available" value="1" <?php echo($vehicle['IS_AVAILABLE'] == 1 ? "checked" : '') ?>><br>
+<input type="checkbox" name="is_available" value="1" <?php echo($vehicle['IS_AVAILABLE'] == 1 ? "checked" : '') ?>><br><br>

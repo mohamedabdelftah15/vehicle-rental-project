@@ -1,10 +1,9 @@
 <?php
-    include "../common.php";
-    include "../connection.php";
+include "../common.php";
 ?>
 
-<html>
-<body>
+    <html>
+    <body>
 
     <center>
         <div class="login-form-container">
@@ -20,8 +19,8 @@
         </div>
     </center>
 
-</body>
-</html>
+    </body>
+    </html>
 
 <?php
 
@@ -36,7 +35,7 @@ if (isset($_POST['submit'])) {
     oci_execute($get_user_sql);
 
     // Get the user
-    $user = oci_fetch_array($get_user_sql,OCI_ASSOC+OCI_RETURN_NULLS);
+    $user = oci_fetch_array($get_user_sql, OCI_ASSOC + OCI_RETURN_NULLS);
 
     // Password control
     if (!is_null($user) and password_verify($_POST['password'], $user['PASSWORD'])) {
@@ -47,11 +46,11 @@ if (isset($_POST['submit'])) {
         $_SESSION['user_type'] = $user['USER_TYPE'];
         $_SESSION['user_id'] = $user['ID'];
 
+        create_user_log('Logged in to the website.');
         // Redirect to home page
         header("Location: /index.php");
         exit();
-    }
-    else {
+    } else {
         echo "<center><p style='color: red'>Incorrect username password combination!</p></center>";
     }
 

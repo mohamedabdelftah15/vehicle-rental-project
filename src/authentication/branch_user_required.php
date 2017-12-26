@@ -1,5 +1,4 @@
 <?php
-include "../common.php";
 
 // Start the session
 session_start();

@@ -1,28 +1,27 @@
 <?php
-    include "../common.php";
-    include "../connection.php";
+include "../common.php";
 ?>
 
-<html>
-<body>
+    <html>
+    <body>
 
-<center>
-    <form action="user_register.php" method="post">
-        <br>
-        First Name <br><input type="text" name="first_name" required><br><br>
-        Last Name <br><input type="text" name="last_name" required><br><br>
-        Username <br><input type="text" name="username" required><br><br>
-        E-mail <br><input type="text" name="email"><br><br>
-        Phone Number <br><input type="tel" name="phone"><br><br>
-        Password <br><input type="password" name="password1" required><br><br>
-        Password (Again) <br><input type="password" name="password2" required><br><br>
+    <center>
+        <form action="user_register.php" method="post">
+            <br>
+            First Name <br><input type="text" name="first_name" required><br><br>
+            Last Name <br><input type="text" name="last_name" required><br><br>
+            Username <br><input type="text" name="username" required><br><br>
+            E-mail <br><input type="text" name="email"><br><br>
+            Phone Number <br><input type="tel" name="phone"><br><br>
+            Password <br><input type="password" name="password1" required><br><br>
+            Password (Again) <br><input type="password" name="password2" required><br><br>
 
-        <input type="submit" name="submit" value="Register!">
-    </form>
-</center>
+            <input type="submit" name="submit" value="Register!">
+        </form>
+    </center>
 
-</body>
-</html>
+    </body>
+    </html>
 
 <?php
 
@@ -52,8 +51,8 @@ if (isset($_POST['submit'])) {
         oci_execute($user_save_sql);
 
         echo "<center><p style='color: green'>You have successfully registered.</p></center>";
-    }
-    else {
+        create_user_log('Registered to the website. Welcome! :)');
+    } else {
         echo "<center><p style='color: red'>The passwords you entered are not equal!</p></center>";
     }
 }

@@ -93,3 +93,22 @@ table{
     width: 50%;
     padding: 5px 5px 5px 5px;
 }
+
+/* Homepage styles */
+.home-page-table, .home-page-table th, .home-page-table td {
+    border: 1px solid black;
+}
+
+.home-page-table {
+    width: 90%;
+    margin-bottom: 50px;
+    table-layout: fixed;
+}
+
+.home-page-table th, .home-page-table td {
+    padding: 5px 5px 5px 5px;
+}
+
+.home-page-table th {
+    text-align: center;
+}

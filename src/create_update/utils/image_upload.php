@@ -1,5 +1,5 @@
 <?php
-$target_file = "../images/" . $_FILES["vehicle_image"]["name"];
+$target_file = "images/" . $_FILES["vehicle_image"]["name"];
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 

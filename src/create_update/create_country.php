@@ -1,6 +1,5 @@
 <?php
 include "../common.php";
-include "../connection.php";
 include "../authentication/admin_user_required.php";
 
 # If an Id provided from the URL, update its values

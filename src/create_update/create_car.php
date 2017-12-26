@@ -1,6 +1,5 @@
 <?php
 include "../common.php";
-include "../connection.php";
 include "../authentication/branch_user_required.php";
 
 # If an Id provided from the URL, update its values
@@ -86,7 +85,7 @@ if (isset($_GET['id'])) {
             ?>
 
             <input style="display: none" type="text" name="id" value="<?php echo $vehicle['VEHICLE_ID']; ?>">
-            <input type="submit" name="submit">
+            <input type="submit" name="submit" value="Submit">
         </form>
     </center>
 

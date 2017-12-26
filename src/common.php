@@ -1,4 +1,5 @@
 <?php
+include __DIR__ . "/connection.php";
 
 # Disable error messages on server
 # error_reporting(0);
@@ -13,6 +14,31 @@ $VEHICLE_TYPE_CAR = 'CAR';
 $VEHICLE_TYPE_BUS = 'BUS';
 $VEHICLE_TYPE_TRUCK = 'TRUCK';
 $VEHICLE_TYPE_MOTORCYCLE = 'MOTORCYCLE';
+
+function create_user_log($description) {
+    global $connection;
+
+    # Check the session whether already started or not
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    # Check the ID of the current user
+    if (isset($_SESSION['user_id']) and !is_null($_SESSION['user_id']) and $_SESSION['user_id'] != '') {
+        $user_log_insert_sql = oci_parse($connection, '
+            BEGIN
+                INSERT_USER_LOG(:user_id, :description);
+                COMMIT;
+            END;'
+        );
+
+        oci_bind_by_name($user_log_insert_sql, ":user_id", $_SESSION['user_id']);
+        oci_bind_by_name($user_log_insert_sql, ":description", $description);
+
+        oci_execute($user_log_insert_sql);
+    }
+}
+
 ?>
 
 <head>
