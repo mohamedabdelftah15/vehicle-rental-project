@@ -27,7 +27,7 @@ include "../common.php";
 if (isset($_POST['submit'])) {
 
     $get_user_sql = oci_parse($connection,
-        'SELECT id, user_type, password FROM "USER" WHERE username = :username'
+        'SELECT * FROM "USER" WHERE username = :username'
     );
     oci_bind_by_name($get_user_sql, ":username", $_POST['username']);
 
@@ -45,6 +45,7 @@ if (isset($_POST['submit'])) {
         session_start();
         $_SESSION['user_type'] = $user['USER_TYPE'];
         $_SESSION['user_id'] = $user['ID'];
+        $_SESSION['username'] = $user['USERNAME'];
 
         create_user_log('Logged in to the website.');
         // Redirect to home page

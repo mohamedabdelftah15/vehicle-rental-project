@@ -1,5 +1,6 @@
 <?php
 include __DIR__ . "/connection.php";
+include __DIR__. "/navigation_bar.php";
 
 # Disable error messages on server
 # error_reporting(0);

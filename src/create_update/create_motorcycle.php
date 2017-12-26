@@ -8,8 +8,8 @@ if (isset($_GET['id'])) {
 
     # Fetch the VEHICLE
     $vehicle_query = oci_parse(
-            $connection,
-            "SELECT * FROM VEHICLE V LEFT JOIN BRANCH_RLTD_VEHICLE BV ON V.ID = BV.VEHICLE_ID WHERE V.ID = $id"
+        $connection,
+        "SELECT * FROM VEHICLE V LEFT JOIN BRANCH_RLTD_VEHICLE BV ON V.ID = BV.VEHICLE_ID WHERE V.ID = $id"
     );
     oci_execute($vehicle_query);
 
@@ -39,12 +39,18 @@ if (isset($_GET['id'])) {
             Motorcycle-Type <br>
             <select name="motorcycle_type" required>
                 <option value=''>-- PLEASE SELECT --</option>";
-                <option value='Cub'>Cub</option>";
-                <option value='Moped'>Moped</option>";
-                <option value='Scooter'>Scooter</option>";
-                <option value='Chopper'>Chopper</option>";
-                <option value='Cross'>Cross</option>";
-                <option value='Comutter'>Comutter</option>";
+                <option value='Moped'>Moped</option>;
+                <option value='Cub'>Cub</option>;
+                <option value='Commuter'>Commuter</option>;
+                <option value='Scooter'>Scooter</option>;
+                <option value='Touring'>Touring</option>;
+                <option value='Sport Touring'>Sport Touring</option>;
+                <option value='Chopper'>Chopper</option>;
+                <option value='Enduro'>Enduro</option>;
+                <option value='Super Sport'>Super Sport</option>;
+                <option value='Naked'>Naked</option>;
+                <option value='Cross'>Cross</option>;
+                <option value='Trial'>Trial</option>;
             </select><br><br>
 
             <?php

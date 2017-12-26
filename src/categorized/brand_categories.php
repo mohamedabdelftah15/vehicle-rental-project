@@ -13,8 +13,6 @@ if($_GET['Model']){
 }
 ?>
 
-<h3>VEHICLES</h3>
-
 <div class="left_menu">
 <?php
 
@@ -67,7 +65,7 @@ for($i = 0; $i < count($vehicle_type_list); $i++){
 <div class="vehicle_list">
 
     <?php
-        include "fetch_vehicle_list.php";
+        include "../vehicle_list.php";
     ?>
 
 </div>

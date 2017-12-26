@@ -15,9 +15,6 @@ if($_GET['Branch']){
 }
 ?>
 
-<h3>Şubeler</h3>
-
-
 <div class="left_menu">
     <?php
 
@@ -88,7 +85,7 @@ if($_GET['Branch']){
 <div class="vehicle_list">
 
     <?php
-    include "fetch_vehicle_list.php";
+    include "../vehicle_list.php";
     ?>
 
 </div>

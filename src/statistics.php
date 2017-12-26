@@ -21,7 +21,7 @@ include "common.php";
 
                 while ($row = oci_fetch_array($query, OCI_ASSOC + OCI_RETURN_NULLS)) {
                     $vehicle_id = $row['VEHICLE_ID'];
-                    echo "<a class='detail-link' href='filter/vehicle_detail.php?Id=$vehicle_id'>
+                    echo "<a class='detail-link' href='vehicle_detail.php?Id=$vehicle_id'>
                             Plate: ".$row['PLATE']." | Rent-Count: ".$row['RENT_COUNT']."
                           </a><br>";
                 }
@@ -38,7 +38,7 @@ include "common.php";
 
                 while ($row = oci_fetch_array($query, OCI_ASSOC + OCI_RETURN_NULLS)) {
                     $vehicle_id = $row['VEHICLE_ID'];
-                    echo "<a class='detail-link' href='filter/vehicle_detail.php?Id=$vehicle_id'>
+                    echo "<a class='detail-link' href='vehicle_detail.php?Id=$vehicle_id'>
                             Plate: ".$row['PLATE']." | Rent-Duration (days): ".$row['RENT_DURATION']."
                           </a><br>";
                 }
@@ -63,7 +63,7 @@ include "common.php";
 
                 while ($row = oci_fetch_array($query, OCI_ASSOC + OCI_RETURN_NULLS)) {
                     $vehicle_id = $row['ID'];
-                    echo "<a class='detail-link' href='filter/vehicle_detail.php?Id=$vehicle_id'>
+                    echo "<a class='detail-link' href='vehicle_detail.php?Id=$vehicle_id'>
                             Plate: ".$row['PLATE']." | Production Year: ".$row['YEAR']."
                           </a><br>";
                 }
@@ -80,7 +80,7 @@ include "common.php";
 
                 while ($row = oci_fetch_array($query, OCI_ASSOC + OCI_RETURN_NULLS)) {
                     $vehicle_id = $row['ID'];
-                    echo "<a class='detail-link' href='filter/vehicle_detail.php?Id=$vehicle_id'>
+                    echo "<a class='detail-link' href='vehicle_detail.php?Id=$vehicle_id'>
                             Plate: ".$row['PLATE']." | Mileage (km): ".$row['KILOMETER']."
                           </a><br>";
                 }
@@ -105,7 +105,7 @@ include "common.php";
 
                 while ($row = oci_fetch_array($query, OCI_ASSOC + OCI_RETURN_NULLS)) {
                     $vehicle_id = $row['VEHICLE_ID'];
-                    echo "<a class='detail-link' href='filter/vehicle_detail.php?Id=$vehicle_id'>
+                    echo "<a class='detail-link' href='vehicle_detail.php?Id=$vehicle_id'>
                             Plate: ".$row['PLATE']." | Price: ".$row['PRICE']."
                           </a><br>";
                 }
@@ -121,7 +121,7 @@ include "common.php";
 
                 while ($row = oci_fetch_array($query, OCI_ASSOC + OCI_RETURN_NULLS)) {
                     $vehicle_id = $row['VEHICLE_ID'];
-                    echo "<a class='detail-link' href='filter/vehicle_detail.php?Id=$vehicle_id'>
+                    echo "<a class='detail-link' href='vehicle_detail.php?Id=$vehicle_id'>
                             Plate: ".$row['PLATE']." | Price: ".$row['PRICE']."
                           </a><br>";
                 }

@@ -1,6 +1,6 @@
 <?php
-include "../common.php";
-include "../connection.php";
+include "common.php";
+include "connection.php";
 
 $vehicle_id = $_GET["Id"];
 ?>
@@ -8,10 +8,10 @@ $vehicle_id = $_GET["Id"];
 <?php
 
 $vehicle_query = oci_parse($connection, "SELECT v.*, bv.PRICE, bh.NAME as BRANCH_NAME, m.NAME as MODEL_NAME, 
-m.VEHICLE_TYPE, e.VOLUME, e.POWER, ft.NAME as FUEL_TYPE_NAME, g.TYPE as GEAR_TYPE, bd.NAME as BRAND_NAME
-FROM VEHICLE v, BRANCH_RLTD_VEHICLE bv, BRANCH bh, MODEL m, BRAND bd, ENGINE e, FUEL_TYPE ft, GEAR g  
+m.VEHICLE_TYPE, e.VOLUME, e.POWER, m.FUEL_TYPE, g.TYPE as GEAR_TYPE, bd.NAME as BRAND_NAME
+FROM VEHICLE v, BRANCH_RLTD_VEHICLE bv, BRANCH bh, MODEL m, BRAND bd, ENGINE e, GEAR g  
 WHERE v.ID = $vehicle_id AND bv.VEHICLE_ID = v.ID AND bv.BRANCH_ID = bh.ID AND v.MODEL_ID = m.ID AND bd.ID = m.BRAND_ID
-AND m.ENGINE_ID = e.ID AND m.FUEL_TYPE_ID = ft.ID AND m.GEAR_ID = g.ID");
+AND m.ENGINE_ID = e.ID AND m.GEAR_ID = g.ID");
 
 oci_execute($vehicle_query);
 $vehicle = oci_fetch_array($vehicle_query,OCI_ASSOC+OCI_RETURN_NULLS);
@@ -19,15 +19,9 @@ $vehicle = oci_fetch_array($vehicle_query,OCI_ASSOC+OCI_RETURN_NULLS);
 $vehicle_type = $vehicle['VEHICLE_TYPE'];
 
 if($vehicle_type == "CAR"){
-    $vehicle_sub_query = oci_parse($connection, "SELECT vt.*, s.NAME as SEGMENT, ft.NAME as FRAME_TYPE, ft.DOOR_COUNT,
-    e.PACKAGE_NAME as EQUIPMENT_PACKAGE 
-    FROM $vehicle_type vt, SEGMENT s, FRAME_TYPE ft, EQUIPMENT_PACKAGE e
-    WHERE vt.VEHICLE_ID = $vehicle_id AND vt.SEGMENT_ID = s.ID AND vt.FRAME_TYPE_ID = ft.ID AND vt.EQUIPMENT_PACKAGE_ID = e.ID");
-}
-else if($vehicle_type == "MOTORCYCLE"){
-    $vehicle_sub_query = oci_parse($connection, "SELECT vt.*,mt.NAME as MOTORCYCLE_TYPE 
-    FROM $vehicle_type vt, MOTORCYCLE_TYPE mt
-    WHERE vt.VEHICLE_ID = $vehicle_id AND vt.MOTORCYCLE_TYPE_ID = mt.ID");
+    $vehicle_sub_query = oci_parse($connection, "SELECT vt.*, ft.NAME as FRAME_TYPE, ft.DOOR_COUNT, e.PACKAGE_NAME as EQUIPMENT_PACKAGE 
+    FROM $vehicle_type vt, FRAME_TYPE ft, EQUIPMENT_PACKAGE e
+    WHERE vt.VEHICLE_ID = $vehicle_id AND vt.FRAME_TYPE_ID = ft.ID AND vt.EQUIPMENT_PACKAGE_ID = e.ID");
 }
 else{
     $vehicle_sub_query = oci_parse($connection, "SELECT vt.* FROM $vehicle_type vt
@@ -44,7 +38,7 @@ $vehicle_sub = oci_fetch_array($vehicle_sub_query,OCI_ASSOC+OCI_RETURN_NULLS);
         <tr>
             <td rowspan="11"><img src="<?php echo $vehicle['IMAGE_PATH']; ?>" style="width: 700px; height: 400px;"></td>
             <th>Branch Info:</th>
-            <td><?php echo $vehicle['BRANCH_NAME']; ?></td>
+            <td colspan="3"><?php echo $vehicle['BRANCH_NAME']; ?></td>
         </tr>
         <tr>
             <th>Brand:</th>
@@ -90,7 +84,7 @@ $vehicle_sub = oci_fetch_array($vehicle_sub_query,OCI_ASSOC+OCI_RETURN_NULLS);
         </tr>
         <tr>
             <th>Fuel:</th>
-            <td><?php echo $vehicle['FUEL_TYPE_NAME']; ?></td>
+            <td><?php echo $vehicle['FUEL_TYPE']; ?></td>
             <td></td>
             <th>Trailer Type:</th>
             <td><?php if($vehicle_type == "TRUCK"){echo $vehicle_sub['TRAILER_TYPE'];}else echo "-"; ?></td>
@@ -103,13 +97,13 @@ $vehicle_sub = oci_fetch_array($vehicle_sub_query,OCI_ASSOC+OCI_RETURN_NULLS);
             <td><?php if($vehicle_type == "MOTORCYCLE"){echo $vehicle_sub['MOTORCYCLE_TYPE'];}else echo "-"; ?></td>
         </tr>
         <tr>
-            <th>Amount:</th>
+            <th>Amount(1 day):</th>
             <td><?php echo $vehicle['PRICE']; echo " TL";?></td>
 
         </tr>
         <tr>
             <td></td>
-            <td><input type="button" value="Kirala" /></td>
+            <td><input type="button" value="Rent" /></td>
         </tr>
 
     </table>
