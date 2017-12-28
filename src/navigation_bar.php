@@ -1,39 +1,45 @@
 <?php
     session_start();
     $username = $_SESSION['username'];
-
-    function getPageName(){
-        return basename($_SERVER['PHP_SELF']);
-    }
 ?>
 
 <div class="navbar">
-    <a class="<?php if(getPageName() == 'index.php'){ echo 'active';}?>" href="../index.php">Home</a>
+    <a class="<?php if(getPageName() == 'index.php'){ echo 'active';}?>" href="/index.php">Home</a>
+
     <div class="dropdown">
-        <button class="dropbtn1" onclick="drop1func()" style="background-color: <?php if(getPageName() == 'brand_categories.php' || getPageName() == 'branch_categories.php'){ echo '#4CAF50';}?>">Categories
+        <button class="dropbtn1" onclick="drop1func()" style="background-color: <?php if(getPageName() == 'brand_categories.php' || getPageName() == 'branch_categories.php'){ echo '#ff6600';}?>">Categories
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content" id="categories">
-            <a class="<?php if(getPageName() == 'brand_categories.php'){ echo 'active';}?>"href="../categorized/brand_categories.php">Brands</a>
-            <a class="<?php if(getPageName() == 'branch_categories.php'){ echo 'active';}?>"href="../categorized/branch_categories.php">Branchs</a>
+            <a class="<?php if(getPageName() == 'brand_categories.php'){ echo 'active';}?>"href="/categorized/brand_categories.php">Brands</a>
+            <a class="<?php if(getPageName() == 'branch_categories.php'){ echo 'active';}?>"href="/categorized/branch_categories.php">Branchs</a>
         </div>
     </div>
+
     <div class="dropdown">
         <button class="dropbtn2" onclick="drop2func()"
                 style="background-color: <?php if(getPageName() == 'car_filter.php' || getPageName() == 'bus_filter.php'
-                || getPageName() == 'motorcycle_filter.php' || getPageName() == 'truck_filter.php') { echo '#4CAF50';}?>">Filtrations
+                || getPageName() == 'motorcycle_filter.php' || getPageName() == 'truck_filter.php') { echo '#ff6600';}?>">Filtrations
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content" id="filters">
-            <a class="<?php if(getPageName() == 'car_filter.php'){ echo 'active';}?>"href="../filtration/car_filter.php">Car Filtration</a>
-            <a class="<?php if(getPageName() == 'bus_filter.php'){ echo 'active';}?>"href="../filtration/bus_filter.php">Bus Filtration</a>
-            <a class="<?php if(getPageName() == 'motorcycle_filter.php'){ echo 'active';}?>"href="../filtration/motorcycle_filter.php">Motorcycle Filtration</a>
-            <a class="<?php if(getPageName() == 'truck_filter.php'){ echo 'active';}?>"href="../filtration/truck_filter.php">Truck Filtration</a>
+            <a class="<?php if(getPageName() == 'car_filter.php'){ echo 'active';}?>"href="/filtration/car_filter.php">Car Filtration</a>
+            <a class="<?php if(getPageName() == 'bus_filter.php'){ echo 'active';}?>"href="/filtration/bus_filter.php">Bus Filtration</a>
+            <a class="<?php if(getPageName() == 'motorcycle_filter.php'){ echo 'active';}?>"href="/filtration/motorcycle_filter.php">Motorcycle Filtration</a>
+            <a class="<?php if(getPageName() == 'truck_filter.php'){ echo 'active';}?>"href="/filtration/truck_filter.php">Truck Filtration</a>
         </div>
     </div>
+
+    <a class="<?php if(getPageName() == 'statistics.php'){ echo 'active';}?>" href="/statistics.php">Statistics</a>
+
+
+    <!-- Right side -->
     <div style="float: right; padding-top: 13px; padding-right: 20px;">
         <font style="color: white"><?php echo "<div id='circle' style='float: left'></div> &nbsp; $username"; ?></font>
+
+        <span style="color: white;">&nbsp; | <a class="logout-link" style="padding-top: 0; float: right" href="/authentication/logout.php">Logout</a></span>
     </div>
+
 </div>
 
 <div style="height: 30px;">

@@ -1,6 +1,9 @@
 <?php
 include __DIR__ . "/connection.php";
-include __DIR__. "/navigation_bar.php";
+
+if (getPageName() != 'login.php' and getPageName() != 'user_register.php') {
+    include __DIR__ . "/navigation_bar.php";
+}
 
 # Disable error messages on server
 # error_reporting(0);
@@ -16,6 +19,7 @@ $VEHICLE_TYPE_BUS = 'BUS';
 $VEHICLE_TYPE_TRUCK = 'TRUCK';
 $VEHICLE_TYPE_MOTORCYCLE = 'MOTORCYCLE';
 
+# Inserts a log entry for the current user into database
 function create_user_log($description) {
     global $connection;
 
@@ -40,6 +44,10 @@ function create_user_log($description) {
     }
 }
 
+# Returns the name of the page
+function getPageName(){
+    return basename($_SERVER['PHP_SELF']);
+}
 ?>
 
 <head>

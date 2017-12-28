@@ -4,8 +4,9 @@ include "../common.php";
 
     <html>
     <body>
-
     <center>
+        <h1>Login</h1> <br> <br>
+
         <div class="login-form-container">
             <form class="login-form" action="login.php" method="post">
                 <label>Username</label><br>
@@ -15,6 +16,12 @@ include "../common.php";
                 <input type="password" name="password" required><br><br>
 
                 <input type="submit" name="submit" value="Login">
+            </form>
+
+            <br>
+
+            <form class="login-register-button" action="user_register.php" method="post">
+                <input type="submit" style="color: #ff6600" value="Register">
             </form>
         </div>
     </center>

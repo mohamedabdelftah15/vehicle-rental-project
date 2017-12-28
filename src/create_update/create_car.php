@@ -44,9 +44,9 @@ if (isset($_GET['id'])) {
 
                 while ($row = oci_fetch_array($frame_type_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
                     if ($row['ID'] == $car['FRAME_TYPE_ID']) {
-                        echo "<option selected='selected' value='".$row['ID']."'>"."Name: ".$row['NAME']." Doors: ".$row['DOOR_COUNT']."</option>";
+                        echo "<option selected='selected' value='".$row['ID']."'>"."Name: ".$row['NAME']." | Doors: ".$row['DOOR_COUNT']."</option>";
                     } else {
-                        echo "<option value='".$row['ID']."'>"."Name: ".$row['NAME']." Doors: ".$row['DOOR_COUNT']."</option>";
+                        echo "<option value='".$row['ID']."'>"."Name: ".$row['NAME']." | Doors: ".$row['DOOR_COUNT']."</option>";
                     }
                 }
                 ?>

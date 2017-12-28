@@ -60,7 +60,7 @@ while ($row = oci_fetch_array($vehicle_query,OCI_ASSOC+OCI_RETURN_NULLS)) {
     $image_path = $row['IMAGE_PATH'];
     $vehicle_photo = "../$image_path";
 
-    echo "<img src='$vehicle_photo' style='width: 70px; height: 50px;'>";
+    echo "<img src='$vehicle_photo' style='width: 10%; height: 8%;'>";
     echo "<a href='../vehicle_detail.php?Id=$vehicle_id'>&emsp;&emsp;Plate: ".$row['PLATE']." | Kilometer:".$row['KILOMETER']."km. | Model Year:".$row['YEAR']." | Amount:".$row['PRICE']."TL</a><br><br>";
 }
 

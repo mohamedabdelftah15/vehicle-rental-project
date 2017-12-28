@@ -11,6 +11,10 @@ body {
     overflow: hidden;
 }
 
+.logout-link:hover {
+    color: #ff6600;
+}
+
 /* Update pages */
 .update-header-container {
     width: 100%;
@@ -52,17 +56,26 @@ body {
 }
 
 .left_menu {
-    width: 250px;
-    height: 500px;
-    overflow: scroll;
     position: absolute;
+    overflow: auto;
+
+    width: 20%;
+    height: 88%;
+
+    border-right: double black;
 }
+
 .vehicle_list{
     position: absolute;
-    width:1000px;
-    height: 500px;
-    left: 300px;
-    overflow: scroll;
+    overflow: auto;
+    width: 76%;
+    height: 88%;
+    left: 22%;
+}
+
+.vehicle_list a {
+    position: absolute;
+    padding-top: 2%;
 }
 
 a:link {
@@ -160,10 +173,11 @@ td{
 
 .navbar a:hover, .dropdown:hover .dropbtn1, .dropbtn2 {
     background-color: #333;
+    font-weight: normal;
 }
 
 .navbar a.active {
-    background-color: #4CAF50;
+    background-color: #ff6600;
     color: white;
 }
 
@@ -200,4 +214,9 @@ td{
     -moz-border-radius: 9px;
     border-radius: 9px;
     background: #4CAF50;
+}
+
+input,select,.register-button {
+    width: 214px;
+    height: 25px;
 }
