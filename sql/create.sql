@@ -130,7 +130,7 @@ CREATE TABLE HIRE
   HIRE_TYPE              VARCHAR(25),
   PAYMENT_TYPE           VARCHAR(25) NOT NULL,
   START_DATE             DATE        NOT NULL,
-  DUE_DATE               DATE,
+  DUE_DATE               DATE        NOT NULL,
   CONSTRAINT HIRE__PK PRIMARY KEY (BRANCH_RLTD_VEHICLE_ID, USER_ID, START_DATE)
 );
 /
@@ -190,6 +190,15 @@ CREATE TABLE BRANCH_RLTD_USER
   BRANCH_ID NUMBER NOT NULL CONSTRAINT BRANCH_RLTD_USER_BRANCH_ID_FK REFERENCES BRANCH ON DELETE CASCADE,
   USER_ID   NUMBER NOT NULL CONSTRAINT BRANCH_RLTD_USER_USER_ID_FK REFERENCES "USER" ON DELETE CASCADE,
   CONSTRAINT B_RLTD_U_BRNC_ID_USER_ID_PK PRIMARY KEY (BRANCH_ID, USER_ID)
+);
+/
+
+CREATE TABLE USER_LOG
+(
+  ID          NUMBER               NOT NULL PRIMARY KEY,
+  USER_ID     NUMBER               NOT NULL CONSTRAINT USER_LOG_USER_ID_FK REFERENCES "USER" ON DELETE CASCADE,
+  DESCRIPTION VARCHAR(250),
+  LOG_DATE    DATE DEFAULT SYSDATE NOT NULL
 );
 /
 
@@ -401,6 +410,23 @@ CREATE OR REPLACE TRIGGER VEHICLE_ID_TRG
     FROM dual;
   END;
 /
+
+
+CREATE SEQUENCE USER_LOG_ID_SEQ;
+/
+
+CREATE OR REPLACE TRIGGER USER_LOG_ID_TRG
+  BEFORE INSERT
+  ON USER_LOG
+  FOR EACH ROW
+
+  BEGIN
+    SELECT USER_LOG_ID_SEQ.nextval
+    INTO :new.ID
+    FROM dual;
+  END;
+/
+
 
 
 /* STORED PROCEDURES */
@@ -1090,10 +1116,10 @@ IS
 
 /* TRUCK */
 CREATE OR REPLACE PROCEDURE INSERT_TRUCK(
-  p_vehicle_id    IN TRUCK.VEHICLE_ID%TYPE,
-  p_bale_capacity IN TRUCK.BALE_CAPACITY%TYPE,
-  p_trailer_volume  IN TRUCK.TRAILER_VOLUME%TYPE,
-  p_trailer_type  IN TRUCK.TRAILER_TYPE%TYPE)
+  p_vehicle_id     IN TRUCK.VEHICLE_ID%TYPE,
+  p_bale_capacity  IN TRUCK.BALE_CAPACITY%TYPE,
+  p_trailer_volume IN TRUCK.TRAILER_VOLUME%TYPE,
+  p_trailer_type   IN TRUCK.TRAILER_TYPE%TYPE)
 IS
   BEGIN
 
@@ -1104,10 +1130,10 @@ IS
 /
 
 CREATE OR REPLACE PROCEDURE UPDATE_TRUCK(
-  p_vehicle_id    IN TRUCK.VEHICLE_ID%TYPE,
-  p_bale_capacity IN TRUCK.BALE_CAPACITY%TYPE,
-  p_trailer_volume  IN TRUCK.TRAILER_VOLUME%TYPE,
-  p_trailer_type  IN TRUCK.TRAILER_TYPE%TYPE)
+  p_vehicle_id     IN TRUCK.VEHICLE_ID%TYPE,
+  p_bale_capacity  IN TRUCK.BALE_CAPACITY%TYPE,
+  p_trailer_volume IN TRUCK.TRAILER_VOLUME%TYPE,
+  p_trailer_type   IN TRUCK.TRAILER_TYPE%TYPE)
 IS
   BEGIN
 
@@ -1220,5 +1246,138 @@ IS
     DELETE FROM VEHICLE
     WHERE ID = p_id;
 
+  END;
+/
+
+
+/* USER_LOG */
+CREATE OR REPLACE PROCEDURE INSERT_USER_LOG(
+  p_user_id     IN USER_LOG.USER_ID%TYPE,
+  p_description IN USER_LOG.DESCRIPTION%TYPE)
+IS
+  BEGIN
+    INSERT INTO USER_LOG ("USER_ID", "DESCRIPTION") VALUES (p_user_id, p_description);
+  END;
+/
+
+CREATE OR REPLACE PROCEDURE UPDATE_USER_LOG(
+  p_id          IN USER_LOG.ID%TYPE,
+  p_user_id     IN USER_LOG.USER_ID%TYPE,
+  p_description IN USER_LOG.DESCRIPTION%TYPE)
+IS
+  BEGIN
+
+    UPDATE USER_LOG
+    SET USER_ID = p_user_id, DESCRIPTION = p_description
+    WHERE ID = p_id;
+
+  END;
+/
+
+CREATE OR REPLACE PROCEDURE DELETE_VEHICLE(p_id IN USER_LOG.ID%TYPE)
+IS
+  BEGIN
+
+    DELETE FROM USER_LOG
+    WHERE ID = p_id;
+
+  END;
+/
+
+
+/* Procedure for vehicle hiring works as a transaction */
+CREATE OR REPLACE PROCEDURE RENT_VEHICLE(
+  p_user_id      IN  B21327694."USER".ID%TYPE,
+  p_vehicle_id   IN  VEHICLE.ID%TYPE,
+  p_hire_type    IN  HIRE.HIRE_TYPE%TYPE,
+  p_payment_type IN  HIRE.PAYMENT_TYPE%TYPE,
+  p_start_date   IN  HIRE.START_DATE%TYPE,
+  p_due_date     IN  HIRE.DUE_DATE%TYPE,
+  r_message      OUT VARCHAR)
+IS
+    wrong_date EXCEPTION;
+    vehicle_unavailable EXCEPTION;
+  is_vehicle_available   NUMBER;
+  branch_rltd_vehicle_id NUMBER;
+  BEGIN
+    /* Check date correctness */
+    IF (p_start_date >= p_due_date)
+    THEN
+      RAISE wrong_date;
+    END IF;
+
+    /* Fetch vehicle availability data */
+    SELECT
+      ID,
+      IS_AVAILABLE
+    INTO branch_rltd_vehicle_id, is_vehicle_available
+    FROM BRANCH_RLTD_VEHICLE
+    WHERE VEHICLE_ID = p_vehicle_id;
+
+    /* Check vehicle availability */
+    IF (is_vehicle_available = 0)
+    THEN
+      RAISE vehicle_unavailable;
+    END IF;
+
+    /* Fetch the overlapping hire if there is */
+    SELECT COUNT(*)
+    INTO is_vehicle_available
+    FROM HIRE H
+      JOIN BRANCH_RLTD_VEHICLE BV ON H.BRANCH_RLTD_VEHICLE_ID = BV.ID
+    WHERE
+      BV.VEHICLE_ID = p_vehicle_id AND START_DATE <= p_due_date AND DUE_DATE >= p_start_date;
+
+    /* Check overlapping hire if there is */
+    IF (is_vehicle_available > 0)
+    THEN
+      RAISE vehicle_unavailable;
+    END IF;
+
+    /* Everything is okay, hire the vehicle */
+    INSERT_HIRE(branch_rltd_vehicle_id, p_user_id, p_hire_type, p_payment_type, p_start_date, p_due_date);
+
+    COMMIT;
+
+    EXCEPTION
+    WHEN wrong_date THEN
+    r_message := 'Incorrect dates were given!';
+    ROLLBACK;
+    WHEN vehicle_unavailable THEN
+    r_message := 'The vehicle is unavailable in the time interval!';
+    ROLLBACK;
+  END;
+/
+
+
+/* USER_LOG 10 records control */
+CREATE OR REPLACE TRIGGER USER_LOG_TEN_RECORD_TRG
+  AFTER INSERT
+  ON USER_LOG
+
+  DECLARE
+    log_count NUMBER;
+  BEGIN
+    /* Fetch current log count */
+    SELECT COUNT(*)
+    INTO log_count
+    FROM USER_LOG;
+
+    /* Check log_count whether exceed 10 or not */
+    IF (log_count > 10)
+    THEN
+      /* Remove the oldest entry */
+      DELETE FROM USER_LOG
+      WHERE ID IN (
+        SELECT ID
+        FROM
+          (
+            SELECT ID
+            FROM USER_LOG
+            ORDER BY LOG_DATE ASC
+          )
+        WHERE ROWNUM <= 1
+      );
+    END IF;
   END;
 /
