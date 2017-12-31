@@ -127,7 +127,6 @@ CREATE TABLE HIRE
 (
   BRANCH_RLTD_VEHICLE_ID NUMBER      NOT NULL CONSTRAINT HIRE_BRANCH_RLTD_VEHICLE_ID_FK REFERENCES BRANCH_RLTD_VEHICLE ON DELETE CASCADE,
   USER_ID                NUMBER      NOT NULL CONSTRAINT HIRE_USER_ID_FK REFERENCES "USER" ON DELETE CASCADE,
-  HIRE_TYPE              VARCHAR(25),
   PAYMENT_TYPE           VARCHAR(25) NOT NULL,
   START_DATE             DATE        NOT NULL,
   DUE_DATE               DATE        NOT NULL,
@@ -987,15 +986,14 @@ IS
 CREATE OR REPLACE PROCEDURE INSERT_HIRE(
   p_branch_rltd_vehicle_id IN HIRE.BRANCH_RLTD_VEHICLE_ID%TYPE,
   p_user_id                IN HIRE.USER_ID%TYPE,
-  p_hire_type              IN HIRE.HIRE_TYPE%TYPE,
   p_payment_type           IN HIRE.PAYMENT_TYPE%TYPE,
   p_start_date             IN HIRE.START_DATE%TYPE,
   p_due_date               IN HIRE.DUE_DATE%TYPE)
 IS
   BEGIN
 
-    INSERT INTO HIRE ("BRANCH_RLTD_VEHICLE_ID", "USER_ID", "HIRE_TYPE", "PAYMENT_TYPE", "START_DATE", "DUE_DATE")
-    VALUES (p_branch_rltd_vehicle_id, p_user_id, p_hire_type, p_payment_type, p_start_date, p_due_date);
+    INSERT INTO HIRE ("BRANCH_RLTD_VEHICLE_ID", "USER_ID", "PAYMENT_TYPE", "START_DATE", "DUE_DATE")
+    VALUES (p_branch_rltd_vehicle_id, p_user_id, p_payment_type, p_start_date, p_due_date);
 
   END;
 /
@@ -1003,7 +1001,6 @@ IS
 CREATE OR REPLACE PROCEDURE UPDATE_HIRE(
   p_branch_rltd_vehicle_id IN HIRE.BRANCH_RLTD_VEHICLE_ID%TYPE,
   p_user_id                IN HIRE.USER_ID%TYPE,
-  p_hire_type              IN HIRE.HIRE_TYPE%TYPE,
   p_payment_type           IN HIRE.PAYMENT_TYPE%TYPE,
   p_start_date             IN HIRE.START_DATE%TYPE,
   p_due_date               IN HIRE.DUE_DATE%TYPE)
@@ -1011,7 +1008,7 @@ IS
   BEGIN
 
     UPDATE HIRE
-    SET HIRE_TYPE = p_hire_type, PAYMENT_TYPE = p_payment_type, DUE_DATE = p_due_date
+    SET PAYMENT_TYPE = p_payment_type, DUE_DATE = p_due_date
     WHERE BRANCH_RLTD_VEHICLE_ID = p_branch_rltd_vehicle_id AND USER_ID = p_user_id AND START_DATE = p_start_date;
 
   END;
@@ -1274,78 +1271,13 @@ IS
   END;
 /
 
-CREATE OR REPLACE PROCEDURE DELETE_VEHICLE(p_id IN USER_LOG.ID%TYPE)
+CREATE OR REPLACE PROCEDURE DELETE_USER_LOG(p_id IN USER_LOG.ID%TYPE)
 IS
   BEGIN
 
     DELETE FROM USER_LOG
     WHERE ID = p_id;
 
-  END;
-/
-
-
-/* Procedure for vehicle hiring works as a transaction */
-CREATE OR REPLACE PROCEDURE RENT_VEHICLE(
-  p_user_id      IN  B21327694."USER".ID%TYPE,
-  p_vehicle_id   IN  VEHICLE.ID%TYPE,
-  p_hire_type    IN  HIRE.HIRE_TYPE%TYPE,
-  p_payment_type IN  HIRE.PAYMENT_TYPE%TYPE,
-  p_start_date   IN  HIRE.START_DATE%TYPE,
-  p_due_date     IN  HIRE.DUE_DATE%TYPE,
-  r_message      OUT VARCHAR)
-IS
-    wrong_date EXCEPTION;
-    vehicle_unavailable EXCEPTION;
-  is_vehicle_available   NUMBER;
-  branch_rltd_vehicle_id NUMBER;
-  BEGIN
-    /* Check date correctness */
-    IF (p_start_date >= p_due_date)
-    THEN
-      RAISE wrong_date;
-    END IF;
-
-    /* Fetch vehicle availability data */
-    SELECT
-      ID,
-      IS_AVAILABLE
-    INTO branch_rltd_vehicle_id, is_vehicle_available
-    FROM BRANCH_RLTD_VEHICLE
-    WHERE VEHICLE_ID = p_vehicle_id;
-
-    /* Check vehicle availability */
-    IF (is_vehicle_available = 0)
-    THEN
-      RAISE vehicle_unavailable;
-    END IF;
-
-    /* Fetch the overlapping hire if there is */
-    SELECT COUNT(*)
-    INTO is_vehicle_available
-    FROM HIRE H
-      JOIN BRANCH_RLTD_VEHICLE BV ON H.BRANCH_RLTD_VEHICLE_ID = BV.ID
-    WHERE
-      BV.VEHICLE_ID = p_vehicle_id AND START_DATE <= p_due_date AND DUE_DATE >= p_start_date;
-
-    /* Check overlapping hire if there is */
-    IF (is_vehicle_available > 0)
-    THEN
-      RAISE vehicle_unavailable;
-    END IF;
-
-    /* Everything is okay, hire the vehicle */
-    INSERT_HIRE(branch_rltd_vehicle_id, p_user_id, p_hire_type, p_payment_type, p_start_date, p_due_date);
-
-    COMMIT;
-
-    EXCEPTION
-    WHEN wrong_date THEN
-    r_message := 'Incorrect dates were given!';
-    ROLLBACK;
-    WHEN vehicle_unavailable THEN
-    r_message := 'The vehicle is unavailable in the time interval!';
-    ROLLBACK;
   END;
 /
 
@@ -1379,5 +1311,79 @@ CREATE OR REPLACE TRIGGER USER_LOG_TEN_RECORD_TRG
         WHERE ROWNUM <= 1
       );
     END IF;
+  END;
+/
+
+
+/* Procedure for vehicle hiring works as a transaction */
+CREATE OR REPLACE PROCEDURE RENT_VEHICLE(
+  p_user_id      IN  B21327694."USER".ID%TYPE,
+  p_vehicle_id   IN  VEHICLE.ID%TYPE,
+  p_payment_type IN  HIRE.PAYMENT_TYPE%TYPE,
+  p_start_date   IN  HIRE.START_DATE%TYPE,
+  p_due_date     IN  HIRE.DUE_DATE%TYPE,
+  r_message      OUT VARCHAR)
+IS
+    wrong_date EXCEPTION;
+    vehicle_unavailable EXCEPTION;
+  is_vehicle_available   NUMBER;
+  branch_rltd_vehicle_id NUMBER;
+  BEGIN
+    SET TRANSACTION READ WRITE NAME 'RENT_VEHICLE';
+
+    /* Check date correctness */
+    IF (p_start_date < SYSDATE OR p_start_date >= p_due_date)
+    THEN
+      RAISE wrong_date;
+    END IF;
+
+    /* Fetch vehicle availability data */
+    SELECT
+      ID,
+      IS_AVAILABLE
+    INTO branch_rltd_vehicle_id, is_vehicle_available
+    FROM BRANCH_RLTD_VEHICLE
+    WHERE VEHICLE_ID = p_vehicle_id;
+
+    /* Check vehicle availability */
+    IF (is_vehicle_available = 0)
+    THEN
+      RAISE vehicle_unavailable;
+    END IF;
+
+    /* Fetch the overlapping hire if there is */
+    SELECT COUNT(*)
+    INTO is_vehicle_available
+    FROM HIRE H
+      JOIN BRANCH_RLTD_VEHICLE BV ON H.BRANCH_RLTD_VEHICLE_ID = BV.ID
+    WHERE
+      BV.VEHICLE_ID = p_vehicle_id AND START_DATE <= p_due_date AND DUE_DATE >= p_start_date;
+
+    /* Check overlapping hire if there is */
+    IF (is_vehicle_available > 0)
+    THEN
+      RAISE vehicle_unavailable;
+    END IF;
+
+    /* Everything is okay, hire the vehicle */
+    INSERT_HIRE(branch_rltd_vehicle_id, p_user_id, p_payment_type, p_start_date, p_due_date);
+
+    /* Create a log entry */
+    INSERT_USER_LOG(p_user_id, 'Rented a vehicle');
+
+    COMMIT;
+
+    r_message := 'You have successfully rented the vehicle!';
+
+    EXCEPTION
+    WHEN wrong_date THEN
+    r_message := 'Incorrect dates were given!';
+    ROLLBACK;
+    WHEN vehicle_unavailable THEN
+    r_message := 'The vehicle is unavailable in the time interval!';
+    ROLLBACK;
+    WHEN OTHERS THEN
+    r_message := 'Something went wrong!';
+    ROLLBACK;
   END;
 /
