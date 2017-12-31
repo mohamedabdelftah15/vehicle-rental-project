@@ -3,17 +3,17 @@
 if($model){
     $vehicle_query = oci_parse($connection, "SELECT v.*, bv.PRICE
                 FROM VEHICLE v, MODEL m, BRANCH_RLTD_VEHICLE bv
-                WHERE v.MODEL_ID = m.ID AND m.NAME = '$model' AND m.VEHICLE_TYPE = '$type' AND bv.VEHICLE_ID = v.ID AND bv.IS_AVAILABLE = 1");
+                WHERE v.MODEL_ID = m.ID AND m.NAME = '$model' AND m.VEHICLE_TYPE = '$type' AND bv.VEHICLE_ID = v.ID");
 }
 else if($branch){
     $vehicle_query = oci_parse($connection, "SELECT v.*, bv.PRICE
                 FROM VEHICLE v, BRANCH_RLTD_VEHICLE bv
-                WHERE v.ID = bv.VEHICLE_ID AND bv.BRANCH_ID = $branch AND bv.IS_AVAILABLE = 1");
+                WHERE v.ID = bv.VEHICLE_ID AND bv.BRANCH_ID = $branch");
 }
 else if($car_filter){
     $vehicle_query = oci_parse($connection, "SELECT v.*, bv.PRICE
                 FROM VEHICLE v, CAR car, MODEL m, BRANCH_RLTD_VEHICLE bv
-                WHERE v.ID = bv.VEHICLE_ID AND v.ID = car.VEHICLE_ID AND v.MODEL_ID = m.ID AND bv.IS_AVAILABLE = 1 
+                WHERE v.ID = bv.VEHICLE_ID AND v.ID = car.VEHICLE_ID AND v.MODEL_ID = m.ID 
                 AND bv.PRICE <= $max_amount AND bv.PRICE >= $min_amount AND v.YEAR <= $max_year AND v.YEAR >= $min_year AND 
                 v.KILOMETER <= $max_km AND v.KILOMETER >= $min_km AND m.FUEL_TYPE LIKE '$fuel_type' AND car.SEGMENT LIKE '$segment' AND 
                 $frame_type_condition AND $equipment_package_condition AND $gear_condition
@@ -22,7 +22,7 @@ else if($car_filter){
 else if($bus_filter){
     $vehicle_query = oci_parse($connection, "SELECT v.*, bv.PRICE
                 FROM VEHICLE v, BUS bus, MODEL m, BRANCH_RLTD_VEHICLE bv
-                WHERE v.ID = bv.VEHICLE_ID AND v.ID = bus.VEHICLE_ID AND v.MODEL_ID = m.ID AND bv.IS_AVAILABLE = 1 
+                WHERE v.ID = bv.VEHICLE_ID AND v.ID = bus.VEHICLE_ID AND v.MODEL_ID = m.ID
                 AND bv.PRICE <= $max_amount AND bv.PRICE >= $min_amount AND v.YEAR <= $max_year AND v.YEAR >= $min_year AND 
                 v.KILOMETER <= $max_km AND v.KILOMETER >= $min_km AND bus.PASSENGER_CAPACITY <= $max_capacity AND 
                 bus.PASSENGER_CAPACITY >= $min_capacity AND m.FUEL_TYPE LIKE '$fuel_type' AND $gear_condition
@@ -31,7 +31,7 @@ else if($bus_filter){
 else if($motorcycle_filter){
     $vehicle_query = oci_parse($connection, "SELECT v.*, bv.PRICE
                 FROM VEHICLE v, MOTORCYCLE motocycle, MODEL m, BRANCH_RLTD_VEHICLE bv
-                WHERE v.ID = bv.VEHICLE_ID AND v.ID = motocycle.VEHICLE_ID AND v.MODEL_ID = m.ID AND bv.IS_AVAILABLE = 1 
+                WHERE v.ID = bv.VEHICLE_ID AND v.ID = motocycle.VEHICLE_ID AND v.MODEL_ID = m.ID 
                 AND bv.PRICE <= $max_amount AND bv.PRICE >= $min_amount AND v.YEAR <= $max_year AND v.YEAR >= $min_year AND 
                 v.KILOMETER <= $max_km AND v.KILOMETER >= $min_km AND motocycle.MOTORCYCLE_TYPE LIKE '$motorcycle_type'AND 
                 m.FUEL_TYPE LIKE '$fuel_type' AND $gear_condition
@@ -40,7 +40,7 @@ else if($motorcycle_filter){
 else if($truck_filter){
     $vehicle_query = oci_parse($connection, "SELECT v.*, bv.PRICE
                 FROM VEHICLE v, TRUCK truck, MODEL m, BRANCH_RLTD_VEHICLE bv
-                WHERE v.ID = bv.VEHICLE_ID AND v.ID = truck.VEHICLE_ID AND v.MODEL_ID = m.ID AND bv.IS_AVAILABLE = 1 
+                WHERE v.ID = bv.VEHICLE_ID AND v.ID = truck.VEHICLE_ID AND v.MODEL_ID = m.ID 
                 AND bv.PRICE <= $max_amount AND bv.PRICE >= $min_amount AND v.YEAR <= $max_year AND v.YEAR >= $min_year AND 
                 v.KILOMETER <= $max_km AND v.KILOMETER >= $min_km AND truck.TRAILER_TYPE LIKE '$trailer_type' AND 
                 truck.BALE_CAPACITY <= $max_bale_capacity AND truck.BALE_CAPACITY >= $min_bale_capacity AND 
@@ -51,7 +51,7 @@ else if($truck_filter){
 else{
     $vehicle_query = oci_parse($connection, "SELECT v.*, bv.PRICE
                 FROM VEHICLE v, BRANCH_RLTD_VEHICLE bv
-                WHERE v.ID = bv.VEHICLE_ID AND bv.IS_AVAILABLE = 1");
+                WHERE v.ID = bv.VEHICLE_ID");
 }
 oci_execute($vehicle_query);
 

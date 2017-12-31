@@ -17,9 +17,17 @@ include "../authentication/admin_user_required.php";
     oci_execute($item_list_query);
 
     while ($row = oci_fetch_array($item_list_query,OCI_ASSOC+OCI_RETURN_NULLS)) {
-        echo "<li class='list-item'>
-                <a class='update-link' href='create_equipment_package.php?id=".$row['ID']."'>".$row['PACKAGE_NAME']."</a>
-              </li>";
+        $id = $row['ID'];
+        $table_name = "EQUIPMENT_PACKAGE";
+        $page = "update_equipment_package";
+        $edit_url = "location.href='create_equipment_package.php?id=$id'";
+        $del_url = "location.href='utils/delete_item.php?table=$table_name&id=$id&page=$page'";
+
+        echo "<table class='list-item'>
+                    <td class='list-item-info'>".$row['PACKAGE_NAME']."</td>
+                    <td><button onclick=$edit_url>Edit</button></td>
+                    <td><button onclick=$del_url>Delete</button></td>
+                </table>";
     }
 
     ?>

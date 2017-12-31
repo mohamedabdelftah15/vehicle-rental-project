@@ -19,14 +19,16 @@ if (isset($_GET['id'])) {
     <center>
         <h1>Frame-Type</h1>
 
-        <form action="create_frame_type.php" method="post">
-            Frame Type <br>
-            <input type="text" name="frame_type" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
-            Door Count <br>
-            <input type="number" name="door_count" value="<?php echo htmlspecialchars($item['DOOR_COUNT']); ?>"><br><br>
-            <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
-            <input type="submit" name="submit">
-        </form>
+        <div class="create-form-container">
+            <form action="create_frame_type.php" method="post">
+                Frame Type <br>
+                <input type="text" name="frame_type" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
+                Door Count <br>
+                <input type="number" name="door_count" value="<?php echo htmlspecialchars($item['DOOR_COUNT']); ?>"><br><br>
+                <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
+                <input type="submit" name="submit">
+            </form>
+        </div>
     </center>
 
     </body>

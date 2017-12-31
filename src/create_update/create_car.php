@@ -29,64 +29,74 @@ if (isset($_GET['id'])) {
     <center>
         <h1>Car</h1>
 
-        <form action="create_car.php" method="post" enctype="multipart/form-data">
+        <div class="create-form-container">
+            <form action="create_car.php" method="post" enctype="multipart/form-data">
 
-            <?php
-            $vehicle_type = 'CAR';
-            include "utils/vehicle_form.php";
-            ?>
-
-            Frame-Type <br>
-            <select name="frame_type_id">
                 <?php
-                $frame_type_query = oci_parse($connection, 'SELECT * FROM FRAME_TYPE');
-                oci_execute($frame_type_query);
-
-                while ($row = oci_fetch_array($frame_type_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
-                    if ($row['ID'] == $car['FRAME_TYPE_ID']) {
-                        echo "<option selected='selected' value='".$row['ID']."'>"."Name: ".$row['NAME']." | Doors: ".$row['DOOR_COUNT']."</option>";
-                    } else {
-                        echo "<option value='".$row['ID']."'>"."Name: ".$row['NAME']." | Doors: ".$row['DOOR_COUNT']."</option>";
-                    }
-                }
+                $vehicle_type = 'CAR';
+                include "utils/vehicle_form.php";
                 ?>
-            </select><br><br>
 
-            Segment <br>
-            <select name="segment" required>
-                <option value=''>-- PLEASE SELECT --</option>";
-                <option value='A'>A</option>";
-                <option value='B'>B</option>";
-                <option value='C'>C</option>";
-                <option value='D'>D</option>";
-                <option value='E'>E</option>";
-                <option value='F'>F</option>";
-                <option value='G'>G</option>";
-            </select><br><br>
+                Frame-Type <br>
+                <select name="frame_type_id">
+                    <?php
+                    $frame_type_query = oci_parse($connection, 'SELECT * FROM FRAME_TYPE');
+                    oci_execute($frame_type_query);
 
-            Equipment Package <br>
-            <select name="equipment_package_id">
+                    while ($row = oci_fetch_array($frame_type_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
+                        if ($row['ID'] == $car['FRAME_TYPE_ID']) {
+                            echo "<option selected='selected' value='" . $row['ID'] . "'>" . "Name: " . $row['NAME'] . " | Doors: " . $row['DOOR_COUNT'] . "</option>";
+                        } else {
+                            echo "<option value='" . $row['ID'] . "'>" . "Name: " . $row['NAME'] . " | Doors: " . $row['DOOR_COUNT'] . "</option>";
+                        }
+                    }
+                    ?>
+                </select><br><br>
+
+                Segment <br>
+                <select name="segment" required>
+                    <option value=''>-- PLEASE SELECT --</option>
+                    ";
+                    <option value='A'>A</option>
+                    ";
+                    <option value='B'>B</option>
+                    ";
+                    <option value='C'>C</option>
+                    ";
+                    <option value='D'>D</option>
+                    ";
+                    <option value='E'>E</option>
+                    ";
+                    <option value='F'>F</option>
+                    ";
+                    <option value='G'>G</option>
+                    ";
+                </select><br><br>
+
+                Equipment Package <br>
+                <select name="equipment_package_id">
+                    <?php
+                    $equipment_package_query = oci_parse($connection, 'SELECT * FROM EQUIPMENT_PACKAGE');
+                    oci_execute($equipment_package_query);
+
+                    while ($row = oci_fetch_array($equipment_package_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
+                        if ($row['ID'] == $car['EQUIPMENT_PACKAGE_ID']) {
+                            echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['PACKAGE_NAME'] . "</option>";
+                        } else {
+                            echo "<option value='" . $row['ID'] . "'>" . $row['PACKAGE_NAME'] . "</option>";
+                        }
+                    }
+                    ?>
+                </select><br><br>
+
                 <?php
-                $equipment_package_query = oci_parse($connection, 'SELECT * FROM EQUIPMENT_PACKAGE');
-                oci_execute($equipment_package_query);
-
-                while ($row = oci_fetch_array($equipment_package_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
-                    if ($row['ID'] == $car['EQUIPMENT_PACKAGE_ID']) {
-                        echo "<option selected='selected' value='".$row['ID']."'>".$row['PACKAGE_NAME']."</option>";
-                    } else {
-                        echo "<option value='" . $row['ID'] . "'>" . $row['PACKAGE_NAME'] . "</option>";
-                    }
-                }
+                include "utils/branch_form.php"
                 ?>
-            </select><br><br>
 
-            <?php
-            include "utils/branch_form.php"
-            ?>
-
-            <input style="display: none" type="text" name="id" value="<?php echo $vehicle['VEHICLE_ID']; ?>">
-            <input type="submit" name="submit" value="Submit">
-        </form>
+                <input style="display: none" type="text" name="id" value="<?php echo $vehicle['VEHICLE_ID']; ?>">
+                <input type="submit" name="submit" value="Submit">
+            </form>
+        </div>
     </center>
 
     </body>

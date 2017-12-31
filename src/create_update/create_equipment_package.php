@@ -19,64 +19,66 @@ if (isset($_GET['id'])) {
     <center>
         <h1>Equipment-Package</h1>
 
-        <form action="create_equipment_package.php" method="post">
-            Package Name <br>
-            <input type="text" name="package_name" value="<?php echo $item['PACKAGE_NAME']; ?>" required><br><br>
-            Airbag Count <br>
-            <input type="number" name="airbag_count" value="<?php echo $item['AIRBAG_COUNT']; ?>"><br><br>
+        <div class="create-form-container">
+            <form action="create_equipment_package.php" method="post">
+                Package Name <br>
+                <input type="text" name="package_name" value="<?php echo $item['PACKAGE_NAME']; ?>" required><br><br>
+                Airbag Count <br>
+                <input type="number" name="airbag_count" value="<?php echo $item['AIRBAG_COUNT']; ?>"><br><br>
 
-            Alarm <br>
-            <input type="checkbox" name="alarm" value="1"
-                <?php echo($item['ALARM'] == 1 ? "checked" : '') ?>><br>
-            ABS <br>
-            <input type="checkbox" name="abs" value="1"
-                <?php echo($item['ABS'] == 1 ? "checked" : '') ?>><br>
-            ISOFIX <br>
-            <input type="checkbox" name="isofix" value="1"
-                <?php echo($item['ISOFIX'] == 1 ? "checked" : '') ?>><br>
-            Immobilizer <br>
-            <input type="checkbox" name="immobilizer" value="1"
-                <?php echo($item['IMMOBILIZER'] == 1 ? "checked" : '') ?>><br>
-            Trip Computer<br>
-            <input type="checkbox" name="trip_computer" value="1"
-                <?php echo($item['TRIP_COMPUTER'] == 1 ? "checked" : '') ?>><br>
-            Start-Stop<br>
-            <input type="checkbox" name="start_stop" value="1"
-                <?php echo($item['START_STOP'] == 1 ? "checked" : '') ?>><br>
-            Cruise Control<br>
-            <input type="checkbox" name="cruise_control" value="1"
-                <?php echo($item['CRUISE_CONTROL'] == 1 ? "checked" : '') ?>><br>
-            Air Conditioning<br>
-            <input type="checkbox" name="air_conditioning" value="1"
-                <?php echo($item['AIR_CONDITIONING'] == 1 ? "checked" : '') ?>><br>
-            Sunroof<br>
-            <input type="checkbox" name="sunroof" value="1"
-                <?php echo($item['SUNROOF'] == 1 ? "checked" : '') ?>><br>
-            Parking Sensor<br>
-            <input type="checkbox" name="parking_sensor" value="1"
-                <?php echo($item['PARKING_SENSOR'] == 1 ? "checked" : '') ?>><br>
-            Steel Wheel<br>
-            <input type="checkbox" name="steel_wheel" value="1"
-                <?php echo($item['STEEL_WHEEL'] == 1 ? "checked" : '') ?>><br>
-            Rain Sensor<br>
-            <input type="checkbox" name="rain_sensor" value="1"
-                <?php echo($item['RAIN_SENSOR'] == 1 ? "checked" : '') ?>><br>
-            Head Lights Sensor<br>
-            <input type="checkbox" name="head_lights_sensor" value="1"
-                <?php echo($item['HEAD_LIGHTS_SENSOR'] == 1 ? "checked" : '') ?>><br>
-            Navigation<br>
-            <input type="checkbox" name="navigation" value="1"
-                <?php echo($item['NAVIGATION'] == 1 ? "checked" : '') ?>><br>
-            Assistant Cameras<br>
-            <input type="checkbox" name="assistant_cameras" value="1"
-                <?php echo($item['ASSISTANT_CAMERAS'] == 1 ? "checked" : '') ?>><br>
-            Hill Holder<br>
-            <input type="checkbox" name="hill_holder" value="1"
-                <?php echo($item['HILL_HOLDER'] == 1 ? "checked" : '') ?>><br><br>
+                Alarm <br>
+                <input type="checkbox" name="alarm" value="1"
+                    <?php echo($item['ALARM'] == 1 ? "checked" : '') ?>><br>
+                ABS <br>
+                <input type="checkbox" name="abs" value="1"
+                    <?php echo($item['ABS'] == 1 ? "checked" : '') ?>><br>
+                ISOFIX <br>
+                <input type="checkbox" name="isofix" value="1"
+                    <?php echo($item['ISOFIX'] == 1 ? "checked" : '') ?>><br>
+                Immobilizer <br>
+                <input type="checkbox" name="immobilizer" value="1"
+                    <?php echo($item['IMMOBILIZER'] == 1 ? "checked" : '') ?>><br>
+                Trip Computer<br>
+                <input type="checkbox" name="trip_computer" value="1"
+                    <?php echo($item['TRIP_COMPUTER'] == 1 ? "checked" : '') ?>><br>
+                Start-Stop<br>
+                <input type="checkbox" name="start_stop" value="1"
+                    <?php echo($item['START_STOP'] == 1 ? "checked" : '') ?>><br>
+                Cruise Control<br>
+                <input type="checkbox" name="cruise_control" value="1"
+                    <?php echo($item['CRUISE_CONTROL'] == 1 ? "checked" : '') ?>><br>
+                Air Conditioning<br>
+                <input type="checkbox" name="air_conditioning" value="1"
+                    <?php echo($item['AIR_CONDITIONING'] == 1 ? "checked" : '') ?>><br>
+                Sunroof<br>
+                <input type="checkbox" name="sunroof" value="1"
+                    <?php echo($item['SUNROOF'] == 1 ? "checked" : '') ?>><br>
+                Parking Sensor<br>
+                <input type="checkbox" name="parking_sensor" value="1"
+                    <?php echo($item['PARKING_SENSOR'] == 1 ? "checked" : '') ?>><br>
+                Steel Wheel<br>
+                <input type="checkbox" name="steel_wheel" value="1"
+                    <?php echo($item['STEEL_WHEEL'] == 1 ? "checked" : '') ?>><br>
+                Rain Sensor<br>
+                <input type="checkbox" name="rain_sensor" value="1"
+                    <?php echo($item['RAIN_SENSOR'] == 1 ? "checked" : '') ?>><br>
+                Head Lights Sensor<br>
+                <input type="checkbox" name="head_lights_sensor" value="1"
+                    <?php echo($item['HEAD_LIGHTS_SENSOR'] == 1 ? "checked" : '') ?>><br>
+                Navigation<br>
+                <input type="checkbox" name="navigation" value="1"
+                    <?php echo($item['NAVIGATION'] == 1 ? "checked" : '') ?>><br>
+                Assistant Cameras<br>
+                <input type="checkbox" name="assistant_cameras" value="1"
+                    <?php echo($item['ASSISTANT_CAMERAS'] == 1 ? "checked" : '') ?>><br>
+                Hill Holder<br>
+                <input type="checkbox" name="hill_holder" value="1"
+                    <?php echo($item['HILL_HOLDER'] == 1 ? "checked" : '') ?>><br><br>
 
-            <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
-            <input type="submit" name="submit">
-        </form>
+                <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
+                <input type="submit" name="submit">
+            </form>
+        </div>
     </center>
 
     </body>

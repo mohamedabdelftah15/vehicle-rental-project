@@ -29,37 +29,52 @@ if (isset($_GET['id'])) {
     <center>
         <h1>Motorcycle</h1>
 
-        <form action="create_motorcycle.php" method="post" enctype="multipart/form-data">
+        <div class="create-form-container">
+            <form action="create_motorcycle.php" method="post" enctype="multipart/form-data">
 
-            <?php
-            $vehicle_type = 'MOTORCYCLE';
-            include "utils/vehicle_form.php";
-            ?>
+                <?php
+                $vehicle_type = 'MOTORCYCLE';
+                include "utils/vehicle_form.php";
+                ?>
 
-            Motorcycle-Type <br>
-            <select name="motorcycle_type" required>
-                <option value=''>-- PLEASE SELECT --</option>";
-                <option value='Moped'>Moped</option>;
-                <option value='Cub'>Cub</option>;
-                <option value='Commuter'>Commuter</option>;
-                <option value='Scooter'>Scooter</option>;
-                <option value='Touring'>Touring</option>;
-                <option value='Sport Touring'>Sport Touring</option>;
-                <option value='Chopper'>Chopper</option>;
-                <option value='Enduro'>Enduro</option>;
-                <option value='Super Sport'>Super Sport</option>;
-                <option value='Naked'>Naked</option>;
-                <option value='Cross'>Cross</option>;
-                <option value='Trial'>Trial</option>;
-            </select><br><br>
+                Motorcycle-Type <br>
+                <select name="motorcycle_type" required>
+                    <option value=''>-- PLEASE SELECT --</option>
+                    ";
+                    <option value='Moped'>Moped</option>
+                    ;
+                    <option value='Cub'>Cub</option>
+                    ;
+                    <option value='Commuter'>Commuter</option>
+                    ;
+                    <option value='Scooter'>Scooter</option>
+                    ;
+                    <option value='Touring'>Touring</option>
+                    ;
+                    <option value='Sport Touring'>Sport Touring</option>
+                    ;
+                    <option value='Chopper'>Chopper</option>
+                    ;
+                    <option value='Enduro'>Enduro</option>
+                    ;
+                    <option value='Super Sport'>Super Sport</option>
+                    ;
+                    <option value='Naked'>Naked</option>
+                    ;
+                    <option value='Cross'>Cross</option>
+                    ;
+                    <option value='Trial'>Trial</option>
+                    ;
+                </select><br><br>
 
-            <?php
-            include "utils/branch_form.php"
-            ?>
+                <?php
+                include "utils/branch_form.php"
+                ?>
 
-            <input style="display: none" type="text" name="id" value="<?php echo $vehicle['VEHICLE_ID']; ?>">
-            <input type="submit" name="submit">
-        </form>
+                <input style="display: none" type="text" name="id" value="<?php echo $vehicle['VEHICLE_ID']; ?>">
+                <input type="submit" name="submit">
+            </form>
+        </div>
     </center>
 
     </body>

@@ -19,30 +19,32 @@ if (isset($_GET['id'])) {
     <center>
         <h1>City</h1>
 
-        <form action="create_city.php" method="post">
-            Country <br><select name="country">
+        <div class="create-form-container">
+            <form action="create_city.php" method="post">
+                Country <br><select name="country">
 
-                <?php
-                $country_query = oci_parse($connection, 'SELECT * FROM COUNTRY');
-                oci_execute($country_query);
+                    <?php
+                    $country_query = oci_parse($connection, 'SELECT * FROM COUNTRY');
+                    oci_execute($country_query);
 
-                while ($row = oci_fetch_array($country_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
-                    if ($row['ID'] == $item['COUNTRY_ID']) {
-                        echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
-                    } else {
-                        echo "<option value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
+                    while ($row = oci_fetch_array($country_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
+                        if ($row['ID'] == $item['COUNTRY_ID']) {
+                            echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
+                        } else {
+                            echo "<option value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
+                        }
                     }
-                }
-                ?>
+                    ?>
 
-            </select><br><br>
-            City <br>
-            <input type="text" name="city" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
-            Plate No <br>
-            <input type="text" name="plate_no" value="<?php echo htmlspecialchars($item['PLATE_NO']); ?>"><br><br>
-            <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
-            <input type="submit" name="submit">
-        </form>
+                </select><br><br>
+                City <br>
+                <input type="text" name="city" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
+                Plate No <br>
+                <input type="text" name="plate_no" value="<?php echo htmlspecialchars($item['PLATE_NO']); ?>"><br><br>
+                <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
+                <input type="submit" name="submit">
+            </form>
+        </div>
     </center>
 
     </body>

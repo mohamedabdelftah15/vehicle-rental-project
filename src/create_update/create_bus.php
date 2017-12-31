@@ -29,23 +29,26 @@ if (isset($_GET['id'])) {
     <center>
         <h1>Bus</h1>
 
-        <form action="create_bus.php" method="post" enctype="multipart/form-data">
+        <div class="create-form-container">
+            <form action="create_bus.php" method="post" enctype="multipart/form-data">
 
-            <?php
-            $vehicle_type = 'BUS';
-            include "utils/vehicle_form.php";
-            ?>
+                <?php
+                $vehicle_type = 'BUS';
+                include "utils/vehicle_form.php";
+                ?>
 
-            Passanger Capacity <br>
-            <input type="number" name="passanger_capacity" value="<?php echo $bus['PASSENGER_CAPACITY']; ?>"><br><br>
+                Passanger Capacity <br>
+                <input type="number" name="passanger_capacity"
+                       value="<?php echo $bus['PASSENGER_CAPACITY']; ?>"><br><br>
 
-            <?php
-            include "utils/branch_form.php"
-            ?>
+                <?php
+                include "utils/branch_form.php"
+                ?>
 
-            <input style="display: none" type="text" name="id" value="<?php echo $vehicle['VEHICLE_ID']; ?>">
-            <input type="submit" name="submit">
-        </form>
+                <input style="display: none" type="text" name="id" value="<?php echo $vehicle['VEHICLE_ID']; ?>">
+                <input type="submit" name="submit">
+            </form>
+        </div>
     </center>
 
     </body>

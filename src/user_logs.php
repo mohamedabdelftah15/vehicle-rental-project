@@ -1,4 +1,14 @@
+<?php
+include "common.php";
+include "authentication/admin_user_required.php";
+?>
+
 <html>
+
+<div class="update-header-container">
+    <h1 class="update-header">User Logs</h1>
+</div>
+
 <div class="user-log-container">
     <ul class="user-log-list">
         <?php

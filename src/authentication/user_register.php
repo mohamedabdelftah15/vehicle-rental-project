@@ -37,8 +37,8 @@ if (isset($_POST['submit'])) {
             END;'
         );
 
-        // Hash the password
-        $encrypted_password = password_hash($_POST['password1'], PASSWORD_DEFAULT);
+        // Encrypt the password
+        $encrypted_password = md5($_POST['password1']);
 
         // Add arguments
         oci_bind_by_name($user_save_sql, ":user_type", $USER_TYPE_MEMBER);

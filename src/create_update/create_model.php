@@ -19,77 +19,79 @@ if (isset($_GET['id'])) {
     <center>
         <h1>Model</h1>
 
-        <form action="create_model.php" method="post">
-            Name <br>
-            <input type="text" name="model_name" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
+        <div class="create-form-container">
+            <form action="create_model.php" method="post">
+                Name <br>
+                <input type="text" name="model_name" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
 
-            Brand <br><select name="brand_id">
-                <?php
-                $city_query = oci_parse($connection, 'SELECT * FROM BRAND');
-                oci_execute($city_query);
+                Brand <br><select name="brand_id">
+                    <?php
+                    $city_query = oci_parse($connection, 'SELECT * FROM BRAND');
+                    oci_execute($city_query);
 
-                while ($row = oci_fetch_array($city_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
-                    if ($row['ID'] == $item['BRAND_ID']) {
-                        echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
-                    } else {
-                        echo "<option value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
+                    while ($row = oci_fetch_array($city_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
+                        if ($row['ID'] == $item['BRAND_ID']) {
+                            echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
+                        } else {
+                            echo "<option value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
+                        }
                     }
-                }
-                ?>
-            </select><br><br>
+                    ?>
+                </select><br><br>
 
-            Fuel-Type <br>
-            <select name="fuel_type" required>
-                <option value=''>-- PLEASE SELECT --</option>
-                <option value='Diesel'>Diesel</option>
-                <option value='Hybrid'>Hybrid</option>
-                <option value='Gasoline'>Gasoline</option>
-                <option value='Electric'>Electric</option>
-                <option value='Gasoline + LPG'>Gasoline + LPG</option>
-            </select><br><br>
+                Fuel-Type <br>
+                <select name="fuel_type" required>
+                    <option value=''>-- PLEASE SELECT --</option>
+                    <option value='Diesel'>Diesel</option>
+                    <option value='Hybrid'>Hybrid</option>
+                    <option value='Gasoline'>Gasoline</option>
+                    <option value='Electric'>Electric</option>
+                    <option value='Gasoline + LPG'>Gasoline + LPG</option>
+                </select><br><br>
 
-            Engine <br><select name="engine_id">
-                <?php
-                $engine_query = oci_parse($connection, 'SELECT * FROM ENGINE');
-                oci_execute($engine_query);
+                Engine <br><select name="engine_id">
+                    <?php
+                    $engine_query = oci_parse($connection, 'SELECT * FROM ENGINE');
+                    oci_execute($engine_query);
 
-                while ($row = oci_fetch_array($engine_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
-                    if ($row['ID'] == $item['ENGINE_ID']) {
-                        echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['VOLUME'] . "-" . $row['POWER'] . "</option>";
-                    } else {
-                        echo "<option value='" . $row['ID'] . "'>" . $row['VOLUME'] . " - " . $row['POWER'] . "</option>";
+                    while ($row = oci_fetch_array($engine_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
+                        if ($row['ID'] == $item['ENGINE_ID']) {
+                            echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['VOLUME'] . "-" . $row['POWER'] . "</option>";
+                        } else {
+                            echo "<option value='" . $row['ID'] . "'>" . $row['VOLUME'] . " - " . $row['POWER'] . "</option>";
+                        }
                     }
-                }
-                ?>
-            </select><br><br>
+                    ?>
+                </select><br><br>
 
-            Gear <br><select name="gear_id">
-                <?php
-                $gear_query = oci_parse($connection, 'SELECT * FROM GEAR');
-                oci_execute($gear_query);
+                Gear <br><select name="gear_id">
+                    <?php
+                    $gear_query = oci_parse($connection, 'SELECT * FROM GEAR');
+                    oci_execute($gear_query);
 
-                while ($row = oci_fetch_array($gear_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
-                    if ($row['ID'] == $item['GEAR_ID']) {
-                        echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['TYPE'] . "-" . $row['COUNT'] . "</option>";
-                    } else {
-                        echo "<option value='" . $row['ID'] . "'>" . $row['TYPE'] . " - " . $row['COUNT'] . "</option>";
+                    while ($row = oci_fetch_array($gear_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
+                        if ($row['ID'] == $item['GEAR_ID']) {
+                            echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['TYPE'] . "-" . $row['COUNT'] . "</option>";
+                        } else {
+                            echo "<option value='" . $row['ID'] . "'>" . $row['TYPE'] . " - " . $row['COUNT'] . "</option>";
+                        }
                     }
-                }
-                ?>
-            </select><br><br>
+                    ?>
+                </select><br><br>
 
-            Vehicle-Type <br>
-            <select name="vehicle_type" required>
-                <option value=''>-- PLEASE SELECT --</option>
-                <option value='<?php echo $VEHICLE_TYPE_CAR ?>'><?php echo $VEHICLE_TYPE_CAR ?></option>
-                <option value='<?php echo $VEHICLE_TYPE_BUS ?>'><?php echo $VEHICLE_TYPE_BUS ?></option>
-                <option value='<?php echo $VEHICLE_TYPE_TRUCK ?>'><?php echo $VEHICLE_TYPE_TRUCK ?></option>
-                <option value='<?php echo $VEHICLE_TYPE_MOTORCYCLE ?>'><?php echo $VEHICLE_TYPE_MOTORCYCLE ?></option>
-            </select><br><br>
+                Vehicle-Type <br>
+                <select name="vehicle_type" required>
+                    <option value=''>-- PLEASE SELECT --</option>
+                    <option value='<?php echo $VEHICLE_TYPE_CAR ?>'><?php echo $VEHICLE_TYPE_CAR ?></option>
+                    <option value='<?php echo $VEHICLE_TYPE_BUS ?>'><?php echo $VEHICLE_TYPE_BUS ?></option>
+                    <option value='<?php echo $VEHICLE_TYPE_TRUCK ?>'><?php echo $VEHICLE_TYPE_TRUCK ?></option>
+                    <option value='<?php echo $VEHICLE_TYPE_MOTORCYCLE ?>'><?php echo $VEHICLE_TYPE_MOTORCYCLE ?></option>
+                </select><br><br>
 
-            <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
-            <input type="submit" name="submit">
-        </form>
+                <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
+                <input type="submit" name="submit">
+            </form>
+        </div>
     </center>
 
     </body>

@@ -1,6 +1,7 @@
 <?php
 include "../common.php";
 include "../connection.php";
+include "../authentication/login_required.php";
 ?>
 
 <div class="left_menu">

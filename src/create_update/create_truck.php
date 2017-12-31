@@ -29,41 +29,54 @@ if (isset($_GET['id'])) {
     <center>
         <h1>Truck</h1>
 
-        <form action="create_truck.php" method="post" enctype="multipart/form-data">
+        <div class="create-form-container">
+            <form action="create_truck.php" method="post" enctype="multipart/form-data">
 
-            <?php
-            $vehicle_type = 'TRUCK';
-            include "utils/vehicle_form.php";
-            ?>
+                <?php
+                $vehicle_type = 'TRUCK';
+                include "utils/vehicle_form.php";
+                ?>
 
-            Bale Capacity <br>
-            <input type="number" name="bale_capacity" value="<?php echo $truck['BALE_CAPACITY']; ?>"><br><br>
+                Bale Capacity <br>
+                <input type="number" name="bale_capacity" value="<?php echo $truck['BALE_CAPACITY']; ?>"><br><br>
 
-            Trailer Volume <br>
-            <input type="number" name="trailer_volume" value="<?php echo $truck['TRAILER_VOLUME']; ?>"><br><br>
+                Trailer Volume <br>
+                <input type="number" name="trailer_volume" value="<?php echo $truck['TRAILER_VOLUME']; ?>"><br><br>
 
-            Trailer-Type <br>
-            <select name="trailer_type" required>
-                <option value=''>-- PLEASE SELECT --</option>";
-                <option value='OTHER'>OTHER</option>";
-                <option value='Lowboy'>Lowboy</option>";
-                <option value='Side Kit'>Side Kit</option>";
-                <option value='Flat Bed'>Flat Bed</option>";
-                <option value='Conestoga'>Conestoga</option>";
-                <option value='Step Deck'>Step Deck</option>";
-                <option value='Power Only'>Power Only</option>";
-                <option value='Dry Van (Enclosed)'>Dry Van (Enclosed)</option>";
-                <option value='Refrigerated (Reefer)'>Refrigerated (Reefer)</option>";
-                <option value='RGN (Removable Gooseneck)'>RGN (Removable Gooseneck)</option>";
-            </select><br><br>
+                Trailer-Type <br>
+                <select name="trailer_type" required>
+                    <option value=''>-- PLEASE SELECT --</option>
+                    ";
+                    <option value='OTHER'>OTHER</option>
+                    ";
+                    <option value='Lowboy'>Lowboy</option>
+                    ";
+                    <option value='Side Kit'>Side Kit</option>
+                    ";
+                    <option value='Flat Bed'>Flat Bed</option>
+                    ";
+                    <option value='Conestoga'>Conestoga</option>
+                    ";
+                    <option value='Step Deck'>Step Deck</option>
+                    ";
+                    <option value='Power Only'>Power Only</option>
+                    ";
+                    <option value='Dry Van (Enclosed)'>Dry Van (Enclosed)</option>
+                    ";
+                    <option value='Refrigerated (Reefer)'>Refrigerated (Reefer)</option>
+                    ";
+                    <option value='RGN (Removable Gooseneck)'>RGN (Removable Gooseneck)</option>
+                    ";
+                </select><br><br>
 
-            <?php
-            include "utils/branch_form.php"
-            ?>
+                <?php
+                include "utils/branch_form.php"
+                ?>
 
-            <input style="display: none" type="text" name="id" value="<?php echo $vehicle['VEHICLE_ID']; ?>">
-            <input type="submit" name="submit">
-        </form>
+                <input style="display: none" type="text" name="id" value="<?php echo $vehicle['VEHICLE_ID']; ?>">
+                <input type="submit" name="submit">
+            </form>
+        </div>
     </center>
 
     </body>

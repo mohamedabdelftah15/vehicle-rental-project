@@ -1,5 +1,6 @@
 <?php
 include "common.php";
+include "authentication/admin_user_required.php";
 ?>
 
 <center>
@@ -15,7 +16,7 @@ include "common.php";
                 <?php
                 $query = oci_parse(
                         $connection,
-                        'SELECT * FROM VEHICLE_RENT_COUNTS WHERE ROWNUM <= 3'
+                        'SELECT * FROM VEHICLE_RENT_COUNTS ORDER BY RENT_COUNT DESC FETCH FIRST 3 ROWS ONLY'
                 );
                 oci_execute($query);
 
@@ -32,7 +33,7 @@ include "common.php";
                 <?php
                 $query = oci_parse(
                     $connection,
-                    'SELECT * FROM VEHICLE_RENT_DURATIONS WHERE ROWNUM <= 3'
+                    'SELECT * FROM VEHICLE_RENT_DURATIONS ORDER BY RENT_DURATION DESC FETCH FIRST 3 ROWS ONLY'
                 );
                 oci_execute($query);
 
@@ -57,7 +58,7 @@ include "common.php";
                 <?php
                 $query = oci_parse(
                     $connection,
-                    'SELECT * FROM VEHICLE WHERE ROWNUM <= 3 ORDER BY YEAR ASC '
+                    'SELECT * FROM VEHICLE ORDER BY YEAR ASC FETCH FIRST 3 ROWS ONLY'
                 );
                 oci_execute($query);
 
@@ -74,7 +75,7 @@ include "common.php";
                 <?php
                 $query = oci_parse(
                     $connection,
-                    'SELECT * FROM VEHICLE WHERE ROWNUM <= 3 ORDER BY KILOMETER DESC'
+                    'SELECT * FROM VEHICLE ORDER BY KILOMETER DESC FETCH FIRST 3 ROWS ONLY'
                 );
                 oci_execute($query);
 
@@ -140,7 +141,7 @@ include "common.php";
                 <?php
                 $query = oci_parse(
                     $connection,
-                    "SELECT * FROM BRANCH_AVG_PRICES ORDER BY AVG_PRICE DESC"
+                    "SELECT * FROM BRANCH_AVG_PRICES ORDER BY AVG_PRICE DESC FETCH FIRST 1 ROW ONLY"
                 );
                 oci_execute($query);
 
@@ -152,7 +153,7 @@ include "common.php";
                 <?php
                 $query = oci_parse(
                     $connection,
-                    "SELECT * FROM BRANCH_AVG_PRICES ORDER BY AVG_PRICE ASC"
+                    "SELECT * FROM BRANCH_AVG_PRICES ORDER BY AVG_PRICE ASC FETCH FIRST 1 ROW ONLY"
                 );
                 oci_execute($query);
 

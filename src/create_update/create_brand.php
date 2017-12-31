@@ -19,14 +19,16 @@ if (isset($_GET['id'])) {
     <center>
         <h1>Brand</h1>
 
-        <form action="create_brand.php" method="post">
-            Name <br>
-            <input type="text" name="brand_name" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
-            Nationality <br>
-            <input type="text" name="nationality" value="<?php echo htmlspecialchars($item['NATIONALITY']); ?>"><br><br>
-            <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
-            <input type="submit" name="submit">
-        </form>
+        <div class="create-form-container">
+            <form action="create_brand.php" method="post">
+                Name <br>
+                <input type="text" name="brand_name" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
+                Nationality <br>
+                <input type="text" name="nationality" value="<?php echo htmlspecialchars($item['NATIONALITY']); ?>"><br><br>
+                <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
+                <input type="submit" name="submit">
+            </form>
+        </div>
     </center>
 
     </body>

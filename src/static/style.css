@@ -15,6 +15,7 @@ body {
     color: #ff6600;
 }
 
+
 /* Update pages */
 .update-header-container {
     width: 100%;
@@ -31,13 +32,25 @@ body {
 }
 
 .update-list-container {
+    margin-top: 30px;
     padding-left: 30px;
     overflow: auto;
-    height: 85vh;
+    height: 71%;
 }
 
 .list-item {
     padding-bottom: 5px;
+    border: double black;
+    margin: 0 auto;
+}
+
+.list-item-info {
+    width: 40vh;
+}
+
+.create-form-container {
+    overflow: auto;
+    height: 80%;
 }
 
 .update-link {
@@ -121,29 +134,10 @@ td{
     padding: 5px 5px 5px 5px;
 }
 
-/* Homepage styles */
-.home-page-table, .home-page-table th, .home-page-table td {
-    border: 1px solid black;
-}
-
-.home-page-table {
-    width: 90%;
-    margin-bottom: 50px;
-    table-layout: fixed;
-}
-
-.home-page-table th, .home-page-table td {
-    padding: 5px 5px 5px 5px;
-}
-
-.home-page-table th {
-    text-align: center;
-}
-
 /* NAVIGATION BAR STYLES */
 .navbar {
     overflow: hidden;
-    background-color: #333;
+    background-color: #3a393b;
     font-family: Arial;
 }
 
@@ -172,7 +166,7 @@ td{
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn1, .dropbtn2 {
-    background-color: #333;
+    background-color: #3a393b;
     font-weight: normal;
 }
 
@@ -207,7 +201,7 @@ td{
     display: block;
 }
 
-#circle {
+#circle-green {
     width: 17px;
     height: 17px;
     -webkit-border-radius: 9px;
@@ -216,7 +210,127 @@ td{
     background: #4CAF50;
 }
 
+#circle-red {
+    width: 17px;
+    height: 17px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+    background: red;
+}
+
 input,select,.register-button {
     width: 214px;
     height: 25px;
+}
+
+/* Side Navigation styles */
+.sidenav{
+    position: fixed;
+    background: #3a393b;
+    width: 230px;
+    height: 100%;
+}
+
+.sidenav ul li{
+    list-style: none;
+}
+
+.sidenav ul{
+    margin: 0;
+    padding: 0;
+}
+
+.sidenav ul li a{
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    display: block;
+    border-bottom:1px solid #282828;
+}
+
+.sidenav ul li ul {
+    display:none;
+}
+
+.sidenav ul li:hover ul {
+    display:block;
+    position:absolute;
+    margin:-40px 0 0 230px;
+}
+
+.sidenav ul li ul li a {
+    padding:10px;
+    font-size:15px;
+    background-color: #3a393b;
+    border-bottom:1px solid #222;
+    transition:all .3s ease-in-out;
+    width:170px;
+}
+.sidenav ul li a:hover {
+    background-color: #ff6600;
+    transition:all .3s ease-in-out;
+}
+
+/* user log style */
+.user-log-container{
+    border: double #ff6600;
+    width: 40%;
+    height: 70%;
+    overflow: auto;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.triangle{
+    width: 0;
+    height: 0;
+    border-top: 60px solid #ff6600;
+    border-left: 0px solid transparent;
+    border-right: 60px solid transparent;
+}
+
+.vehicle_prices {
+    transform: rotate(-46deg);
+    transform-origin: 40% top -20px;
+}
+
+.home-page-vehicle-container{
+    overflow: auto;
+}
+
+
+/* Vehicle-Detail page styles */
+.vehicle-detail-container {
+    overflow: auto;
+    height: 86vh;
+}
+
+.vehicle-detail-table, .vehicle-detail-table th, .vehicle-detail-table td {
+    border: 1px solid #ff6600;
+    font-size: 18px;
+    line-height: 30px;
+}
+
+.vehicle-detail-table {
+    width: 80%;
+    margin-top: 30px;
+}
+
+.vehicle-detail-table th, .vehicle-detail-table td {
+    width: 50%;
+    padding: 5px 5px 5px 5px;
+}
+
+.vehicle-detail-table th {
+    text-align: center;
+}
+
+.vehicle-detail-table td {
+    padding-left: 20px;
+    vertical-align: text-top;
+}
+
+.vehicle-detail-table td form {
+    padding-top: 20px;
 }

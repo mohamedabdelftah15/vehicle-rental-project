@@ -19,28 +19,30 @@ if (isset($_GET['id'])) {
     <center>
         <h1>County</h1>
 
-        <form action="create_county.php" method="post">
-            City <br><select name="city_id">
+        <div class="create-form-container">
+            <form action="create_county.php" method="post">
+                City <br><select name="city_id">
 
-                <?php
-                $city_query = oci_parse($connection, 'SELECT * FROM CITY');
-                oci_execute($city_query);
+                    <?php
+                    $city_query = oci_parse($connection, 'SELECT * FROM CITY');
+                    oci_execute($city_query);
 
-                while ($row = oci_fetch_array($city_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
-                    if ($row['ID'] == $item['CITY_ID']) {
-                        echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
-                    } else {
-                        echo "<option value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
+                    while ($row = oci_fetch_array($city_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
+                        if ($row['ID'] == $item['CITY_ID']) {
+                            echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
+                        } else {
+                            echo "<option value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
+                        }
                     }
-                }
-                ?>
+                    ?>
 
-            </select><br><br>
-            County <br>
-            <input type="text" name="county" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
-            <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
-            <input type="submit" name="submit">
-        </form>
+                </select><br><br>
+                County <br>
+                <input type="text" name="county" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
+                <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
+                <input type="submit" name="submit">
+            </form>
+        </div>
     </center>
 
     </body>

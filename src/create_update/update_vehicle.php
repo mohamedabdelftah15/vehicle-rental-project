@@ -20,26 +20,28 @@ include "../authentication/branch_user_required.php";
     oci_execute($item_list_query);
 
     while ($row = oci_fetch_array($item_list_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
+        $id = $row['VEHICLE_ID'];
+        $table_name = "VEHICLE";
+        $page = "update_vehicle";
         if ($row['VEHICLE_TYPE'] == 'CAR') {
-            echo "<li class='list-item'><a class='update-link' href='create_car.php?id=".$row['VEHICLE_ID']."'>
-                    "."Vehicle Plate: ".$row['PLATE']."
-                  </a></li>";
+            $edit_url = "location.href='create_car.php?id=$id'";
         }
-        elseif ($row['VEHICLE_TYPE'] == 'BUS') {
-            echo "<li class='list-item'><a class='update-link' href='create_bus.php?id=".$row['VEHICLE_ID']."'>
-                    "."Vehicle Plate: ".$row['PLATE']."
-                  </a></li>";
+        else if ($row['VEHICLE_TYPE'] == 'BUS') {
+            $edit_url = "location.href='create_bus.php?id=$id'";
         }
-        elseif ($row['VEHICLE_TYPE'] == 'TRUCK') {
-            echo "<li class='list-item'><a class='update-link' href='create_truck.php?id=".$row['VEHICLE_ID']."'>
-                    "."Vehicle Plate: ".$row['PLATE']."
-                  </a></li>";
+        else if ($row['VEHICLE_TYPE'] == 'TRUCK') {
+            $edit_url = "location.href='create_truck.php?id=$id'";
         }
-        elseif ($row['VEHICLE_TYPE'] == 'MOTORCYCLE') {
-            echo "<li class='list-item'><a class='update-link' href='create_motorcycle.php?id=".$row['VEHICLE_ID']."'>
-                    "."Vehicle Plate: ".$row['PLATE']."
-                  </a></li>";
+        else if ($row['VEHICLE_TYPE'] == 'MOTORCYCLE') {
+            $edit_url = "location.href='create_motorcycle.php?id=$id'";
         }
+        $del_url = "location.href='utils/delete_item.php?table=$table_name&id=$id&page=$page'";
+
+        echo "<table class='list-item'>
+                    <td class='list-item-info'>Vehicle Plate: ".$row['PLATE']."</td>
+                    <td><button onclick=$edit_url>Edit</button></td>
+                    <td><button onclick=$del_url>Delete</button></td>
+                </table>";
     }
 
     ?>

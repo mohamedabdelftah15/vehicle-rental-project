@@ -16,7 +16,17 @@ include "../authentication/admin_user_required.php";
         oci_execute($item_list_query);
 
         while ($row = oci_fetch_array($item_list_query,OCI_ASSOC+OCI_RETURN_NULLS)) {
-            echo "<li class='list-item'><a class='update-link' href='create_country.php?id=".$row['ID']."'>".$row['NAME']."</a></li>";
+            $id = $row['ID'];
+            $table_name = "COUNTRY";
+            $page = "update_country";
+            $edit_url = "location.href='create_country.php?id=$id'";
+            $del_url = "location.href='utils/delete_item.php?table=$table_name&id=$id&page=$page'";
+
+            echo "<table class='list-item'>
+                    <td class='list-item-info'>".$row['NAME']."</td>
+                    <td><button onclick=$edit_url>Edit</button></td>
+                    <td><button onclick=$del_url>Delete</button></td>
+                </table>";
         }
 
         ?>

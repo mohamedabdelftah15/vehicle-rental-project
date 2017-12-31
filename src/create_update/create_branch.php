@@ -26,43 +26,45 @@ if (isset($_GET['id'])) {
     <center>
         <h1>Branch</h1>
 
-        <form action="create_branch.php" method="post">
-            County <br><select name="county_id">
-                <?php
-                $county_query = oci_parse($connection, 'SELECT * FROM COUNTY');
-                oci_execute($county_query);
+        <div class="create-form-container">
+            <form action="create_branch.php" method="post">
+                County <br><select name="county_id">
+                    <?php
+                    $county_query = oci_parse($connection, 'SELECT * FROM COUNTY');
+                    oci_execute($county_query);
 
-                while ($row = oci_fetch_array($county_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
-                    if (isset($_GET['id']) and $row['ID'] == $item['COUNTY_ID']) {
-                        echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
-                    } else {
-                        echo "<option value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
+                    while ($row = oci_fetch_array($county_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
+                        if (isset($_GET['id']) and $row['ID'] == $item['COUNTY_ID']) {
+                            echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
+                        } else {
+                            echo "<option value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
+                        }
                     }
-                }
-                ?>
-            </select><br><br>
+                    ?>
+                </select><br><br>
 
-            Branch <br>
-            <input type="text" name="branch_name" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
+                Branch <br>
+                <input type="text" name="branch_name" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
 
-            User <br><select name="user_id">
-                <?php
-                $user_query = oci_parse($connection, 'SELECT * FROM "USER"');
-                oci_execute($user_query);
+                User <br><select name="user_id">
+                    <?php
+                    $user_query = oci_parse($connection, 'SELECT * FROM "USER"');
+                    oci_execute($user_query);
 
-                while ($row = oci_fetch_array($user_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
-                    if (isset($_GET['id']) and $row['ID'] == $branch_rltd_user['USER_ID']) {
-                        echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['USERNAME'] . "</option>";
-                    } else {
-                        echo "<option value='" . $row['ID'] . "'>" . $row['USERNAME'] . "</option>";
+                    while ($row = oci_fetch_array($user_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
+                        if (isset($_GET['id']) and $row['ID'] == $branch_rltd_user['USER_ID']) {
+                            echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['USERNAME'] . "</option>";
+                        } else {
+                            echo "<option value='" . $row['ID'] . "'>" . $row['USERNAME'] . "</option>";
+                        }
                     }
-                }
-                ?>
-            </select><br><br>
+                    ?>
+                </select><br><br>
 
-            <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
-            <input type="submit" name="submit">
-        </form>
+                <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
+                <input type="submit" name="submit">
+            </form>
+        </div>
     </center>
 
     </body>

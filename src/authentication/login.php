@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
     $user = oci_fetch_array($get_user_sql, OCI_ASSOC + OCI_RETURN_NULLS);
 
     // Password control
-    if (!is_null($user) and password_verify($_POST['password'], $user['PASSWORD'])) {
+    if (!is_null($user) and md5($_POST['password']) == $user['PASSWORD']) {
         echo "<center><p style='color: green'>You have successfully logged in.</p></center>";
 
         // Save user data under the session

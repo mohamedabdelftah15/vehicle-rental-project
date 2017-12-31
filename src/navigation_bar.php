@@ -4,6 +4,7 @@
 ?>
 
 <div class="navbar">
+    <div div style="float: left;"><img src="/static/logo.png" style="width: 230px; height: 50px;"></div>
     <a class="<?php if(getPageName() == 'index.php'){ echo 'active';}?>" href="/index.php">Home</a>
 
     <div class="dropdown">
@@ -35,9 +36,20 @@
 
     <!-- Right side -->
     <div style="float: right; padding-top: 13px; padding-right: 20px;">
-        <font style="color: white"><?php echo "<div id='circle' style='float: left'></div> &nbsp; $username"; ?></font>
-
-        <span style="color: white;">&nbsp; | <a class="logout-link" style="padding-top: 0; float: right" href="/authentication/logout.php">Logout</a></span>
+        <font style="color: white">
+            <?php
+                if ($username) {
+                    echo "<div id='circle-green' style='float: left'></div> &nbsp; $username";
+                    echo '<span style="color: white;"> &nbsp; | ';
+                    echo '<a class="logout-link" style="padding-top: 0; float: right" href="/authentication/logout.php">Logout</a></span>';
+                }
+                else {
+                    echo "<div id='circle-red' style='float: left'></div> &nbsp;";
+                    echo '<span style="color: white;"> &nbsp; | ';
+                    echo '<a class="logout-link" style="padding-top: 0; float: right" href="/authentication/login.php">Login</a></span>';
+                }
+            ?>
+        </font>
     </div>
 
 </div>

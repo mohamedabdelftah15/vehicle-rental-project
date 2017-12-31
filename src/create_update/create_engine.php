@@ -19,14 +19,16 @@ if (isset($_GET['id'])) {
     <center>
         <h1>Engine</h1>
 
-        <form action="create_engine.php" method="post">
-            Volume <br>
-            <input type="number" name="volume" value="<?php echo htmlspecialchars($item['VOLUME']); ?>"><br><br>
-            Power <br>
-            <input type="text" name="power" value="<?php echo htmlspecialchars($item['POWER']); ?>"><br><br>
-            <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
-            <input type="submit" name="submit">
-        </form>
+        <div class="create-form-container">
+            <form action="create_engine.php" method="post">
+                Volume <br>
+                <input type="number" name="volume" value="<?php echo htmlspecialchars($item['VOLUME']); ?>"><br><br>
+                Power <br>
+                <input type="text" name="power" value="<?php echo htmlspecialchars($item['POWER']); ?>"><br><br>
+                <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">
+                <input type="submit" name="submit">
+            </form>
+        </div>
     </center>
 
     </body>
