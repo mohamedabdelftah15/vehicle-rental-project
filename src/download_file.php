@@ -25,11 +25,27 @@ elseif ($_POST['file_type'] == 'pdf') {
     $file_name = $file_name . '.pdf';
 
     $pdf = new FPDF();
-    $pdf->SetMargins(34, 20, 0);
-    $pdf->AddPage();
-    $pdf->SetFont('Arial','',10);
+    $pdf->AddPage("P", "A4");
+
+    # Print title
+    $pdf->SetFont('Arial','B',18);
+    $pdf->Cell(
+        $pdf->GetPageWidth() - ($pdf->GetStringWidth("Vehicle List") / 2),
+        18,
+        "Vehicle List",
+        0,
+        1,
+        'C'
+    );
+
+    # Print data
+    $pdf->SetMargins(30, 20, 0);
+    $pdf->SetFont('Arial','',11);
+    $pdf->Cell(0);
     $pdf->Write(14, $_POST['data']);
-    $pdf->Output('D', $file_name); # Download it then exit
+
+    # Download the file
+    $pdf->Output('D', $file_name);
 
     # Remove the file from file system
     unlink($file_name);
