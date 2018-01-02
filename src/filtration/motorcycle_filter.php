@@ -48,6 +48,22 @@ include "../authentication/login_required.php";
                 <option value='Trial'>Trial</option>;
             </select><br><br>
 
+            Country<br><select name="country" onchange="getCityCombobox(this.value, 'cityCombobox');">
+                <option value= 0 selected="selected">All</option>
+                <?php
+                $country_query = oci_parse($connection, 'SELECT * FROM COUNTRY');
+                oci_execute($country_query);
+
+                while ($row = oci_fetch_array($country_query,OCI_ASSOC+OCI_RETURN_NULLS)) {
+                    echo "<option value='".$row['ID']."'>".$row['NAME']."</option>";
+                }
+                ?>
+            </select><br><br>
+
+            <div id="cityCombobox"></div>
+
+            <div id="countyCombobox"></div>
+
             <input type="submit" name="list_motorcycles" value="List Motorcycles">
         </form>
     </center>
@@ -56,7 +72,6 @@ include "../authentication/login_required.php";
 <div class="vehicle_list">
 
     <?php
-    if (isset($_POST['list_motorcycles'])) {
 
         $motorcycle_filter = true;
         $max_value = 9999999999;
@@ -88,8 +103,15 @@ include "../authentication/login_required.php";
         else
             $min_km = -1 * $max_value;
 
-        $fuel_type = $_POST["fuel_type"];
-        $motorcycle_type = $_POST["motorcycle_type"];
+        if($_POST["fuel_type"])
+            $fuel_type = $_POST["fuel_type"];
+        else
+            $fuel_type = '%';
+
+        if($_POST["motorcycle_type"])
+            $motorcycle_type = $_POST["motorcycle_type"];
+        else
+            $motorcycle_type = '%';
 
         if($_POST["gear"] > 0){
             $temp = $_POST["gear"];
@@ -98,7 +120,28 @@ include "../authentication/login_required.php";
         else
             $gear_condition = "m.GEAR_ID > 0";
 
-    }
+        if($_POST["country"] > 0){
+            $temp = $_POST["country"];
+            $country_condition = "city.COUNTRY_ID = $temp";
+        }
+        else
+            $country_condition = "city.COUNTRY_ID > 0";
+
+        if($_POST["city"] > 0){
+            $temp = $_POST["city"];
+            $city_condition = "county.CITY_ID = $temp";
+        }
+        else
+            $city_condition = "county.CITY_ID > 0";
+
+        if($_POST["county"] > 0){
+            $temp = $_POST["county"];
+            $county_condition = "br.COUNTY_ID = $temp";
+        }
+        else
+            $county_condition = "br.COUNTY_ID > 0";
+
+
     include "../vehicle_list.php";
     ?>
 

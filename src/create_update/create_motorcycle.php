@@ -41,30 +41,16 @@ if (isset($_GET['id'])) {
                 <select name="motorcycle_type" required>
                     <option value=''>-- PLEASE SELECT --</option>
                     ";
-                    <option value='Moped'>Moped</option>
-                    ;
-                    <option value='Cub'>Cub</option>
-                    ;
-                    <option value='Commuter'>Commuter</option>
-                    ;
-                    <option value='Scooter'>Scooter</option>
-                    ;
-                    <option value='Touring'>Touring</option>
-                    ;
-                    <option value='Sport Touring'>Sport Touring</option>
-                    ;
-                    <option value='Chopper'>Chopper</option>
-                    ;
-                    <option value='Enduro'>Enduro</option>
-                    ;
-                    <option value='Super Sport'>Super Sport</option>
-                    ;
-                    <option value='Naked'>Naked</option>
-                    ;
-                    <option value='Cross'>Cross</option>
-                    ;
-                    <option value='Trial'>Trial</option>
-                    ;
+                    <?php
+                    $type_list = array (0 => 'Moped', 1 => 'Cub', 2 => 'Commuter', 3 => 'Scooter', 4 => 'Touring', 5 => 'Sport Touring',
+                        6 => 'Chopper', 7 => 'Enduro', 8 => 'Super Sport', 9 => 'Naked', 10 => 'Cross', 11 => 'Trial');
+                    for($i=0; $i<count($type_list);$i++){
+                        if($motorcycle['MOTORCYCLE_TYPE'] == $type_list[$i]){
+                            echo "<option selected='selected' value=$type_list[$i]>$type_list[$i]</option>";
+                        }
+                        echo "<option value=$type_list[$i]>$type_list[$i]</option>";
+                    }
+                    ?>
                 </select><br><br>
 
                 <?php

@@ -1,7 +1,9 @@
 <?php
 
 # Clean the session
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 session_destroy();
 
 # Redirect to the homepage

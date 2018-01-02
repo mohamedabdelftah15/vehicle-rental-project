@@ -42,11 +42,15 @@ if (isset($_GET['id'])) {
                 Fuel-Type <br>
                 <select name="fuel_type" required>
                     <option value=''>-- PLEASE SELECT --</option>
-                    <option value='Diesel'>Diesel</option>
-                    <option value='Hybrid'>Hybrid</option>
-                    <option value='Gasoline'>Gasoline</option>
-                    <option value='Electric'>Electric</option>
-                    <option value='Gasoline + LPG'>Gasoline + LPG</option>
+                    <?php
+                    $fuel_type_list = array (0 => 'Diesel', 1 => 'Hybrid', 2 => 'Gasoline', 3 => 'Electric', 4 => 'Gasoline + LPG');
+                    for($i=0; $i<count($fuel_type_list);$i++){
+                        if($item['FUEL_TYPE'] == $fuel_type_list[$i]){
+                            echo "<option selected='selected' value=$fuel_type_list[$i]>$fuel_type_list[$i]</option>";
+                        }
+                        echo "<option value=$fuel_type_list[$i]>$fuel_type_list[$i]</option>";
+                    }
+                    ?>
                 </select><br><br>
 
                 Engine <br><select name="engine_id">
@@ -82,10 +86,15 @@ if (isset($_GET['id'])) {
                 Vehicle-Type <br>
                 <select name="vehicle_type" required>
                     <option value=''>-- PLEASE SELECT --</option>
-                    <option value='<?php echo $VEHICLE_TYPE_CAR ?>'><?php echo $VEHICLE_TYPE_CAR ?></option>
-                    <option value='<?php echo $VEHICLE_TYPE_BUS ?>'><?php echo $VEHICLE_TYPE_BUS ?></option>
-                    <option value='<?php echo $VEHICLE_TYPE_TRUCK ?>'><?php echo $VEHICLE_TYPE_TRUCK ?></option>
-                    <option value='<?php echo $VEHICLE_TYPE_MOTORCYCLE ?>'><?php echo $VEHICLE_TYPE_MOTORCYCLE ?></option>
+                    <?php
+                    $vehicle_type_list = array (0 => $VEHICLE_TYPE_CAR, 1 => $VEHICLE_TYPE_BUS, 2 => $VEHICLE_TYPE_TRUCK, 3 => $VEHICLE_TYPE_MOTORCYCLE);
+                    for($i=0; $i<count($vehicle_type_list);$i++){
+                        if($item['VEHICLE_TYPE'] == $vehicle_type_list[$i]){
+                            echo "<option selected='selected' value=$vehicle_type_list[$i]>$vehicle_type_list[$i]</option>";
+                        }
+                        echo "<option value=$vehicle_type_list[$i]>$vehicle_type_list[$i]</option>";
+                    }
+                    ?>
                 </select><br><br>
 
                 <input style="display: none" type="text" name="id" value="<?php echo $item['ID']; ?>">

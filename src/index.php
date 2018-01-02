@@ -20,12 +20,12 @@ while ($row = oci_fetch_array($vehicle_query,OCI_ASSOC+OCI_RETURN_NULLS)) {
     $image_path = $row['IMAGE_PATH'];
     $vehicle_photo = "../$image_path";
 
-    if($count == 5){
+    if($count == 7){
         $count = 1;
         $top = $top + 150;
     }
 
-    $left = 300 * $count;
+    $left = 280 * $count;
     $left_position = "{$left}px";
     $top_position = "{$top}px";
     $detail_url = "location.href='vehicle_detail.php?Id=$vehicle_id'";

@@ -57,20 +57,15 @@ if (isset($_GET['id'])) {
                 <select name="segment" required>
                     <option value=''>-- PLEASE SELECT --</option>
                     ";
-                    <option value='A'>A</option>
-                    ";
-                    <option value='B'>B</option>
-                    ";
-                    <option value='C'>C</option>
-                    ";
-                    <option value='D'>D</option>
-                    ";
-                    <option value='E'>E</option>
-                    ";
-                    <option value='F'>F</option>
-                    ";
-                    <option value='G'>G</option>
-                    ";
+                    <?php
+                        $segment_list = array (0 => 'A', 1 => 'B', 2 => 'C', 3 => 'D', 4 => 'E', 5 => 'F', 6 => 'G');
+                        for($i=0; $i<count($segment_list);$i++){
+                            if($car['SEGMENT'] == $segment_list[$i]){
+                                echo "<option selected='selected' value=$segment_list[$i]>$segment_list[$i]</option>";
+                            }
+                            echo "<option value=$segment_list[$i]>$segment_list[$i]</option>";
+                        }
+                    ?>
                 </select><br><br>
 
                 Equipment Package <br>

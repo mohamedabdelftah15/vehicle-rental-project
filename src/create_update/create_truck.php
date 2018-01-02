@@ -47,26 +47,17 @@ if (isset($_GET['id'])) {
                 <select name="trailer_type" required>
                     <option value=''>-- PLEASE SELECT --</option>
                     ";
-                    <option value='OTHER'>OTHER</option>
-                    ";
-                    <option value='Lowboy'>Lowboy</option>
-                    ";
-                    <option value='Side Kit'>Side Kit</option>
-                    ";
-                    <option value='Flat Bed'>Flat Bed</option>
-                    ";
-                    <option value='Conestoga'>Conestoga</option>
-                    ";
-                    <option value='Step Deck'>Step Deck</option>
-                    ";
-                    <option value='Power Only'>Power Only</option>
-                    ";
-                    <option value='Dry Van (Enclosed)'>Dry Van (Enclosed)</option>
-                    ";
-                    <option value='Refrigerated (Reefer)'>Refrigerated (Reefer)</option>
-                    ";
-                    <option value='RGN (Removable Gooseneck)'>RGN (Removable Gooseneck)</option>
-                    ";
+                    <?php
+                    $trailer_type_list = array (0 => 'OTHER', 1 => 'Lowboy', 2 => 'Side Kit', 3 => 'Flat Bed', 4 => 'Conestoga',
+                        5 => 'Step Deck', 6 => 'Power Only', 7 => 'Dry Van (Enclosed)', 8 => 'Refrigerated (Reefer)',
+                        9 => 'RGN (Removable Gooseneck)', 10 => 'Not Available');
+                    for($i=0; $i<count($trailer_type_list);$i++){
+                        if($truck['TRAILER_TYPE'] == $trailer_type_list[$i]){
+                            echo "<option selected='selected' value=$trailer_type_list[$i]>$trailer_type_list[$i]</option>";
+                        }
+                        echo "<option value=$trailer_type_list[$i]>$trailer_type_list[$i]</option>";
+                    }
+                    ?>
                 </select><br><br>
 
                 <?php

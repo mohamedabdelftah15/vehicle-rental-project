@@ -1,14 +1,15 @@
 <?php
 
 // Start the session
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Redirect to the login page
 if (!isset($_SESSION['user_type'])) {
     header("Location: /authentication/login.php");
     exit();
-}
-elseif ($_SESSION['user_type'] != $USER_TYPE_BRANCH and $_SESSION['user_type'] != $USER_TYPE_ADMIN) {
+} elseif ($_SESSION['user_type'] != $USER_TYPE_BRANCH and $_SESSION['user_type'] != $USER_TYPE_ADMIN) {
     // Display an error page
     header('HTTP/1.0 403 Forbidden');
     echo "
@@ -16,8 +17,7 @@ elseif ($_SESSION['user_type'] != $USER_TYPE_BRANCH and $_SESSION['user_type'] !
                 You must be a branch user or an admin user to be able to see this page!
             </h1></center>";
     exit();
-}
-elseif($_SESSION['user_type'] == $USER_TYPE_BRANCH and isset($_GET['id'])) {
+} elseif ($_SESSION['user_type'] == $USER_TYPE_BRANCH and isset($_GET['id'])) {
     $id = $_GET['id'];
 
     # Fetch the USER

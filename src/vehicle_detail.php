@@ -53,9 +53,12 @@ $vehicle_sub = oci_fetch_array($vehicle_sub_query, OCI_ASSOC + OCI_RETURN_NULLS)
             <tr>
                 <!-- Vehicle Details Column -->
                 <td>
-                    <b>Branch Name: </b><?php echo $vehicle['BRANCH_NAME']; ?>
-                    <br> <b>Amount(1 day): </b><?php echo $vehicle['PRICE'] . ' TL(₺)'; ?>
-                    <br> <b>Brand: </b><?php echo $vehicle['BRAND_NAME']; ?>
+                    <b>Branch Name: </b> <?php echo $vehicle['BRANCH_NAME']; ?>
+                    <br> <b>Branch Address: </b> <?php echo $vehicle['BRANCH_ADDRESS']; ?>
+                    <br> <b>Country - City - County: </b>
+                    <?php echo $vehicle['COUNTRY'] . ' - ' . $vehicle['CITY'] . ' - ' . $vehicle['COUNTY']; ?>
+                    <br> <b>Amount(1 day): </b> <?php echo $vehicle['PRICE'] . ' TL(₺)'; ?>
+                    <br> <b>Brand: </b> <?php echo $vehicle['BRAND_NAME']; ?>
                     <br> <b>Model: </b> <?php echo $vehicle['MODEL_NAME']; ?>
                     <br> <b>Year: </b> <?php echo $vehicle['YEAR']; ?>
                     <br> <b>Kilometer: </b> <?php echo $vehicle['KILOMETER']; ?>
@@ -83,7 +86,7 @@ $vehicle_sub = oci_fetch_array($vehicle_sub_query, OCI_ASSOC + OCI_RETURN_NULLS)
                     if ($vehicle_type == $VEHICLE_TYPE_TRUCK) {
                         echo '<br> <b>Trailer Type: </b>' . $vehicle_sub['TRAILER_TYPE'];
                         echo '<br> <b>Trailer Volume (l): </b>' . $vehicle_sub['TRAILER_VOLUME'];
-                        echo '<br> <b>Bale Capacity: </b>' . $vehicle_sub['BALE_CAPACITY'];
+                        echo '<br> <b>Bale Capacity (kg): </b>' . $vehicle_sub['BALE_CAPACITY'];
                     }
                     ?>
 

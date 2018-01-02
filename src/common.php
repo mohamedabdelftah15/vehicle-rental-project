@@ -52,6 +52,7 @@ function getPageName(){
 
 <head>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <script>
@@ -77,5 +78,27 @@ function getPageName(){
                 }
             }
         }
+    }
+
+    function getCityCombobox(val, type){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_utils.php?type="+type,
+            data: 'countryId='+val,
+            success: function(data) {
+                $('#cityCombobox').html(data);
+            }
+        })
+    }
+
+    function getCountyCombobox(val, type){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_utils.php?type="+type,
+            data: 'cityId='+val,
+            success: function(data) {
+                $('#countyCombobox').html(data);
+            }
+        })
     }
 </script>

@@ -45,10 +45,27 @@ include "../authentication/login_required.php";
                 <option value='Dry Van (Enclosed)'>Dry Van (Enclosed)</option>";
                 <option value='Refrigerated (Reefer)'>Refrigerated (Reefer)</option>";
                 <option value='RGN (Removable Gooseneck)'>RGN (Removable Gooseneck)</option>";
+                <option value='Not Available'>Not Available</option>";
             </select><br><br>
 
             Trailer Volume<br><input type="number" name="min_trailer_volume" style="width: 100px;"> - <input type="number" name="max_trailer_volume"style="width: 100px;"><br><br>
             Bale Capacity<br><input type="number" name="min_bale_capacity" style="width: 100px;"> - <input type="number" name="max_bale_capacity"style="width: 100px;"><br><br>
+
+            Country<br><select name="country" onchange="getCityCombobox(this.value, 'cityCombobox');">
+                <option value= 0 selected="selected">All</option>
+                <?php
+                $country_query = oci_parse($connection, 'SELECT * FROM COUNTRY');
+                oci_execute($country_query);
+
+                while ($row = oci_fetch_array($country_query,OCI_ASSOC+OCI_RETURN_NULLS)) {
+                    echo "<option value='".$row['ID']."'>".$row['NAME']."</option>";
+                }
+                ?>
+            </select><br><br>
+
+            <div id="cityCombobox"></div>
+
+            <div id="countyCombobox"></div>
 
             <input type="submit" name="list_trucks" value="List Trucks">
         </form>
@@ -58,7 +75,6 @@ include "../authentication/login_required.php";
 <div class="vehicle_list">
 
     <?php
-    if (isset($_POST['list_trucks'])) {
 
         $truck_filter = true;
         $max_value = 9999999999;
@@ -108,8 +124,15 @@ include "../authentication/login_required.php";
         else
             $min_trailer_volume = -1 * $max_value;
 
-        $fuel_type = $_POST["fuel_type"];
-        $trailer_type = $_POST["trailer_type"];
+        if($_POST["fuel_type"])
+            $fuel_type = $_POST["fuel_type"];
+        else
+            $fuel_type = '%';
+
+        if($_POST["trailer_type"])
+            $trailer_type = $_POST["trailer_type"];
+        else
+            $trailer_type = '%';
 
         if($_POST["gear"] > 0){
             $temp = $_POST["gear"];
@@ -118,8 +141,28 @@ include "../authentication/login_required.php";
         else
             $gear_condition = "m.GEAR_ID > 0";
 
-    }
+        if($_POST["country"] > 0){
+            $temp = $_POST["country"];
+            $country_condition = "city.COUNTRY_ID = $temp";
+        }
+        else
+            $country_condition = "city.COUNTRY_ID > 0";
+
+        if($_POST["city"] > 0){
+            $temp = $_POST["city"];
+            $city_condition = "county.CITY_ID = $temp";
+        }
+        else
+            $city_condition = "county.CITY_ID > 0";
+
+        if($_POST["county"] > 0){
+            $temp = $_POST["county"];
+            $county_condition = "br.COUNTY_ID = $temp";
+        }
+        else
+            $county_condition = "br.COUNTY_ID > 0";
+
+
     include "../vehicle_list.php";
     ?>
-
 </div>

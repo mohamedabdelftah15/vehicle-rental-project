@@ -26,25 +26,29 @@ if (isset($_GET['id'])) {
     <center>
         <h1>Branch</h1>
 
-        <div class="create-form-container">
+        <div id="branch-create-form" class="create-form-container" >
             <form action="create_branch.php" method="post">
-                County <br><select name="county_id">
+                Country<br><select name="country" onchange="getCityCombobox(this.value, 'cityComboboxForCreate');" required>
+                    <option value= 0 selected='selected'>-- PLEASE SELECT --</option>";
                     <?php
-                    $county_query = oci_parse($connection, 'SELECT * FROM COUNTY');
-                    oci_execute($county_query);
+                    $country_query = oci_parse($connection, 'SELECT * FROM COUNTRY');
+                    oci_execute($country_query);
 
-                    while ($row = oci_fetch_array($county_query, OCI_ASSOC + OCI_RETURN_NULLS)) {
-                        if (isset($_GET['id']) and $row['ID'] == $item['COUNTY_ID']) {
-                            echo "<option selected='selected' value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
-                        } else {
-                            echo "<option value='" . $row['ID'] . "'>" . $row['NAME'] . "</option>";
-                        }
+                    while ($row = oci_fetch_array($country_query,OCI_ASSOC+OCI_RETURN_NULLS)) {
+                        echo "<option value='".$row['ID']."'>".$row['NAME']."</option>";
                     }
                     ?>
                 </select><br><br>
 
+                <div id="cityCombobox"></div>
+
+                <div id="countyCombobox"></div>
+
                 Branch <br>
                 <input type="text" name="branch_name" value="<?php echo htmlspecialchars($item['NAME']); ?>"><br><br>
+
+                Address <br>
+                <textarea name="address"><?php echo htmlspecialchars($item['ADDRESS']); ?></textarea><br><br>
 
                 User <br><select name="user_id">
                     <?php
@@ -75,7 +79,7 @@ if (isset($_POST['submit'])) {
     if ($_POST['id']) {
         $item_save_sql = oci_parse($connection, '
             BEGIN
-                UPDATE_BRANCH(:branch_id, :name, :county_id);
+                UPDATE_BRANCH(:branch_id, :name, :county_id, :address);
                 UPDATE_BRANCH_RLTD_USER(:branch_id, :user_id);
                 UPDATE B21327694."USER" SET USER_TYPE = :user_type WHERE ID = :user_id;
                 COMMIT;
@@ -88,7 +92,7 @@ if (isset($_POST['submit'])) {
             DECLARE
                 returned_branch_id NUMBER;
             BEGIN
-                INSERT_BRANCH(:name, :county_id, returned_branch_id);
+                INSERT_BRANCH(:name, :county_id, :address, returned_branch_id);
                 INSERT_BRANCH_RLTD_USER(returned_branch_id, :user_id);
                 UPDATE B21327694."USER" SET USER_TYPE = :user_type WHERE ID = :user_id;
                 COMMIT;
@@ -98,7 +102,8 @@ if (isset($_POST['submit'])) {
 
     # Add arguments
     oci_bind_by_name($item_save_sql, ":name", $_POST['branch_name']);
-    oci_bind_by_name($item_save_sql, ":county_id", $_POST['county_id']);
+    oci_bind_by_name($item_save_sql, ":county_id", $_POST['county']);
+    oci_bind_by_name($item_save_sql, ":address", $_POST['address']);
     oci_bind_by_name($item_save_sql, ":user_id", $_POST['user_id']);
     oci_bind_by_name($item_save_sql, ":user_type", $USER_TYPE_BRANCH);
 
