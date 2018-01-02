@@ -66,36 +66,36 @@ END;
 DECLARE
   out_id NUMBER;
 BEGIN
-  INSERT_BRANCH('Turkuaz Oto Kiralama', 1, out_id);
-  INSERT_BRANCH('Prestij Oto Kiralama', 1, out_id);
-  INSERT_BRANCH('Fast Rent a Car', 2, out_id);
-  INSERT_BRANCH('BESA Oto Kiralama', 3, out_id);
-  INSERT_BRANCH('Filo Oto Kiralama', 4, out_id);
-  INSERT_BRANCH('Rota-Grup Kiralama', 5, out_id);
-  INSERT_BRANCH('Erdem Oto Kiralama', 6, out_id);
-  INSERT_BRANCH('Okyanus Oto Kiralama', 7, out_id);
-  INSERT_BRANCH('AK Oto Kiralama', 8, out_id);
-  INSERT_BRANCH('Aslan Oto Kiralama', 9, out_id);
-  INSERT_BRANCH('Deniz Oto Kiralama', 10, out_id);
-  INSERT_BRANCH('ECO Oto Kiralama', 11, out_id);
-  INSERT_BRANCH('Sedef Oto Kiralama', 12, out_id);
-  INSERT_BRANCH('Almira Oto Kiralama', 13, out_id);
-  INSERT_BRANCH('Rent Go', 14, out_id);
-  INSERT_BRANCH('Baku CAR', 15, out_id);
-  INSERT_BRANCH('Avtomobil Kirayəsi', 15, out_id);
-  INSERT_BRANCH('Garenta', 16, out_id);
-  INSERT_BRANCH('Payless Rent a Car', 17, out_id);
-  INSERT_BRANCH('Sixt Ren a Car', 18, out_id);
-  INSERT_BRANCH('Advantage', 19, out_id);
-  INSERT_BRANCH('Rico Cars', 20, out_id);
-  INSERT_BRANCH('G&T Rent a Car', 21, out_id);
-  INSERT_BRANCH('Oscar Rental', 22, out_id);
-  INSERT_BRANCH('Alamo', 22, out_id);
-  INSERT_BRANCH('Hertz', 23, out_id);
-  INSERT_BRANCH('Avis', 24, out_id);
-  INSERT_BRANCH('Thrifty', 24, out_id);
-  INSERT_BRANCH('Kosmos Rent a Car', 25, out_id);
-  INSERT_BRANCH('Bot Rent a Car', 26, out_id);
+  INSERT_BRANCH('Turkuaz Oto Kiralama', 1, 'Pinarbasi Street 10 / 5', out_id);
+  INSERT_BRANCH('Prestij Oto Kiralama', 1, 'Vatan Street 205', out_id);
+  INSERT_BRANCH('Fast Rent a Car', 2, 'ST 150', out_id);
+  INSERT_BRANCH('BESA Oto Kiralama', 3, '1071 Street No:10', out_id);
+  INSERT_BRANCH('Filo Oto Kiralama', 4, 'Ceyhan ST 45 / 9', out_id);
+  INSERT_BRANCH('Rota-Grup Kiralama', 5, 'Yunus Street No:5', out_id);
+  INSERT_BRANCH('Erdem Oto Kiralama', 6, 'Street 185', out_id);
+  INSERT_BRANCH('Okyanus Oto Kiralama', 7, 'Coastal Path No:165', out_id);
+  INSERT_BRANCH('AK Oto Kiralama', 8, 'Fatih 5/8', out_id);
+  INSERT_BRANCH('Aslan Oto Kiralama', 9, 'ST 1453 No:9', out_id);
+  INSERT_BRANCH('Deniz Oto Kiralama', 10, 'Deniz Street 563', out_id);
+  INSERT_BRANCH('ECO Oto Kiralama', 11, 'No : 150 / 5', out_id);
+  INSERT_BRANCH('Sedef Oto Kiralama', 12, 'ST:160 No:5', out_id);
+  INSERT_BRANCH('Almira Oto Kiralama', 13, 'Kartal St. 19 / 03', out_id);
+  INSERT_BRANCH('Rent Go', 14, '18651 St. 10 /5', out_id);
+  INSERT_BRANCH('Baku CAR', 15, '15121 St. No:56', out_id);
+  INSERT_BRANCH('Avtomobil Kirayesi', 15, '5654 St. No:100', out_id);
+  INSERT_BRANCH('Garenta', 16, '865 St. No:68', out_id);
+  INSERT_BRANCH('Payless Rent a Car', 17, '75 St. No:X3', out_id);
+  INSERT_BRANCH('Sixt Ren a Car', 18, '2654 St. 8 / 4', out_id);
+  INSERT_BRANCH('Advantage', 19, '78984 St. No:B330', out_id);
+  INSERT_BRANCH('Rico Cars', 20, '2355A St. No:653', out_id);
+  INSERT_BRANCH('G&T Rent a Car', 21, '1065YK St. No:1001', out_id);
+  INSERT_BRANCH('Oscar Rental', 22, '37512 St. No:C525', out_id);
+  INSERT_BRANCH('Alamo', 22, '654 St. No:85', out_id);
+  INSERT_BRANCH('Hertz', 23, '7521B St. No:78', out_id);
+  INSERT_BRANCH('Avis', 24, '6545 St. No:55', out_id);
+  INSERT_BRANCH('Thrifty', 24, 'A45 St. No:A23', out_id);
+  INSERT_BRANCH('Kosmos Rent a Car', 25, '1001 St. No:3A', out_id);
+  INSERT_BRANCH('Bot Rent a Car', 26, 'K105 St. No:100', out_id);
   COMMIT;
 END;
 /
@@ -455,8 +455,8 @@ BEGIN
   INSERT_MODEL('Doblo', 7, 85, 1, 'Gasoline + LPG', 'CAR');
   INSERT_MODEL('100 SSFC nappy', 26, 90, 1, 'Diesel', 'CAR');
   INSERT_MODEL('Pars', 27, 91, 2, 'Gasoline', 'MOTORCYCLE');
-  INSERT_MODEL('Mt-09', 28, 5, 2, 'Gasoline', 'MOTORCYCLE');
-  INSERT_MODEL('Yk250-04', 29, 92, 2, 'Gasoline', 'MOTORCYCLE');
+  INSERT_MODEL('MT-09', 28, 5, 2, 'Gasoline', 'MOTORCYCLE');
+  INSERT_MODEL('YK250-21 R-Samurai', 29, 92, 2, 'Gasoline', 'MOTORCYCLE');
   INSERT_MODEL('Seyhan-150', 30, 92, 2, 'Gasoline', 'MOTORCYCLE');
   INSERT_MODEL('Ninja-250R', 31, 92, 2, 'Gasoline', 'MOTORCYCLE');
   INSERT_MODEL('Doruk', 32, 93, 4, 'Diesel', 'BUS');
@@ -472,13 +472,14 @@ BEGIN
 END;
 /
 
+
 BEGIN
   INSERT_EQUIPMENT_PACKAGE('Basic', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
   INSERT_EQUIPMENT_PACKAGE('Trendline', 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
   INSERT_EQUIPMENT_PACKAGE('Ambition', 0, 1, 0, 0, 2, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0);
   INSERT_EQUIPMENT_PACKAGE('Style', 0, 1, 1, 1, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0);
   INSERT_EQUIPMENT_PACKAGE('Comfort', 0, 1, 0, 1, 4, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0);
-  INSERT_EQUIPMENT_PACKAGE('Urban', 0, 1, 1, 0, 1, 4, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0);
+  INSERT_EQUIPMENT_PACKAGE('Urban', 0, 1, 1, 0, 4, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0);
   INSERT_EQUIPMENT_PACKAGE('Highline', 0, 1, 1, 0, 5, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1);
   INSERT_EQUIPMENT_PACKAGE('Prestige', 1, 1, 1, 1, 6, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1);
   INSERT_EQUIPMENT_PACKAGE('Elegance', 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1);
@@ -486,6 +487,7 @@ BEGIN
   COMMIT;
 END;
 /
+
 
 BEGIN
   INSERT_USER('ADMIN', 'Yılmaz', 'BAYSAL', 'yilmaz', 'yilmazbaysal@test.com', '0512 345 67 89', 'bc07f07a9bfb5f5cdc16d27da9b50420');
@@ -500,6 +502,8 @@ BEGIN
   INSERT_USER('MEMBER', 'bot2', 'BOT', 'bot2', 'bot2@test.com', '0512 345 67 89', '9e57f94970f6c4caa792c90959f5668c');
   COMMIT;
 END;
+/
+
 
 BEGIN
   INSERT_USER_LOG(1, 'Logged in to the website.');
@@ -514,6 +518,7 @@ BEGIN
   INSERT_USER_LOG(4, 'Logged in to the website.');
   COMMIT;
 END;
+/
 
 
 BEGIN
@@ -549,12 +554,13 @@ BEGIN
   INSERT_BRANCH_RLTD_USER(30, 4);
   COMMIT;
 END;
+/
 
 
 DECLARE
   out_vehicle_id NUMBER;
 BEGIN
-  INSERT_VEHICLE(1, 32764, '34 NK 7612', 2016, 'images/1.jpg', out_vehicle_id);
+  INSERT_VEHICLE(3, 32764, '34 NK 7612', 2016, 'images/1.jpg', out_vehicle_id);
   INSERT_VEHICLE(4, 42000, '35 BER 7612', 2017, 'images/2.jpg', out_vehicle_id);
   INSERT_VEHICLE(11, 75000, '34 NZE 80', 2011, 'images/3.jpg', out_vehicle_id);
   INSERT_VEHICLE(18, 348000, '06 AT 0810', 1998, 'images/4.jpg', out_vehicle_id);
@@ -563,7 +569,7 @@ BEGIN
   INSERT_VEHICLE(28, 14000, '61 BK 328', 2017, 'images/7.jpg', out_vehicle_id);
   INSERT_VEHICLE(33, 193000, '01 AB 845', 2004, 'images/8.jpg', out_vehicle_id);
   INSERT_VEHICLE(35, 800, '34 RE 5790', 2017, 'images/9.jpg', out_vehicle_id);
-  INSERT_VEHICLE(38, 186000, '35 FT 650', 2007, 'images/10.jpg', out_vehicle_id);
+  INSERT_VEHICLE(40, 186000, '35 FT 650', 2007, 'images/10.jpg', out_vehicle_id);
   INSERT_VEHICLE(181, 6100, '12 LM 675', 2016, 'images/11.jpg', out_vehicle_id);
   INSERT_VEHICLE(181, 19000, '51 KP 732', 2016, 'images/12.jpg', out_vehicle_id);
   INSERT_VEHICLE(182, 16100, '34 CT 942', 2016, 'images/13.jpg', out_vehicle_id);
@@ -596,6 +602,8 @@ BEGIN
   INSERT_VEHICLE(194, 75800, '16 AFN 66', 2014, 'images/40.jpg', out_vehicle_id);
   COMMIT;
 END;
+/
+
 
 BEGIN
   INSERT_BRANCH_RLTD_VEHICLE(1, 1, 1, 220);
@@ -640,3 +648,85 @@ BEGIN
   INSERT_BRANCH_RLTD_VEHICLE(40, 5, 1, 1050);
   COMMIT;
 END;
+/
+
+
+BEGIN
+  INSERT_CAR(1, 2, 'D', 5);
+  INSERT_CAR(2, 1, 'D', 9);
+  INSERT_CAR(3, 1, 'E', 10);
+  INSERT_CAR(4, 3, 'C', 2);
+  INSERT_CAR(5, 2, 'C', 8);
+  INSERT_CAR(6, 1, 'C', 4);
+  INSERT_CAR(7, 1, 'C', 6);
+  INSERT_CAR(8, 4, 'C', 3);
+  INSERT_CAR(9, 9, 'SUV', 7);
+  INSERT_CAR(10, 1, 'B', 1);
+  COMMIT;
+END;
+/
+
+
+BEGIN
+  INSERT_MOTORCYCLE(11, 'Touring');
+  INSERT_MOTORCYCLE(11, 'Touring');
+  INSERT_MOTORCYCLE(13, 'Naked');
+  INSERT_MOTORCYCLE(14, 'Naked');
+  INSERT_MOTORCYCLE(15, 'Super Sport');
+  INSERT_MOTORCYCLE(16, 'Super Sport');
+  INSERT_MOTORCYCLE(17, 'Commuter');
+  INSERT_MOTORCYCLE(18, 'Commuter');
+  INSERT_MOTORCYCLE(19, 'Super Sport');
+  INSERT_MOTORCYCLE(20, 'Super Sport');
+  COMMIT;
+END;
+/
+
+
+BEGIN
+  INSERT_BUS(21, 32);
+  INSERT_BUS(22, 40);
+  INSERT_BUS(23, 32);
+  INSERT_BUS(24, 34);
+  INSERT_BUS(25, 34);
+  INSERT_BUS(26, 56);
+  INSERT_BUS(27, 46);
+  INSERT_BUS(28, 46);
+  INSERT_BUS(29, 22);
+  INSERT_BUS(30, 18);
+  COMMIT;
+END;
+/
+
+
+BEGIN
+  INSERT_TRUCK(31, 8000, 12000, 'OTHER');
+  INSERT_TRUCK(32, 7000, 9000, 'OTHER');
+  INSERT_TRUCK(33, 30000, 43000, 'Dry Van (Enclosed)');
+  INSERT_TRUCK(34, 21000, 0, 'Lowboy');
+  INSERT_TRUCK(35, 0, 0, 'Not Available');
+  INSERT_TRUCK(36, 14000, 42000, 'Side Kit');
+  INSERT_TRUCK(37, 0, 0, 'Not Available');
+  INSERT_TRUCK(38, 0, 0, 'Not Available');
+  INSERT_TRUCK(39, 17000, 22000, 'OTHER');
+  INSERT_TRUCK(40, 26000, 38000, 'Refrigerated (Reefer)');
+END;
+/
+
+
+BEGIN
+  INSERT_HIRE(1, 3, 'EFT', TO_DATE('20/01/2018', 'DD/MM/YYYY'), TO_DATE('24/01/2018', 'DD/MM/YYYY'));
+  INSERT_HIRE(1, 4, 'Credit Card', TO_DATE('24/01/2018', 'DD/MM/YYYY'), TO_DATE('25/01/2018', 'DD/MM/YYYY'));
+  INSERT_HIRE(8, 5, 'Debit Card', TO_DATE('17/01/2018', 'DD/MM/YYYY'), TO_DATE('19/01/2018', 'DD/MM/YYYY'));
+  INSERT_HIRE(10, 4, 'Credit Card', TO_DATE('24/03/2018', 'DD/MM/YYYY'), TO_DATE('24/04/2018', 'DD/MM/YYYY'));
+  INSERT_HIRE(12, 6, 'PayPal', TO_DATE('05/02/2018', 'DD/MM/YYYY'), TO_DATE('10/02/2018', 'DD/MM/YYYY'));
+  INSERT_HIRE(16, 7, 'EFT', TO_DATE('10/01/2018', 'DD/MM/YYYY'), TO_DATE('30/01/2018', 'DD/MM/YYYY'));
+  INSERT_HIRE(20, 8, 'Credit Card', TO_DATE('03/01/2018', 'DD/MM/YYYY'), TO_DATE('14/02/2018', 'DD/MM/YYYY'));
+  INSERT_HIRE(22, 9, 'Debit Card', TO_DATE('19/01/2018', 'DD/MM/YYYY'), TO_DATE('28/01/2018', 'DD/MM/YYYY'));
+  INSERT_HIRE(28, 10, 'PayPal', TO_DATE('02/02/2018', 'DD/MM/YYYY'), TO_DATE('30/03/2018', 'DD/MM/YYYY'));
+  INSERT_HIRE(32, 3, 'EFT', TO_DATE('01/01/2018', 'DD/MM/YYYY'), TO_DATE('02/01/2018', 'DD/MM/YYYY'));
+  INSERT_HIRE(35, 4, 'PayPal', TO_DATE('30/01/2018', 'DD/MM/YYYY'), TO_DATE('27/02/2018', 'DD/MM/YYYY'));
+  INSERT_HIRE(37, 4, 'Credit Card', TO_DATE('10/01/2018', 'DD/MM/YYYY'), TO_DATE('10/05/2018', 'DD/MM/YYYY'));
+  COMMIT;
+END;
+/

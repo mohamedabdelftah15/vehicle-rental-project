@@ -28,7 +28,8 @@ CREATE TABLE BRANCH
 (
   ID        NUMBER      NOT NULL PRIMARY KEY,
   NAME      VARCHAR(25) NOT NULL,
-  COUNTY_ID NUMBER      NOT NULL CONSTRAINT BRANCH_COUNTY_ID_FK REFERENCES COUNTY ON DELETE CASCADE
+  COUNTY_ID NUMBER      NOT NULL CONSTRAINT BRANCH_COUNTY_ID_FK REFERENCES COUNTY ON DELETE CASCADE,
+  ADDRESS   VARCHAR(250)
 );
 /
 
@@ -545,11 +546,12 @@ IS
 CREATE OR REPLACE PROCEDURE INSERT_BRANCH(
   p_name      IN  BRANCH.NAME%TYPE,
   p_county_id IN  BRANCH.COUNTY_ID%TYPE,
+  p_address   IN  BRANCH.ADDRESS%TYPE,
   r_branch_id OUT BRANCH.ID%TYPE)
 IS
   BEGIN
 
-    INSERT INTO BRANCH ("NAME", "COUNTY_ID") VALUES (p_name, p_county_id)
+    INSERT INTO BRANCH ("NAME", "COUNTY_ID", "ADDRESS") VALUES (p_name, p_county_id, p_address)
     RETURNING ID INTO r_branch_id;
 
   END;
@@ -558,12 +560,13 @@ IS
 CREATE OR REPLACE PROCEDURE UPDATE_BRANCH(
   p_id        IN BRANCH.ID%TYPE,
   p_name      IN BRANCH.NAME%TYPE,
-  p_county_id IN BRANCH.COUNTY_ID%TYPE)
+  p_county_id IN BRANCH.COUNTY_ID%TYPE,
+  p_address   IN  BRANCH.ADDRESS%TYPE)
 IS
   BEGIN
 
     UPDATE BRANCH
-    SET NAME = p_name, COUNTY_ID = p_county_id
+    SET NAME = p_name, COUNTY_ID = p_county_id, ADDRESS = p_address
     WHERE ID = p_id;
 
   END;
@@ -1357,7 +1360,7 @@ IS
     FROM HIRE H
       JOIN BRANCH_RLTD_VEHICLE BV ON H.BRANCH_RLTD_VEHICLE_ID = BV.ID
     WHERE
-      BV.VEHICLE_ID = p_vehicle_id AND START_DATE <= p_due_date AND DUE_DATE >= p_start_date;
+      BV.VEHICLE_ID = p_vehicle_id AND START_DATE <= p_due_date AND DUE_DATE > p_start_date;
 
     /* Check overlapping hire if there is */
     IF (is_vehicle_available > 0)
